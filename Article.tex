@@ -1,0 +1,538 @@
+% & -shell-escape
+
+%%% CLASE DEL DOCUMENTO
+\documentclass[letterpaper, 12pt]{article}
+
+%%% COMENTARIOS EN EL CÓDIGO LATEX
+\usepackage{comment}
+
+%%% GEOMETRÍA DEL DOCUMENTO
+%% Dimensiones del documento
+\usepackage[top=3cm, bottom=2cm, right=2cm,left=2cm, headheight=15pt]{geometry}
+
+%% Multiples columnas en la estructura del documento
+\usepackage{multicol}
+
+%% Hoja Horizontal
+\usepackage{lscape}
+\begin{comment}
+	\begin{landscape}
+	\end{landscape} 
+\end{comment}
+
+%%% COLORES
+\usepackage[dvipsnames]{xcolor}
+
+%%% LENGUAJES DE PROGRAMACIÓN
+\usepackage{verbatim}
+
+%%% HIPERVÍNCULOS
+\usepackage[
+	breaklinks=true, 
+	colorlinks=true, 
+	linkcolor=blue,
+	citecolor=blue, 
+	urlcolor=gray
+]{hyperref}
+%% Divide los hipervínculos
+\usepackage{xurl}
+
+% Creative commons
+\usepackage[scale=1.5]{ccicons}
+
+
+
+%%% TIPOGRAFÍA Y LENGUAJE
+\usepackage[T1]{fontenc}        
+\usepackage[utf8]{inputenc}    
+\usepackage{lmodern}
+\usepackage[spanish, es-noshorthands]{babel}
+\usepackage{textcomp}
+
+%%% ESTILO DE REFERENCIAS
+\usepackage{natbib}
+\usepackage{apalike}
+
+%%% ICONOS
+\usepackage{marvosym}
+
+%%% TEXTO GENERICO
+\usepackage{lipsum}
+
+%%% INDEX
+\usepackage{imakeidx}
+\makeindex[columns=3, title=Indice]
+
+%Para paquetes .cvs
+\usepackage{csvsimple}
+\usepackage{xpatch}
+\usepackage{etoolbox} % Para filtrar información en tablas.
+\usepackage{booktabs} % Para hacer tablas bonitas desde un .csv
+
+%Para escribir música
+%\usepackage{musixtex}
+
+%Estilo para programación.
+\usepackage{listings}
+\usepackage{color}
+% http://paletton.com/#uid=7050t0kkJkJsntwoyp6gYgoddc4
+%\usepackage[dvipsnames]{xcolor}
+%	\definecolor{sec}{HTML}{DD5C14}
+%	\definecolor{band}{HTML}{EE9C52}
+
+% Paquete para pseudocódigo:
+% \usepackage[Algoritmo]{algorithm}
+\usepackage[spanish,onelanguage,ruled,vlined]{algorithm2e}
+\usepackage[noend]{algpseudocode}
+
+% Configuración para en ambiente de pseudocódigo:
+\newcommand\mycommfont[1]{\footnotesize\ttfamily\textcolor{blue}{#1}}
+\SetCommentSty{mycommfont}
+\SetKwInput{KwInput}{Entrada}                
+\SetKwInput{KwOutput}{Salida}             
+
+% Ejemplo de pseudo código: 
+\begin{comment}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\BlankLine
+\KwInput{Your Input}
+\KwOutput{Your output}
+\KwData{Testing set $x$}
+$\sum_{i=1}^{\infty} := 0$ \tcp*{this is a comment}
+\tcc{Now this is an if...else conditional loop}
+\If{Condition 1}
+{
+Do something    \tcp*{this is another comment}
+\If{sub-Condition}
+{Do a lot}
+}
+\ElseIf{Condition 2}
+{
+Do Otherwise \;
+\tcc{Now this is a for loop}
+\For{sequence}    
+{ 
+loop instructions
+}
+}
+\Else
+{
+Do the rest
+}	
+\tcc{Now this is a While loop}
+\While{Condition}
+{
+Do something\;
+}	
+\caption{Example code}
+\end{algorithm}
+\end{comment}
+
+% Definición de colores:
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\definecolor{orange}{RGB}{255,127,0}
+
+% Estilo para escribir código de programación en el documento:
+\renewcommand{\lstlistingname}{Código}
+\lstset{ 
+	keywordstyle=\color{blue},                % keyword style.	
+	basicstyle=\footnotesize\ttfamily,        % size of fonts used for the code.
+	commentstyle=\color{mygreen}\ttfamily,    % comment style.
+	stringstyle=\color{mymauve},     % string literal style.
+	backgroundcolor=\color{gray!5},          % choose the background color.
+	rulecolor=\color{gray!5},                % border of the console.
+	upquote=true,
+	numbers=left, numberstyle=\tiny\color{gray}, stepnumber=1, numbersep=8pt, 
+	% Formato de numeración.
+	showstringspaces=false,
+	breaklines=true,                 % automatic line breaking only at whitespace.
+	frameround=ftff,
+	frame=single,
+	belowcaptionskip=-1.4em,
+	belowskip=0em,
+	aboveskip=-1.4em,
+	captionpos=b,                    % sets the caption-position to bottom.
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code.
+	literate={á}{{\'a}}1 {ã}{{\~a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ú}{{\'u}}1  {ó}{{\'o}}1,
+}
+% Ejemplo de  entorno de programación:
+\begin{comment}
+\begin{changemargin}{1.5cm}{1.5cm}
+\begin{lstlisting}[language=python, caption={My caption},captionpos=b]
+In [1]: logstart historia.py
+\end{lstlisting}
+\end{changemargin}
+\end{comment}
+
+%Gráficos, animaciones y diagramas.
+
+\usepackage[all,color,dvips]{xy}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+%\usepackage{transparent}
+\usepackage{eso-pic}
+
+\usepackage{animate}
+\usepackage {pst-solides3d}
+\usepackage{pstricks}
+\usepackage{pst-grad}
+\usepackage{pst-3dplot}
+\usepackage{pst-plot}
+\usepackage{psfrag,pst-node} % Diagramas de Flujo
+%\usepackage{pstcol} % Color para los Diagramas
+
+% Paquetes para escribir expresiones matemáticas.
+\usepackage{amsmath, amsthm, amsfonts, latexsym,cancel}
+\usepackage{amsbsy}
+\usepackage{thmtools}
+\usepackage{amssymb}
+\usepackage{xargs}
+\usepackage{cancel} %Para tachar en formulas.
+\usepackage{chemfig} % Fórmulas Químicas.
+\usepackage[version=3]{mhchem}
+\usepackage{epic,carom}
+\usepackage{siunitx} % Para escribir unidades métricas. 
+
+%Paquetes para tablas.
+\usepackage{array} % Paquete para el diseño de tablas. 
+\usepackage{multirow} % Para poder unir filas en las tablas
+\usepackage{colortbl} % Para colorear tablas
+\usepackage{longtable} % Controla el largo de la tabla
+\usepackage{rotating} % Rotar tablas
+
+% Maxima.
+%\usepackage[amsmath]{maxiplot}
+
+% Insertar etiquetas a las imágenes.
+\usepackage{caption}[2013/02/03]
+\usepackage{subcaption}
+%Ejemplo de entorno de imagen con subcations:
+%\begin{figure}
+%\begin{minipage}[b]{.5\linewidth}
+%  \centering\rule{2cm}{2cm}
+% \subcaption{Primera subfigura}\label{fig:1a}
+%\end{minipage}%
+%\begin{minipage}[b]{.5\linewidth}
+%  \centering\rule{2cm}{2cm$\BB$}
+% \subcaption{Segunda subfigura}\label{fig:1b}
+%\end{minipage}
+%\caption{Figura con subfiguras}\label{fig:1}
+%\end{figure}
+
+% Tipo de letra del documento.
+\usepackage{mathptmx}                 
+\usepackage[scaled=.90]{helvet}         
+\usepackage{courier}                
+\usepackage{dsfont} 
+
+% Numeración de las ecuaciones.
+\usepackage{enumerate}
+\numberwithin{equation}{section}
+
+%Para partir enumeración.
+\usepackage{enumitem}
+
+% Espacio de líneas.
+\linespread{1.2}
+\usepackage{xspace} %Espacios después de los comandos.
+
+
+% Estilo de los teoremas, definiciones, notas, etc.
+%% Teoremas:
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem{lemma}[theorem]{Lema}
+
+%% Definiciones:
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[section]
+
+%% Observaciones:
+\theoremstyle{remark}
+\newtheorem*{remark}{Observación}
+
+%% Ejemplos:
+\newtheorem{example}{Ejemplo}[section]
+
+%% Problemas fáciles:
+\newtheoremstyle{easyproblem} % Name of the style to be used
+{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
+{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
+{\color{blue}} % Name of font to use in the body of the theorem
+{0pt} % Measure of space to indent
+{\bfseries} % Name of head font
+{.} % Punctuation between head and body
+{ } % Space after theorem head; " " = normal interword space
+{\thmname{#1}\thmnumber{ #2}\thmnote{(#3)}}
+
+\theoremstyle{easyproblem}
+\newtheorem{easyproblem}{Problema}[section]
+
+%% Problemas díficiles:
+\newtheoremstyle{mediumproblem} % Name of the style to be used
+{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
+{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
+{\color{orange}} % Name of font to use in the body of the theorem
+{0pt} % Measure of space to indent
+{\bfseries} % Name of head font
+{.} % Punctuation between head and body
+{ } % Space after theorem head; " " = normal interword space
+{\thmname{#1}\thmnumber{ #2}\thmnote{(#3)}}
+
+%% Problemas medios:
+\theoremstyle{mediumproblem}
+\newtheorem{mediumproblem}{Problema}[section]
+
+%% Problemas difíciles:
+\newtheoremstyle{hardproblem} % Name of the style to be used
+{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
+{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
+{\color{red}} % Name of font to use in the body of the theorem
+{0pt} % Measure of space to indent
+{\bfseries} % Name of head font
+{.} % Punctuation between head and body
+{ } % Space after theorem head; " " = normal interword space
+{\thmname{#1}\thmnumber{ #2}\thmnote{(#3)}}
+
+\theoremstyle{hardproblem}
+\newtheorem{hardproblem}{Problema}[section]
+
+%% Ejercicios:
+\newtheoremstyle{exercise} % name of the style to be used
+{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
+{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
+{} % Name of font to use in the body of the theorem
+{0pt} % Measure of space to indent
+{\bfseries} % Name of head font
+{.} % Punctuation between head and body
+{ } % Space after theorem head; " " = normal interword space
+{\thmname{#1}\thmnumber{#2}\thmnote{ (#3)}}
+
+\theoremstyle{exercise}
+\newtheorem{exercise}{Ejercicio}[section]
+
+%% Soluciones:
+\newtheoremstyle{solution} % name of the style to be used
+{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
+{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
+{} % Name of font to use in the body of the theorem
+{0pt} % Measure of space to indent
+{} % Name of head font
+{.} % Punctuation between head and body
+{ } % Space after theorem head; " " = normal interword space
+{\emph{\thmname{#1}}\thmnote{ (#3)}}
+
+\theoremstyle{solution}
+\newtheorem*{solution}{Solución}
+
+% ARGUMENTOS VARIABLES
+\usepackage{xargs}
+
+% Lógica booleana para definir nuevos comandos:
+\usepackage{ifthen}
+
+% Example de comando usando el paquete ifthen:
+\newcommand{\printTrueOrFalse}[1]
+{
+	\ifthenelse{\equal{#1}{true}}{TRUE}{}
+	\ifthenelse{\equal{#1}{false}}{FALSE}{}
+}
+
+% NOTAS
+\setlength {\marginparwidth }{2cm}
+\usepackage[colorinlistoftodos, prependcaption]{todonotes}
+\newcommandx{\note}[2][1=]{
+	\todo[
+	linecolor=green,
+	backgroundcolor=green!25,
+	bordercolor=green,#1]{#2}
+}
+
+
+% Definición de comandos matemáticos:
+\newcommand{\KK}{\mathbb{K}} %Un cuerpo cualquiera.
+\newcommand{\EE}{\mathbb{E}} %Espacio euclidiano.
+\newcommand{\FF}{\mathbb{F}} %Campo comutativo.
+\newcommand{\HH}{\mathbb{H}} %Semiespacio real superior.
+\newcommand{\RR}{\mathbb{R}} %Números Reales.
+\newcommand{\ZZ}{\mathbb{Z}} %Número Enteros.
+\newcommand{\NN}{\mathbb{N}} %Numero Natureles.
+\newcommand{\NNO}{\mathbb{N}_{_0}} %Numero Natureles.
+\newcommand{\QQ}{\mathbb{Q}} %Números Racionales.
+\newcommand{\CC}{\mathbb{C}} %Números Complejos
+\newcommand{\RP}{\mathbb{RP}} %Plano proyectivo.
+\newcommand{\A}{\mathcal{A}} %Atlas.
+\newcommand{\B}{\mathcal{B}} %Atlas.
+\newcommand{\BB}{\mathbb{B}} %Atlas.
+\newcommand{\E}{\mathbb{E}} %Variedad Euclidiana.
+\newcommand{\VV}{\mathbb{V}} %Espacio Vectorial V.
+\newcommand{\hw}{\hspace{0.3cm}} %Espacio de 0.2cm.
+%\newcommand{\hs}{\hspace{0.3cm}} %Espacio de 0.2cm.
+\newcommand{\J}{\pmb{J}} %Jacobiano.
+\newcommand{\ck}{\;_{\widetilde{C}^{k}}\,}  %Relación C^k - compatibles.
+%\newcommand{\cl}{\;_{\widetilde{C}^{l}}\,}  %Relación C^l - compatibles.
+\newcommand{\cp}{\;_{\widetilde{p}}\,}  %Relación p - relacionados.
+\newcommand{\ckr}{\;_{\widetilde{C}^{r}}\,} %Relacion C^r - compatibles.
+\newcommand{\G}{\;_{\widetilde{G}}\;} 
+\newcommand{\Ck}{_{\widetilde{C}^{k}}\,}
+\newcommand{\C}{\mathcal{C}}
+\newcommand{\cd}{\;|\;}
+\newcommand{\fl}{f\hspace{0.0499em}l}
+\newcommand{\fii}{f\hspace{0.03em}i}
+
+% Comandos para que el csvsimple reconozca las tablas
+\newcommand{\standardroman}[1]{\romannumeral\value{#1}}
+\makeatletter
+\xpatchcmd{\csv@breakline@kernel}{\roman}{\standardroman}{}{}
+\xpatchcmd{\csv@current@col}{\roman}{\standardroman}{}{}
+\xpatchcmd{\set@csv@autohead}{\roman}{\standardroman}{}{}
+\xpatchcmd{\set@csv@head}{\roman}{\standardroman}{}{}
+\xpatchcmd{\set@csv@nohead}{\roman}{\standardroman}{}{}
+\makeatother
+
+
+\def\SS{\mathbb{S}} %Esfera.
+\def\TT{\mathbb{T}} %Toro.
+\def\AA{\mathbb{A}} %Módulo A.
+\def\LL{\mathcal{L}} %Familia de rectas. 
+\def\PP{\mathcal{P}} %Familia de planos.
+
+
+%Definición de operadores.
+\DeclareMathOperator{\sen}{sen\,} %Función seno.
+\DeclareMathOperator{\rot}{rot\,} %Rotacional.
+\DeclareMathOperator{\dive}{div\,} %Divergencia.
+\DeclareMathOperator{\nulo}{nul\,} %Nulo.
+\DeclareMathOperator{\im}{img} %Imagen.
+\DeclareMathOperator{\id}{id} %Función identidad.
+\DeclareMathOperator{\Tr}{Tr\,} %Traza. 
+\DeclareMathOperator{\Crit}{Crit\,} %Cunjunto de puntos críticos.
+\DeclareMathOperator{\md}{mod} %Modulo.
+\DeclareMathOperator{\ord}{ord} %Orden.
+\DeclareMathOperator{\mcd}{mcd} %Máximo común divisor.
+\DeclareMathOperator{\mcm}{mcm} %Mínimo común múltiplo
+\DeclareMathOperator{\Gr}{Gr} %Gráfica.
+\DeclareMathOperator{\orb}{orb} %Orbita.
+\DeclareMathOperator{\dif}{dif} %Conjunto de difeomorfismos.
+\DeclareMathOperator{\GL}{GL} %Grupo Especial Lineal 
+\DeclareMathOperator{\Int}{Int} %Interior de un grupo 
+\DeclareMathOperator{\sgn}{sgn} %Signo de una permutación
+\DeclareMathOperator{\sop}{sop} %Soporte de una partición
+\DeclareMathOperator{\dom}{dom} %Domino
+\DeclareMathOperator{\ran}{ran} %Rango
+\DeclareMathOperator{\Arg}{Arg} %Argumento de un número complejo
+\DeclareMathOperator{\End}{End} %Endomorfismos
+\DeclareMathOperator{\vol}{vol} %Volumen
+\DeclareMathOperator{\Hom}{Hom} %Homomorfismos
+\DeclareMathOperator{\Der}{Der} %Derivaciones
+\DeclareMathOperator{\SO}{SO} %Grupo ortogonal especial
+\DeclareMathOperator{\U}{U} %Grupo unitario
+\DeclareMathOperator{\SU}{SU} %Grupo unitario especial
+\DeclareMathOperator{\SL}{SL} %Grupo lineal especial
+%\DeclareMathOperator{\tr}{tr} %Traza de una matriz
+\DeclareMathOperator{\diag}{diag} %Matriz diagonal
+\DeclareMathOperator{\Lie}{Lie} %Matriz diagonal
+\DeclareMathOperator{\proy}{proy} %Matriz diagonal
+\DeclareMathOperator{\card}{card} %Cardinal de un conjunto
+\DeclareMathOperator{\instab}{instab} %Inestabilidad de un AC.
+\DeclareMathOperator{\gen}{gen} %Generador.
+\DeclareMathOperator{\Colu}{Col} %Columna.
+\DeclareMathOperator{\vari}{var} %Varianza.
+\DeclareMathOperator{\adj}{adj} %Varianza.
+\DeclareMathOperator*{\argMin}{arg\, min} % Argumento minimal.
+
+
+% LISTA DE COMANDOS GENERALIZADOS:
+% Comando nuevo para calcelar con diferentes colores.
+\newcommand{\Cancel}[2][black]{\renewcommand\CancelColor{\color{#1}}\cancel{#2}}
+% Comando para una lista de puntos. 
+\newcommandx{\points}[3][1=0, 3=n]{#2_{_{#1}},\ldots,#2_{_{#3}}} 
+
+% COMANDOS MATEMÁTICOS SIMPLES:
+
+% Función del argumento mínimo:
+\newcommand*\argmin[1]{\argMin_{#1}} 
+
+% Insertar fondo de página en el documento:
+\newcommandx{\BackgroundPic}[1]{
+	\put(-3,0){
+		\parbox[b][\paperheight]{\paperwidth}{%
+			\vfill
+			\centering
+			{\includegraphics[width=\paperwidth,height=\paperheight]{#1}}%
+			%{\transparent{#2}\includegraphics[width=\paperwidth,height=\paperheight]{#1}}% Está linea solo funciona con pfdtex
+			\vfill
+}}}
+
+% DEFINICIÓN DE NUEVOS ACENTOS:
+
+% Acento de arco:
+\DeclareFontFamily{OMX}{yhex}{}
+\DeclareFontShape{OMX}{yhex}{m}{n}{<->yhcmex10}{}
+\DeclareSymbolFont{yhlargesymbols}{OMX}{yhex}{m}{n}
+\DeclareMathAccent{\arc}{\mathord}{yhlargesymbols}{"F3}
+
+
+% Acentos:
+\begin{comment}
+$\arc{AB}$ $\widehat{ABC}$
+\end{comment}
+
+% Comandos para notas:
+\usepackage[colorinlistoftodos,prependcaption]{todonotes}
+\newcommandx{\unsure}[2][1=]{\todo[linecolor=red,backgroundcolor=red!25,bordercolor=red,#1]{#2}}
+\newcommandx{\change}[2][1=]{\todo[linecolor=blue,backgroundcolor=blue!25,bordercolor=blue,#1]{#2}}
+\newcommandx{\info}[2][1=]{\todo[linecolor=green,backgroundcolor=green!25,bordercolor=green,#1]{#2}}
+\newcommandx{\improvement}[2][1=]{\todo[linecolor=Plum,backgroundcolor=Plum!25,bordercolor=Plum,#1]{#2}}
+\newcommandx{\thiswillnotshow}[2][1=]{\todo[disable,#1]{#2}}
+
+% Renombrado comandos: 
+\renewcommand\figureautorefname{Figura}
+\renewcommand\pageautorefname{pagína}
+\renewcommand\algorithmautorefname{Algoritmo}
+\renewcommand\theoremautorefname{Teorema}
+
+% Comando para hyperefereces:
+\newcommand{\sref}[2]{\hyperref[#2]{#1 \ref*{#2}}}
+
+%Paquetes para el diseño del encabezado.
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+%\usepackage{parskip} % Quita la indentación inicial de los parráfos. 
+
+\pagestyle{fancy}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}} % Quita la numeración de los capitulos en el encabezado.
+\fancyhf{}
+%\fancyhead[LE]{\nouppercase{\small\textit \thepage}\small\it{/Tensor Geométrico}} %Ubica el título del libro en pares.
+\fancyhead[RO]{\nouppercase{\small\textit\leftmark \,/}{\small\textit \thepage}} %Ubica el título del capitulo en impares.
+\fancypagestyle{plain}{\fancyhead{}}
+\renewcommand{\headrulewidth}{0pt}
+
+%Corrige la separación de palabras.
+%\usepackage[none]{hyphenat} 
+\hyphenation{corres-pondencia equiva-lente geo-metría posibi-lidad axio-mas}
+
+%Líneas huerfanas.
+\tolerance 1414
+\hbadness 1414
+%\emergencystretch 1.5em
+%\hfuzz 0.3pt
+%\vfuzz \hfuzz
+%\raggedbottom
+%Lo anterior está en prueba
+\clubpenalty=1000
+\widowpenalty=1000
+
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+
+\setlength{\parindent}{0cm}
+% Define el espacio entre parrafos. 
+\setlength{\parskip}{2mm}
+
+% Espacio entre teorema y demostración:
+\usepackage{etoolbox}
+\AtBeginEnvironment{proof}{\vspace{-1.0\baselineskip}}

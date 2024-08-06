@@ -1,0 +1,370 @@
+% !TEX TS-program = pdflatex
+\input{Article} 
+
+\begin{document}
+	\thispagestyle{empty}
+	\begin{center}
+		{\Large\textbf{GENERALIZACIÓN DEL JUEGO LIGHT 
+		OUT A UN GRAFO DE MÚLTIPLES ESTADOS}} \\
+		\bigskip Alejandro Sánchez Yalí 
+		\\ {\footnotesize\emph{Facultad de Ciencias Exactas y Naturales,
+		 Universidad de Antioquia, Medellín, Colombia}.\\
+		\textbf{E-mail:} alejandro.sanchezy@udea.edu.co}\\
+		{\footnotesize\today.}\\\vspace{0.1cm}
+		{\small\ccbysa}
+	\end{center}
+	
+\begin{section}{Introducción}
+
+\text{Light Out} es un juego producido por Tiger Electronics que consta de 
+una cuadrícula de botones de cinco por cinco; cada botón tiene una bombilla 
+indicadora que puede estar encendida o apagada. Al presionar un botón, las 
+bombillas de los botones adyacentes a él en filas y columnas, si existen, 
+cambian de estado. La finalidad del juego es, dada un configuración inicial de 
+bombillas encendidas y apagadas, ir 
+pulsando los botones necesarios hasta conseguir apagar todas las bombillas.  
+
+En 1998, Anderson y Feil (\cite{anderson1998turning}) resolvieron el juego 
+original empleando álgebra lineal. Han aparecido varios artículos que han estudiado el problema con diferentes variaciones, tales como, \cite{ barua1996sigma, eriksson2001note,  fleischer2013survey, hunziker2004chebyshev, martin2001two,	scherphuis2014mathematics, sutner2000sigma}. El objetivo aquí, será exponer la solución planteada por Feil y Anderson en 1998 (\cite{anderson1998turning}); además de generalizar el problema a un 
+grafo con múltiples estados en $\ZZ_{_p}$ y diferentes velocidades de cambio por nodo, junto con algunos de los resultados presentados por Giffen, Alexander, y D. Parker en 2009 (\cite{giffen2009generalizing}).
+
+\begin{section}{Light Out y los sistemas lineales binarios}
+Feil y Anderson en \cite{anderson1998turning}, resolvieron el juego original que consiste de una cuadrícula de cinco por cinco; para esto, hicieron uso del Álgebra Lineal con todas las operaciones hechas bajo módulo 2; lo que permite encontrar una estrategia completa para apagar todas las bombillas frente a cualquier configuración inicial del juego. \info{¿Dejar la cantidad mínima de bombillas encendidas?} Ellos, consideraron que el estado de cada una de las bombillas es representado por un elemento del conjunto $\ZZ_{_2}$, el campo de enteros módulo 2; en el cual, el $1$ significa que la bombilla está encendida, y el 2, que está apagada. El estado de cada bombilla ubicada en la $i$-ésima fila y la $j$-ésima columna, se representa por $b_{_{ij}}\in \ZZ_{_2}$, que es una entradadel vector columna $\pmb{b}$ de orden $25\times 1$, ordenado de la siguiente 
+forma:
+\begin{equation}
+\pmb{b}= (b_{_{11}}, b_{_{12}}, b_{_{12}},\dots, b_{_{15}},  b_{_{21}},\dots, 
+b_{_{55}})^{\top}.
+\end{equation}
+Cada vector $\pmb{b}\in \ZZ_{2}^{25}$ representa una \textbf{configuración} del 
+juego. Por ejemplo, 
+\[\pmb{b}=(1,1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1)^{\top}\] donde 
+$0$ 
+indica apagado y $1$ encendido, describe una situación como en la figura 
+\ref{fig:lightout}.
+
+\begin{figure}[t!]
+\centering
+\includegraphics[scale=1]{Figures/ligthout1}
+\caption{Representación de la configuración 	
+$\pmb{b}=(1,1,0,0,1, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0,  1,0,0, 0, $ $1)^{\top}$ 
+para el juego de Light Out $5\times 5$ y cómo cambia cuando se pulsa el botón 
+$b_{_{33}}$.}
+\label{fig:lightout}
+\end{figure}
+Cuando se modifica el estado de una bombilla, cambia el vector de 
+configuración, 
+sumando un vector de $\ZZ_{2}^{25}$ con $1$ en las posiciones 
+correspondientes a las bombillas adyacentes a ésta en filas y columnas,  y cero 
+en los demás casos. Por ejemplo, en la figura \ref{fig:lightout}, el estado 
+dado 
+por $\pmb{b}=(1,1,0,0,1,   0,0,0,0,0,   0,0,0,0,0, $ $ 0,0,0,0,0,  
+1,0,0,0,1)^{\top}$ se transforma en la configuración $(1,1,0,0,1,   
+0,0,1,0,0,   0,1,1,1,0,  0,0,1,0,0, $ $  1,0,0,0,1)^{\top}$, que se produce cuando 
+a $\pmb{b}$ se le suma el vector $(0,0,0,0,0,   0,0,1,0,0,   0,1,1,1,0,  
+0,0,1,0,0,$ $  0,0,0,0,0)^{\top}$.
+
+
+
+Por otro lado, una \textbf{estrategia} se entenderá como un 
+vector $-\pmb{x}$  de $\ZZ_{2}^{25}$ donde  $x_{_{ij}}$ es $1$ si la bombilla 
+$(i, j)$ es alterada y cero en los demás casos. 
+
+Note con detenimiento que la estrategia ganadora $\pmb{x}$ cumple las 
+ecuaciones:
+\begin{eqnarray*}
+	b_{_{11}} &=& (x_{_{11}}+x_{_{12}}+x_{_{21}})\mod 2,\\
+	b_{_{12}} &=& (x_{_{11}}+x_{_{12}}+x_{_{13}}+x_{_{22}}) \mod 2,\\
+	b_{_{13}} &=& (x_{_{12}}+x_{_{13}}+x_{_{14}}+x_{_{23}}) \mod 2,\\
+	&\vdots & \\
+	b_{_{54}} &=& (x_{_{44}}+x_{_{53}}+x_{_{54}}+x_{_{55}}) \mod 2,\\
+	b_{_{55}} &=& (x_{_{54}}+x_{_{45}}+x_{_{55}}) \mod 2.
+\end{eqnarray*}
+
+Dicho sistema puede escribirse en la forma $A \pmb{x} = \pmb{b}$, donde 
+los arreglos tienen dimensiones $25\times 25$, $25\times 
+1$ y 
+$25\times 1$ respectivamente. De manera m\'as precisa, $A$ está constituida por 
+bloques; los cuales serán 
+descritos a continuaci\'on:
+\begin{equation}\label{A_clasico}
+A=
+\begin{bmatrix}
+B & I & O & O & O  \\ 
+I & B & I & O  & O \\
+O & I & B & I & O  \\
+O & O & I & B & I   \\
+O & O & O & I & B   \\
+\end{bmatrix}
+\end{equation}
+
+\begin{center}
+	
+	$B= 
+	\begin{bmatrix}
+	1 & 1 & 0 & 0 & 0  \\ 
+	1 & 1 & 1 & 0  & 0 \\
+	0 & 1 & 1 & 1 & 0  \\
+	0 & 0 & 1 & 1 & 1   \\
+	0 & 0 & 0 & 1 & 1   \\
+	\end{bmatrix},\ 
+	I=
+	\begin{bmatrix}
+	1 & 0 & 0 & 0 & 0  \\ 
+	0 & 1 & 0 & 0  & 0 \\
+	0 & 0 & 1 & 0 & 0  \\
+	0 & 0 & 0 & 1 & 0   \\
+	0 & 0 & 0 & 0 & 1   \\
+	\end{bmatrix},\ 
+	O=
+	\begin{bmatrix}
+	0 & 0 & 0 & 0 & 0  \\ 
+	0 & 0 & 0 & 0  & 0 \\
+	0 & 0 & 0 & 0 & 0  \\
+	0 & 0 & 0 & 0 & 0   \\
+	0 & 0 & 0 & 0 & 0   \\
+	\end{bmatrix} $	
+\end{center}
+
+Recuerde de \'Algebra Lineal que dada una matriz $A$, el complemento ortogonal 
+del espacio columna de $A$ es el espacio nulo izquierdo de $A$; y que 
+tambi\'en, el 
+complemento ortogonal del espacio fila de $A$ es el espacio nulo de $A$.
+
+Observe que, el problema $A\pmb{x} = \pmb{b}$ es soluble sí y s\'olo sí,
+$\pmb{b}$ 
+es combinaci\'on lineal de las columnas de $A$; es decir, existe una estrategia 
+ganadora $\pmb{x}$ sí y s\'olo sí, $\pmb{b}$ est\'a en el espacio 
+columna de $A$. Sin embargo, si se nota que $A$ es sim\'etrica y que por ende, 
+los 
+espacios columna y fila de $A$ son iguales, se puede decir que existe una 
+estrategia ganadora $\pmb{x}$ siempre y cuando ésta est\'e en el 
+espacio fila de $A$; de manera equivalente, $\pmb{x}$ tiene que ser 
+ortogonal a todo vector en el espacio nulo de $A$. Lo dicho, implica que se 
+puede generar un criterio con el que se pueda verificar si dada una 
+configuraci\'on inicial $\pmb{b}$ en el juego Lights Out, se puede o no, 
+hallar una estrategia ganadora o soluci\'on $\pmb{x}$.
+
+Empleando reducci\'on con operaciones elementales de fila, pero en $\ZZ_{_2}$, 
+se puede hallar una base para el espacio nulo (espacio soluci\'on de $A 
+\pmb{x} = \pmb{0}$). Dicha base tiene los elementos: $$\pmb{n} 
+_{1}=(0,1,1,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1,0,1,1,1,0)^{\top}$$
+$$\pmb{n}_{2}=(1,0,1,0,1,1,0,1,0,1,0,0,0,0,0,1,0,1,0,1,1,0,1,0,1)^{\top}$$
+Dada una configuraci\'on inicial $\pmb{b}$, se pueden apagar todas las 
+luces, siempre y cuando se cumpla que,
+\begin{equation}\label{condicion}
+\pmb{b} \cdot \pmb{n} _{1} = \pmb{b} \cdot \pmb{n} _{2} = 0
+\end{equation}
+Cuando $\pmb{b}$ cumpla con la ecuación (\ref{condicion}), se puede usar el 
+m\'etodo de Gauss-Jordan con operaciones m\'odulo 2, para hallar la soluci\'on 
+de $ A\pmb{x} 
+= 
+\pmb{b}$. Cabe notar que, si $\pmb{x}$ es una soluci\'on, entonces los 
+inversos aditivos de $\pmb{x}$,  
+$\pmb{x}+\pmb{n}_{1}, \pmb{x}+\pmb{n}_{2}$ y 
+$\pmb{x}+\pmb{n}_{1}+\pmb{n}_{2}$ en $\ZZ_{_2}$ son estrategias 
+ganadoras.\info{¿Son todas las estrategias ganadoras}\\
+
+Note que las bombillas también se pueden entender como nodos de un grafo, en 
+donde hay una arista entre dos nodos (bombillas) si los estados de ambas son 
+mutuamente dependientes. En efecto, la matriz $A$ del sistema 
+$A\pmb{x}=\pmb{b}$ es realmente su matriz de adyacencia. Esta interpretación, 
+da paso a generalizar el juego Light Out a un grafo no orientado, donde cada 
+nodo va estar asociado con un estado caracterizado por algún elemento de 
+$\ZZ_{n}$. 
+
+
+\end{section}
+\end{section}
+\begin{section}{Light Out}
+	
+Un juego de Light Out es un arreglo de la forma $(G, \ZZ_{_n}, A, 
+s_{_0})$ donde $G$ es un grafo finito con $m$ vértices $V(G)$ y 
+aristas $E(G)$. El conjunto de vértices, es etiquetado con una 
+\textbf{distribución inicial de estados} dada por la función $s_{_0}:V(G)\to 
+\ZZ_{_n}$ y una \textbf{matriz de relación $A$}, tal que $A_{_{vw}}\in 
+\ZZ_{_n}\setminus 
+\{0\}$\info{¿Qué ocurre si es cero?} si $v=w$ o $vw\in E(G)$, y cero en los demás casos. Con fines 
+didácticos, el conjunto de vértices $V(G)$ se identificará con el 
+conjunto de número naturales $\{1,2, \dots, m\}$.
+
+Si $s_{_{t-1}}$ es una \textbf{distribución de estados en el tiempo $t-1\in 
+\NN_{_0}$}, cuando se \textbf{pulsa} un vértice $v$, todos los vértices $w$ que 
+se encuentran relacionados con $v$ mediante la matriz $A$, cambian su estado de 
+acuerdo con: 
+\begin{equation}
+s_{_t}(w) = (s_{_{t-1}}(w)+A_{_{wv}})\md(n).
+\end{equation}
+Recursivamente se tiene que,
+\begin{equation}
+s_{_{t}}(w)=(s_{_0}(w)+tA_{_{wv}})\md(n).
+\end{equation}
+Sea $\pmb{x}\in \ZZ_{p}^{m}$ donde la $v$ - ésima entrada $x_{_v}$ es el número 
+de veces que se ha pulsado el vértice $v$ desde el momento inicial; por lo 
+tanto, el estado del vértice $w$ en tiempo $t = \sum_{v\in V(G)}x_{_v}$ es: 
+\begin{equation}
+s_{_t}(w)=\left(s_{_0}(w)+\sum_{v\in V(G)}A_{_{wv}}x_{_v}\right)\md(n).
+\end{equation}
+
+Se dirá que un juego de Ligth Out es \textbf{soluble} si existe un 
+$-\hat{\pmb{x}}$ tal que, para el tiempo $t = \sum_{v\in V(G)}\hat{x}_{_v}$ la 
+distribución de estados sea $s_{_t}(w) = 0$ para todo $w \in V(G)$; es decir,
+\begin{equation}
+(\pmb{s}_{_0}-A\hat{\pmb{x}})\md(n) = 0,
+\end{equation}
+donde $\pmb{s}_{_0}$ es un vector columna dado por $(s_{_0}(1),\dots, 
+s_{_0}(m))^{\top}$. Finalmente, con lo anterior se ha establecido el siguiente 
+resultado:
+\begin{theorem} Un juego Light Out $(G, \ZZ_{_n}, A, 
+	s_{_0})$ es soluble sí y sólo sí, $A\pmb{x} = 
+\pmb{s}_{_0}$ es soluble sobre $\ZZ_{_n}$.
+\end{theorem}
+
+\begin{example}\textbf{Light Out hexagonal 3 - 5 - 3.}
+	Considere el grafo $G$ donde los vértices son las 19 casillas hexagonales 
+	que se muestran en la figura \ref{fig:lightout2}. Las aristas, son 
+	definidas 
+	por los hexágonos adyacentes y los estados de cada casilla se toman en 
+	$\ZZ_{_2}$ . Tomando la figura 2.a como configuración inicial del juego, 
+	cada que se presiona una casilla, cambia ella y todas las casillas 
+	adyacentes; en efecto, si se presiona la casilla $c_{_{10}}$, los cambios 
+	de estado se dan en todas las casillas adyacentes incluyendo $c_{_{10}}$, 
+	ver figura 2.b. 
+	
+	
+	\begin{figure}[ht!]
+		\centering
+		\includegraphics[scale=1]{Figures/ligthout2}
+		\caption{Cuando se presiona la casilla $c_{_{10}}$, todas las casillas 
+		adyacentes cambian su estado.}
+		\label{fig:lightout2}
+	\end{figure}
+	
+	
+	La matriz $A$ que ayuda a modelar el juego Ligths Out hexagonal 3 - 5 - 3 es:
+	\begin{equation}
+	A = \left[\begin{array}{ccccc}
+	D_{_3} & S_{_{34}} & O & O & O \\
+	S_{_{34}}^{\top} & D_{_{4}} & S_{_{45}} & O & O \\
+	O & S_{_{45}}^{\top} & D_{_{5}} & S_{_{45}}^{\top} & O \\
+	O & O & S_{_{45}} & D_{_4} & S_{_{34}}^{\top} \\
+	O & O & O & S_{_{34}} & D_{_3} \\
+	\end{array}\right]
+	\end{equation}
+	donde $D_{_n}$ es una  matriz  de orden $n\times n$ y tridiagonal de unos. 
+	Las matrices $S_{_{34}}$ y $S_{_{45}}$ son bidiagonales de unos. 
+	Específicamente $S=[s_{_{ij}}]$ con $s_{_{ij}}=1$ si $i=j$ o $i+1 = j$, en 
+	los demás casos es cero:
+	\begin{equation}
+	S_{_{34}}= \left[\begin{array}{cccc}
+	1 & 1 & 0 & 0 \\
+	0 & 1 & 1 & 0 \\
+	0 & 0 & 1 & 1
+	\end{array}\right], \hw	
+	S_{_{45}}= \left[\begin{array}{ccccc}
+	1 & 1 & 0 & 0 & 0 \\
+	0 & 1 & 1 & 0 & 0 \\
+	0 & 0 & 1 & 1 & 0 \\
+	0 & 0 & 0 & 1 & 1
+	\end{array}\right],\hw
+	D_{_{4}}= \left[\begin{array}{cccc}
+	1 & 1 & 0 & 0 \\
+	1 & 1 & 1 & 0 \\
+	0 & 1 & 1 & 1 \\
+	0 & 0 & 1 & 1
+	\end{array}\right]. 
+	\end{equation}
+	Las matrices $O$ que aparecen al interior de $A$ son matrices nulas, de tal 
+	manera que $A$ sea cuadrada de $19\times 19$. Observe que $A$ es simétrica 
+	dado que se cumple que $D_{_k}^{\top}=D_{_k}$ y 
+	$S_{_{ij}}^{\top}=S_{_{ij}}$. 
+	
+	Los vectores de la base del espacio nulo de $A$ en $\ZZ_{2}$ son $\pmb{n}_{_1}
+	=(0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0,$ $1, 1, 1, 0)^{\top}$ y  
+	$\pmb{n}_{_2} = (1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0 ,0, 1, 0, 0, 1, 1, 0, 1)^{\top}$,
+	lo que quiere decir que una disposición inicial $\pmb{s}_{_0}$ en Lights 
+	Out hegaonal 3 - 5 - 3 es soluble o tiene estrategia ganadora $-\pmb{x}$, 
+	siempre y cuando $\pmb{x}$ sea ortogonal a $\pmb{n}_{_1}$ y a 
+	$\pmb{n}_{_{2}}$.
+\end{example}
+
+\begin{example}\textbf{Lights Out hexagonal 5 - 9 - 5.} En este caso, el grafo 
+$G$ es definido por 61 hexágonos como se muestran en la figura 
+\ref{fig:lightout3}; los estados se consideran en $\ZZ_{2}$ y su cambio ocurre 
+igual que en el ejemplo anterior. En esta configuración se puede partir desde 
+cualquier disposición inicial $\pmb{s}_{_0}$ y ésta tendrá solución 
+$-\pmb{x}$. 
+	
+	\begin{figure}[ht!]
+	\centering
+	\includegraphics[scale=0.8]{Figures/ligthout3}
+	\caption{Cuando se presiona la casilla $c_{_{10}}$, todas las casillas 
+	adyacentes cambian su estado.}
+	\label{fig:lightout3}
+	\end{figure}		
+	
+La matriz $A_{_{61\times 61}}$ asociada al problema $A\pmb{x} = \pmb{b}$, tiene 
+la forma:
+\begin{equation}
+A = \left[\begin{array}{ccccccccc}
+D_{_5} & S_{_{56}} & & & & & & & \\
+S_{_{56}}^{\top} & D_{_6} & S_{_{67}} & & & & & &\\
+& S_{_{67}}^{\top} & D_{_{7}} & S_{_{78}} & & & & & \\
+& & S_{_{78}}^{\top} & D_{_{8}} & S_{_{89}}  & & & & \\
+& &	& S_{_{89}}^{\top} & D_{_{9}} & S_{_{89}}^{\top}   & & & \\
+& & & & S_{_{89}} & D_{_{8}} & S_{_{78}}^{\top} & & \\
+& & & & &  S_{_{78}} & D_{_{7}} & S_{_{67}}^{\top} & \\ 
+& & & & & & S_{_{67}} & D_{_{6}} & S_{_{56}}^{\top} \\
+& & & & & & & S_{_{56}} & D_{_5}
+\end{array}\right],
+\end{equation}
+lo increíble es que ésta matriz tiene sus 61 columnas linealmente 
+independientes, lo que índica que cualquier disposición inicial $\pmb{b}$ del 
+juego, es combinación lineal de las columnas de $A$; es decir, dado un 
+$\pmb{b}$ cualquiera, existe una estrategia ganadora $-\pmb{x}$ tal que 
+$A\pmb{x} = \pmb{b}$.
+
+Por otro lado, si se contempla la misma estructura, sólo que en esta ocasión 
+cada que se presiona una casilla ella no cambia de estado, y las casillas 
+adyacentes sí; la matriz $A$ sólo sufre cambios en su diagonal 
+principal, tomando ceros en lugar de unos, así:
+
+\begin{equation}
+A = \left[\begin{array}{ccccccccc}
+V_{_5} & S_{_{56}} & & & & & & & \\
+S_{_{56}}^{\top} & V_{_6} & S_{_{67}} & & & & & &\\
+& S_{_{67}}^{\top} & V_{_{7}} & S_{_{78}} & & & & & \\
+& & S_{_{78}}^{\top} & V_{_{8}} & S_{_{89}}  & & & & \\
+& &	& S_{_{89}}^{\top} & V_{_{9}} & S_{_{89}}^{\top}   & & & \\
+& & & & S_{_{89}} & V_{_{8}} & S_{_{78}}^{\top} & & \\
+& & & & &  S_{_{78}} & V_{_{7}} & S_{_{67}}^{\top} & \\ 
+& & & & & & S_{_{67}} & V_{_{6}} & S_{_{56}}^{\top} \\
+& & & & & & & S_{_{56}} & V_{_5}
+\end{array}\right], \mbox{ con } V_{_k} =  \left[\begin{array}{ccccc}
+0 & 1 & & & \\
+1 & 0 & 1 & & \\
+& 1 & 0 & \ddots & \\
+& & \ddots & \ddots & 1 \\
+& & & 1 & 0
+\end{array}\right]_{k\times k}.
+\end{equation}
+Al poner ceros en la diagonal, los nuevos 61 vectores columnas de $A$, siguen 
+siendo linealmente independientes, y esto explica que en este caso,  el juego 
+también es soluble para cualquier configuración inicial. 
+\end{example}
+
+\end{section}
+
+
+
+%\listoffigures 
+
+%Referencia a la bibliografía: \cite[nota]{clave}
+%Referenciar una entrada no citada en el documento \nocite{autor}
+%Tamaño natural de las ecuaciones: $\displaystyle$  o $\displaystyle{}$
+%\nocite{Anand1}
+%\nocite{Vallejo1}
+%\bibliographystyle{plain}
+\bibliographystyle{plainnat}
+\bibliography{References}
+
+\end{document}
