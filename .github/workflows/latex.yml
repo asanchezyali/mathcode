@@ -11,19 +11,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Find all .tex files
+      - name: Find root .tex files
         id: tex-files
         run: |
-          # Guardar la lista de archivos en una variable
-          FILES=$(find . -name "*.tex" -type f)
-          echo "Found .tex files:"
+          # Buscar solo archivos .tex en el directorio raíz
+          FILES=$(find . -maxdepth 1 -name "*.tex" -type f)
+          echo "Found root .tex files:"
           echo "$FILES"
           echo "files=$FILES" >> $GITHUB_OUTPUT
 
       - name: Compile LaTeX documents
         run: |
-          # Compilar cada archivo .tex por separado
-          for file in $(find . -name "*.tex" -type f); do
+          # Compilar cada archivo .tex del directorio raíz
+          for file in $(find . -maxdepth 1 -name "*.tex" -type f); do
             echo "Compiling $file..."
             latexmk -pdf -interaction=nonstopmode $file || echo "Failed to compile $file"
           done
@@ -49,8 +49,8 @@ jobs:
             git rm -rf .
           fi
           
-          # Copiar todos los PDFs generados (si existen)
-          find . -name "*.pdf" -type f -exec cp {} . \; || echo "No PDFs found"
+          # Copiar solo los PDFs del directorio raíz
+          find . -maxdepth 1 -name "*.pdf" -type f -exec cp {} . \; || echo "No PDFs found"
           
           # Añadir y hacer commit de los PDFs solo si existen
           if ls *.pdf 1> /dev/null 2>&1; then
