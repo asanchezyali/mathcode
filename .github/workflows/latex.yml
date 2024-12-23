@@ -11,19 +11,20 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Find root .tex files
-        id: tex-files
-        run: |
-          # Buscar solo archivos .tex en el directorio raíz
-          FILES=$(find . -maxdepth 1 -name "*.tex" -type f)
-          echo "Found root .tex files:"
-          echo "$FILES"
-          echo "files=$FILES" >> $GITHUB_OUTPUT
-
-      - name: Compile LaTeX documents
+      - name: Compile dl.tex
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: ${{ steps.tex-files.outputs.files }}
+          root_file: dl.tex
+          args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
+          extra_system_packages: |
+            texlive-latex-recommended
+            texlive-latex-extra
+            texlive-fonts-extra
+
+      - name: Compile main.tex
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: main.tex
           args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
           extra_system_packages: |
             texlive-latex-recommended
@@ -33,9 +34,6 @@ jobs:
       - name: Get current date
         id: date
         run: echo "date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
-
-      - name: List directory contents
-        run: ls -la
 
       - name: Upload PDFs to book branch
         run: |
