@@ -21,12 +21,14 @@ jobs:
           echo "files=$FILES" >> $GITHUB_OUTPUT
 
       - name: Compile LaTeX documents
-        run: |
-          # Compilar cada archivo .tex del directorio raíz
-          for file in $(find . -maxdepth 1 -name "*.tex" -type f); do
-            echo "Compiling $file..."
-            latexmk -pdf -interaction=nonstopmode $file || echo "Failed to compile $file"
-          done
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: ${{ steps.tex-files.outputs.files }}
+          args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
+          extra_system_packages: |
+            texlive-latex-recommended
+            texlive-latex-extra
+            texlive-fonts-extra
 
       - name: Get current date
         id: date
