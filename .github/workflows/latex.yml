@@ -1,4 +1,4 @@
-name: Build LaTeX document and Generate README
+name: Build LaTeX documents and Generate README
 on: [push]
 jobs:
   build_latex_and_readme:
@@ -11,10 +11,15 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Compile LaTeX document
+      - name: Find all .tex files
+        id: tex-files
+        run: |
+          echo "files=$(find . -name '*.tex' -type f | tr '\n' ' ')" >> $GITHUB_OUTPUT
+
+      - name: Compile LaTeX documents
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: main.tex
+          root_file: ${{ steps.tex-files.outputs.files }}
 
       - name: Get current date
         id: date
@@ -23,7 +28,7 @@ jobs:
       - name: List directory contents
         run: ls -la
 
-      - name: Upload PDF to book branch
+      - name: Upload PDFs to book branch
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
@@ -37,23 +42,18 @@ jobs:
             git rm -rf .
           fi
           
-          # Verificar y copiar el PDF
-          if [ -f "main.pdf" ]; then
-            cp main.pdf ./book.pdf
-          else
-            echo "main.pdf not found, creating empty file"
-            touch book.pdf
-          fi
+          # Copiar todos los PDFs generados
+          find . -name "*.pdf" -type f -exec cp {} . \;
           
-          # Añadir y hacer commit del PDF con fecha
-          git add book.pdf
-          git commit -m "🚀 Update PDF resume - ${{ steps.date.outputs.date }}" || echo "No changes to commit"
+          # Añadir y hacer commit de los PDFs con fecha
+          git add *.pdf
+          git commit -m "🚀 Update PDFs - ${{ steps.date.outputs.date }}" || echo "No changes to commit"
           
           # Push al branch (sin --force para mantener historial)
           git push origin book
 
-      - name: Upload PDF file as artifact
+      - name: Upload PDFs as artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: Book
-          path: book.pdf
+          name: PDFs
+          path: "*.pdf"
