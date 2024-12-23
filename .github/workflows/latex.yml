@@ -14,12 +14,19 @@ jobs:
       - name: Find all .tex files
         id: tex-files
         run: |
-          echo "files=$(find . -name '*.tex' -type f | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          # Guardar la lista de archivos en una variable
+          FILES=$(find . -name "*.tex" -type f)
+          echo "Found .tex files:"
+          echo "$FILES"
+          echo "files=$FILES" >> $GITHUB_OUTPUT
 
       - name: Compile LaTeX documents
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: ${{ steps.tex-files.outputs.files }}
+        run: |
+          # Compilar cada archivo .tex por separado
+          for file in $(find . -name "*.tex" -type f); do
+            echo "Compiling $file..."
+            latexmk -pdf -interaction=nonstopmode $file || echo "Failed to compile $file"
+          done
 
       - name: Get current date
         id: date
@@ -42,18 +49,22 @@ jobs:
             git rm -rf .
           fi
           
-          # Copiar todos los PDFs generados
-          find . -name "*.pdf" -type f -exec cp {} . \;
+          # Copiar todos los PDFs generados (si existen)
+          find . -name "*.pdf" -type f -exec cp {} . \; || echo "No PDFs found"
           
-          # Añadir y hacer commit de los PDFs con fecha
-          git add *.pdf
-          git commit -m "🚀 Update PDFs - ${{ steps.date.outputs.date }}" || echo "No changes to commit"
-          
-          # Push al branch (sin --force para mantener historial)
-          git push origin book
+          # Añadir y hacer commit de los PDFs solo si existen
+          if ls *.pdf 1> /dev/null 2>&1; then
+            git add *.pdf
+            git commit -m "🚀 Update PDFs - ${{ steps.date.outputs.date }}"
+            git push origin book
+          else
+            echo "No PDFs to commit"
+          fi
 
       - name: Upload PDFs as artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: PDFs
           path: "*.pdf"
+          if-no-files-found: warn
