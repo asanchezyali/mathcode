@@ -16,20 +16,12 @@ jobs:
         with:
           root_file: dl.tex
           args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
-          extra_system_packages: |
-            texlive-latex-recommended
-            texlive-latex-extra
-            texlive-fonts-extra
 
       - name: Compile main.tex
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
           args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
-          extra_system_packages: |
-            texlive-latex-recommended
-            texlive-latex-extra
-            texlive-fonts-extra
 
       - name: Get current date
         id: date
