@@ -10,14 +10,34 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          
+      - name: Check for changes in dl.tex
+        id: check_dl
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^dl\.tex$'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check for changes in main.tex
+        id: check_main
+        run: |
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^main\.tex$'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
 
       - name: Compile dl.tex
+        if: steps.check_dl.outputs.changed == 'true'
         uses: xu-cheng/latex-action@v3
         with:
           root_file: dl.tex
           args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
 
       - name: Compile main.tex
+        if: steps.check_main.outputs.changed == 'true'
         uses: xu-cheng/latex-action@v3
         with:
           root_file: main.tex
@@ -25,26 +45,24 @@ jobs:
 
       - name: Get current date
         id: date
+        if: steps.check_dl.outputs.changed == 'true' || steps.check_main.outputs.changed == 'true'
         run: echo "date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
 
       - name: Upload PDFs to book branch
+        if: steps.check_dl.outputs.changed == 'true' || steps.check_main.outputs.changed == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # Intentar cambiar a la rama book si existe
           if git show-ref --verify --quiet refs/remotes/origin/book; then
             git checkout book
           else
-            # Si la rama no existe, crear una nueva rama vacía
             git checkout --orphan book
             git rm -rf .
           fi
           
-          # Copiar solo los PDFs del directorio raíz
           find . -maxdepth 1 -name "*.pdf" -type f -exec cp {} . \; || echo "No PDFs found"
           
-          # Añadir y hacer commit de los PDFs solo si existen
           if ls *.pdf 1> /dev/null 2>&1; then
             git add *.pdf
             git commit -m "🚀 Update PDFs - ${{ steps.date.outputs.date }}"
@@ -54,7 +72,7 @@ jobs:
           fi
 
       - name: Upload PDFs as artifacts
-        if: always()
+        if: steps.check_dl.outputs.changed == 'true' || steps.check_main.outputs.changed == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: PDFs
