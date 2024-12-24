@@ -26,7 +26,6 @@
 %%% COLORES Y GRÁFICOS
 \usepackage[dvipsnames]{xcolor}
 \usepackage{graphicx}
-\graphicspath{{./images/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg,.jpeg}
 
 %%% DEFINICIÓN DE COLORES PARA ENTORNOS MATEMÁTICOS
@@ -136,7 +135,7 @@
         linecolor=definitionColor,
         backgroundcolor=boxColor,
         linewidth=1pt,
-        roundcorner=3pt,
+        roundcorner=30pt,
         skipabove=\topskip,
         skipbelow=\topskip
     }
@@ -240,8 +239,8 @@
 \setlength{\marginparwidth}{2cm}
 
 %%% CONTROL DE LÍNEAS HUÉRFANAS Y VIUDAS
-\clubpenalty=1000
-\widowpenalty=1000
+\clubpenalty=10000
+\widowpenalty=10000
 \tolerance=1414
 \hbadness=1414
 
