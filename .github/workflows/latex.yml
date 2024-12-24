@@ -48,27 +48,41 @@ jobs:
         if: steps.check_dl.outputs.changed == 'true' || steps.check_main.outputs.changed == 'true'
         run: echo "date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
 
-      - name: Upload PDFs to book branch
+      - name: Upload PDFs to pdfs branch
         if: steps.check_dl.outputs.changed == 'true' || steps.check_main.outputs.changed == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          if git show-ref --verify --quiet refs/remotes/origin/book; then
-            git checkout book
+          if git show-ref --verify --quiet refs/remotes/origin/pdfs; then
+            git checkout pdfs
           else
-            git checkout --orphan book
+            git checkout --orphan pdfs
             git rm -rf .
           fi
           
-          find . -maxdepth 1 -name "*.pdf" -type f -exec cp {} . \; || echo "No PDFs found"
+          # Copiar y hacer commit de cada PDF individualmente
+          if [ "${{ steps.check_dl.outputs.changed }}" == "true" ]; then
+            cp dl.pdf . || echo "dl.pdf not found"
+            if [ -f dl.pdf ]; then
+              git add dl.pdf
+              git commit -m "📚 Update dl.pdf - ${{ steps.date.outputs.date }}"
+            fi
+          fi
           
-          if ls *.pdf 1> /dev/null 2>&1; then
-            git add *.pdf
-            git commit -m "🚀 Update PDFs - ${{ steps.date.outputs.date }}"
-            git push origin book
+          if [ "${{ steps.check_main.outputs.changed }}" == "true" ]; then
+            cp main.pdf . || echo "main.pdf not found"
+            if [ -f main.pdf ]; then
+              git add main.pdf
+              git commit -m "📖 Update main.pdf - ${{ steps.date.outputs.date }}"
+            fi
+          fi
+          
+          # Push solo si hay commits para hacer
+          if git rev-list -n 1 HEAD &>/dev/null; then
+            git push origin pdfs
           else
-            echo "No PDFs to commit"
+            echo "No changes to push"
           fi
 
       - name: Upload PDFs as artifacts
