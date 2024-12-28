@@ -3,25 +3,167 @@
 %%% CLASE DEL DOCUMENTO
 \documentclass[letterpaper, 12pt]{article}
 
-%%% COMENTARIOS EN EL CÓDIGO LATEX
+%%% PAQUETES BASE
+\usepackage[T1]{fontenc}        
+\usepackage[utf8]{inputenc}    
+\usepackage{lmodern}
+\usepackage[spanish, es-noshorthands]{babel}
 \usepackage{comment}
+\usepackage{textcomp}
 
 %%% GEOMETRÍA DEL DOCUMENTO
-%% Dimensiones del documento
-\usepackage[top=3cm, bottom=2cm, right=2cm,left=2cm, headheight=15pt]{geometry}
-
-%% Multiples columnas en la estructura del documento
+\usepackage[top=3cm, bottom=2cm, right=2cm, left=2cm, headheight=15pt]{geometry}
 \usepackage{multicol}
-
-%% Hoja Horizontal
 \usepackage{lscape}
-\begin{comment}
-	\begin{landscape}
-	\end{landscape} 
-\end{comment}
 
-%%% COLORES
+%%% PAQUETES MATEMÁTICOS
+\usepackage{amsmath, amsthm, amsfonts, latexsym, cancel}
+\usepackage{amsbsy}
+\usepackage{thmtools}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+%%% PAQUETES PARA ESTILOS Y DISEÑO
 \usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc,shapes,shadows,decorations.pathmorphing}
+\usepackage{mdframed}
+
+%%% DEFINICIÓN DE COLORES
+\definecolor{theoremBG}{RGB}{248,251,255}        % Fondo teorema
+\definecolor{theoremBorder}{RGB}{236,242,250}    % Borde teorema
+\definecolor{definitionBG}{RGB}{245,255,248}     % Fondo definición
+\definecolor{definitionBorder}{RGB}{235,245,238} % Borde definición
+\definecolor{remarkBG}{RGB}{255,248,243}         % Fondo observación
+\definecolor{remarkBorder}{RGB}{245,238,233}     % Borde observación
+\definecolor{easyBG}{RGB}{240,248,255}           % Fondo problema fácil
+\definecolor{easyBorder}{RGB}{230,238,245}       % Borde problema fácil
+\definecolor{mediumBG}{RGB}{255,250,240}         % Fondo problema medio
+\definecolor{mediumBorder}{RGB}{245,240,230}     % Borde problema medio
+\definecolor{hardBG}{RGB}{255,240,245}           % Fondo problema difícil
+\definecolor{hardBorder}{RGB}{245,230,235}       % Borde problema difícil
+\definecolor{exerciseBG}{RGB}{248,248,255}       % Fondo ejercicio
+\definecolor{exerciseBorder}{RGB}{238,238,245}   % Borde ejercicio
+
+
+%%% CONFIGURACIÓN DE ESTILOS TEOREMAS
+\mdfdefinestyle{theoremstyle}{
+    linecolor=theoremBorder,
+    linewidth=0.3pt,
+    backgroundcolor=theoremBG!30,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{definitionstyle}{
+    linecolor=definitionBorder,
+    linewidth=0.3pt,
+    backgroundcolor=definitionBG!30,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{remarkstyle}{
+    linecolor=remarkBorder,
+    linewidth=0.3pt,
+    backgroundcolor=remarkBG!30,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{easyproblemstyle}{
+    linecolor=easyBorder,
+    linewidth=0.3pt,
+    backgroundcolor=easyBG!30,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{mediumproblemstyle}{
+    linecolor=mediumBorder,
+    linewidth=0.3pt,
+    backgroundcolor=mediumBG!30,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{hardproblemstyle}{
+    linecolor=hardBorder,
+    linewidth=0.3pt,
+    backgroundcolor=hardBG!30,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{exercisestyle}{
+    linecolor=exerciseBorder,
+    linewidth=0.3pt,
+    backgroundcolor=exerciseBG!30,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+%%% DEFINICIÓN DE TEOREMAS
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem{lemma}[theorem]{Lema}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[section]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Observación}
+
+\newtheorem{example}{Ejemplo}[section]
+\newtheorem{easyproblem}{Problema}[section]
+\newtheorem{mediumproblem}{Problema}[section]
+\newtheorem{hardproblem}{Problema}[section]
+\newtheorem{exercise}{Ejercicio}[section]
+
+%%% APLICAR ESTILOS A LOS TEOREMAS
+\surroundwithmdframed[style=theoremstyle]{theorem}
+\surroundwithmdframed[style=theoremstyle]{corollary}
+\surroundwithmdframed[style=theoremstyle]{lemma}
+\surroundwithmdframed[style=definitionstyle]{definition}
+\surroundwithmdframed[style=remarkstyle]{remark}
+\surroundwithmdframed[style=theoremstyle]{example}
+\surroundwithmdframed[style=easyproblemstyle]{easyproblem}
+\surroundwithmdframed[style=mediumproblemstyle]{mediumproblem}
+\surroundwithmdframed[style=hardproblemstyle]{hardproblem}
+\surroundwithmdframed[style=exercisestyle]{exercise}
+
+%%% ESTILO PARA DEMOSTRACIONES
+\renewenvironment{proof}[1][\proofname]
+    {\par\noindent\textit{#1.}\space}
+    {\hfill$\square$\par\vspace{\baselineskip}}
 
 %%% LENGUAJES DE PROGRAMACIÓN
 \usepackage{verbatim}
@@ -39,15 +181,6 @@
 
 % Creative commons
 \usepackage[scale=1.5]{ccicons}
-
-
-
-%%% TIPOGRAFÍA Y LENGUAJE
-\usepackage[T1]{fontenc}        
-\usepackage[utf8]{inputenc}    
-\usepackage{lmodern}
-\usepackage[spanish, es-noshorthands]{babel}
-\usepackage{textcomp}
 
 %%% ESTILO DE REFERENCIAS
 \usepackage{natbib}
@@ -240,95 +373,6 @@ In [1]: logstart historia.py
 % Espacio de líneas.
 \linespread{1.2}
 \usepackage{xspace} %Espacios después de los comandos.
-
-
-% Estilo de los teoremas, definiciones, notas, etc.
-%% Teoremas:
-\newtheorem{theorem}{Teorema}[section]
-\newtheorem{corollary}{Corolario}[theorem]
-\newtheorem{lemma}[theorem]{Lema}
-
-%% Definiciones:
-\theoremstyle{definition}
-\newtheorem{definition}{Definición}[section]
-
-%% Observaciones:
-\theoremstyle{remark}
-\newtheorem*{remark}{Observación}
-
-%% Ejemplos:
-\newtheorem{example}{Ejemplo}[section]
-
-%% Problemas fáciles:
-\newtheoremstyle{easyproblem} % Name of the style to be used
-{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
-{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
-{\color{blue}} % Name of font to use in the body of the theorem
-{0pt} % Measure of space to indent
-{\bfseries} % Name of head font
-{.} % Punctuation between head and body
-{ } % Space after theorem head; " " = normal interword space
-{\thmname{#1}\thmnumber{ #2}\thmnote{(#3)}}
-
-\theoremstyle{easyproblem}
-\newtheorem{easyproblem}{Problema}[section]
-
-%% Problemas díficiles:
-\newtheoremstyle{mediumproblem} % Name of the style to be used
-{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
-{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
-{\color{orange}} % Name of font to use in the body of the theorem
-{0pt} % Measure of space to indent
-{\bfseries} % Name of head font
-{.} % Punctuation between head and body
-{ } % Space after theorem head; " " = normal interword space
-{\thmname{#1}\thmnumber{ #2}\thmnote{(#3)}}
-
-%% Problemas medios:
-\theoremstyle{mediumproblem}
-\newtheorem{mediumproblem}{Problema}[section]
-
-%% Problemas difíciles:
-\newtheoremstyle{hardproblem} % Name of the style to be used
-{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
-{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
-{\color{red}} % Name of font to use in the body of the theorem
-{0pt} % Measure of space to indent
-{\bfseries} % Name of head font
-{.} % Punctuation between head and body
-{ } % Space after theorem head; " " = normal interword space
-{\thmname{#1}\thmnumber{ #2}\thmnote{(#3)}}
-
-\theoremstyle{hardproblem}
-\newtheorem{hardproblem}{Problema}[section]
-
-%% Ejercicios:
-\newtheoremstyle{exercise} % name of the style to be used
-{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
-{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
-{} % Name of font to use in the body of the theorem
-{0pt} % Measure of space to indent
-{\bfseries} % Name of head font
-{.} % Punctuation between head and body
-{ } % Space after theorem head; " " = normal interword space
-{\thmname{#1}\thmnumber{ #2}\thmnote{ (#3)}}
-
-\theoremstyle{exercise}
-\newtheorem{exercise}{Ejercicio}[section]
-
-%% Soluciones:
-\newtheoremstyle{solution} % name of the style to be used
-{\topsep} % Measure of space to leave above the theorem. E.g.: 3pt
-{-1pt} % Measure of space to leave below the theorem. E.g.: 3pt
-{} % Name of font to use in the body of the theorem
-{0pt} % Measure of space to indent
-{} % Name of head font
-{.} % Punctuation between head and body
-{ } % Space after theorem head; " " = normal interword space
-{\emph{\thmname{#1}}\thmnote{ (#3)}}
-
-\theoremstyle{solution}
-\newtheorem*{solution}{Solución}
 
 % ARGUMENTOS VARIABLES
 \usepackage{xargs}
@@ -542,7 +586,6 @@ In [1]: logstart historia.py
 
 % Espacio entre teorema y demostración:
 \usepackage{etoolbox}
-\AtBeginEnvironment{proof}{\vspace{-1.0\baselineskip}}
 
 % Árboles
 \usepackage{qtree}

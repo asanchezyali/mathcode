@@ -5,7 +5,7 @@
 \thispagestyle{empty}
 \begin{center}
     {\Large\textbf{Elementos de programación diferenciable}} \\
-    \bigskip Alejandro Sánchez Yalí
+    \bigskip Alejandro Sánchez Yalí 
 \end{center}
 	
 \begin{section}{¿Qué es la programación diferenciable?}
@@ -77,12 +77,12 @@ Aunque la noción de continuidad parece una suposición benigna, varias funcione
     \[f(x_0 + h) = f(x_0) + o(1) \quad \text{cuando } h\to 0.\]
 \end{remark}
 
-Consideremos ahora una función $f:\RR \to \RR$. Su valor en un intervalo $[w_0, w_0 + \delta]$ puede ser aproximado por la secante entre los puntos $(w_0,f(w_0))$ y $(w_0 + \delta,f(w_0 + \delta))$ como una función lineal con pendiente $(f(w_0 + \delta) - f(w_0))/\delta$. En el límite cuando la variación $\delta$ tiende a cero alrededor de $w_0$, la secante converge a la \textbf{recta tangente} de $f$ en $w_0$, y su pendiente se define como la derivada de $f$ en $w_0$. La siguiente definición formaliza esta intuición.
+Consideremos ahora una función $f:\RR \to \RR$. Su valor en un intervalo $[w_0, w_0 + h]$ puede ser aproximado por la secante entre los puntos $(w_0,f(w_0))$ y $(w_0 + h,f(w_0 + h))$ como una función lineal con pendiente $(f(w_0 + h) - f(w_0))/h$. En el límite cuando la variación $h$ tiende a cero alrededor de $w_0$, la secante converge a la \textbf{recta tangente} de $f$ en $w_0$, y su pendiente se define como la derivada de $f$ en $w_0$. La siguiente definición formaliza esta intuición.
 
 \begin{definition}[Derivada]
     La derivada de una función $f:\RR\to \RR$ en un punto $w_0\in \RR$ se define como 
     \[
-    f'(w_0):=\lim_{\delta \to 0}\frac{f(w_0 + \delta) - f(w_0)}{\delta},
+    f'(w_0):=\lim_{h \to 0}\frac{f(w_0 + h) - f(w_0)}{h},
     \]
     siempre que este límite exista. En tal caso, diremos que $f$ es \textbf{diferenciable} en $w_0$.
 \end{definition}
