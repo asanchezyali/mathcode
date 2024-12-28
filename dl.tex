@@ -39,6 +39,7 @@ En este capítulo revisaremos los conceptos clave de la diferenciación. En part
 Para estudiar funciones, así como sus derivadas, necesitamos capturar sus variaciones infinitesimales alrededor de los puntos tal como se ha definido para la noción de límite.
 
 \begin{definition}[Límite]
+    \label{def:límite}
     Sea $f:\RR \mapsto \RR$ una función y sean $x_0,c\in \RR$. Diremos que $c$ es el límite de $f$ cuando $x$ tiende a $x_0$ si para todo $\epsilon > 0$, existe $\delta>0$ tal que para todo $x\in\RR$ que satisface $0<|x-x_0|<\delta$, se cumple que $|f(x)-c|<\epsilon$. En este caso escribimos:
     \begin{equation*}
         \lim_{x\to x_0} f(x)=c.
@@ -80,18 +81,19 @@ Aunque la noción de continuidad parece una suposición benigna, varias funcione
 Consideremos ahora una función $f:\RR \to \RR$. Su valor en un intervalo $[w_0, w_0 + h]$ puede ser aproximado por la secante entre los puntos $(w_0,f(w_0))$ y $(w_0 + h,f(w_0 + h))$ como una función lineal con pendiente $(f(w_0 + h) - f(w_0))/h$. En el límite cuando la variación $h$ tiende a cero alrededor de $w_0$, la secante converge a la \textbf{recta tangente} de $f$ en $w_0$, y su pendiente se define como la derivada de $f$ en $w_0$. La siguiente definición formaliza esta intuición.
 
 \begin{definition}[Derivada]
-    La derivada de una función $f:\RR\to \RR$ en un punto $w_0\in \RR$ se define como 
+    \label{def:derivada}
+    La derivada de una función $f:\RR\to \RR$ en un punto $x_0\in \RR$ se define como 
     \[
-    f'(w_0):=\lim_{h \to 0}\frac{f(w_0 + h) - f(w_0)}{h},
+    f'(x_0):=\lim_{h \to 0}\frac{f(x_0 + h) - f(x_0)}{h},
     \]
-    siempre que este límite exista. En tal caso, diremos que $f$ es \textbf{diferenciable} en $w_0$.
+    siempre que este límite exista. En tal caso, diremos que $f$ es \textbf{diferenciable} en $x_0$.
 \end{definition}
 
-Si $f$ es diferenciable en cualquier $w\in \RR$, diremos que es \textbf{diferenciable en todas partes}. Si $f$ es diferenciable en un $w_0$ dado, entonces es necesariamente continua en $w_0$ como veremos en la siguiente proposición. Sin embargo continuidad no implica diferenciable por es ilustrado por la función de Kink.
+Si $f$ es diferenciable en cualquier $x\in \RR$, diremos que es \textbf{diferenciable en todas partes}. Si $f$ es diferenciable en un $x_0$ dado, entonces es necesariamente continua en $x_0$ como veremos en la siguiente proposición. Sin embargo continuidad no implica diferenciable como se ilustra con función de Kink.
 
 \begin{theorem}[Diferenciabilidad implica continuidad]
 Si $f:\RR\to \RR$ es diferenciable en $x_0\in \RR$, entonces es continua en $x_0\in\RR$.
-\end{theorem}
+
 \begin{proof}
 Como $f$ es diferenciable en $x_0$, existe el límite
 \[
@@ -111,9 +113,47 @@ ya que $\lim_{h\to 0}h = 0$ y $\lim_{h\to 0}r(h) = 0$. Por lo tanto,
 \]
 es decir, $f$ es continua en $x_0$.
 \end{proof}
+\end{theorem}
+
+La derivada nos permitir construir una aproximación lineal de una función $f$ en una vecindad de $x_0$, ya que representa la pendiente de la recta tangente de $f$ en $x_0$. Por otro lado, también nos da información sobre la \textbf{monotonicidad} de $f$ alrededor de $x_0$. 
+
+Si $f'(x_0)$ es positiva, la función es creciente alrededor de $x_0$. Si $f'(x_0)$ es negativa, la función es decreciente. Esta propiedad puede aprovecharse para desarrollar algoritmos iterativos minimicen $f$, generando una sucesión de valores de la forma $x_{t+1} = x_t - \gamma f'(x_t)$ para $\gamma > 0$, donde $t$ representa el número de iteración. Estos valores se desplazan siguiendo las direcciones de $f$ alrededor de $x_t$.
+
+Para muchas funciones elementales tales como $x^n$, $e^x$, $\ln x$, $\cos x$, $\sin x$, sus derivadas se pueden calcular directamente aplicando la definición~\ref{def:derivada} como ilustraremos en el siguiente ejemplo.
+
+\begin{example}[Derivada de la función potencia] Considere la función $f(x) = x^n$ para $x \in \RR$, $n\in \NN\setminus \{0\}$. Para cualquier $h\in \RR$, tenemos:
+\begin{align*}
+    \frac{f(x + h) - f(x)}{h} &= \frac{(x + h)^n - x^n}{h} \\
+    &= \frac{\sum_{k=0}^{n}\binom{n}{k}h^k x^{n-k} - x^n}{h} \\
+    &= \sum_{k=1}^n \binom{n}{k}h^{k-1}x^{n-k}\\
+    &= \binom{n}{1}x^{n-1} + \sum_{k=2}^{n}\binom{n}{k}h^{k-1}x^{n-k},
+\end{align*}
+en donde, en la segunda linea, usamos el teorema del binomio. Dado que:
+\begin{equation*}
+\binom{n}{1} = n \text{ y } \lim_{h\to 0} \sum_{k=2}^{n}\binom{n}{k}h^{k-1}x^{n-k} = 0,
+\end{equation*}
+obtenemos que $f'(x) = nx^{n-1}$. 
+\end{example}
+\begin{remark}[Funciones definidas en un subconjunto $U\subset \RR$]
+Si bien la definición de derivada se presentó inicialmente para funciones definidas en todo $\RR$, esta puede extenderse naturalmente a funciones $f:U\subset \RR \to \RR$ definidas en un subconjunto $U$ de los números reales (como es el caso de $f(x)=\sqrt{x}$ definida sobre $\RR^{+}$).
+Para $x\in U$, la derivada de $f$ en $x$ viene dada por el límite de la definición~\ref{def:límite}, siempre que $f$ esté bien definida en una vecindad de $x$. Es decir, debe existir $r > 0$ tal que $x + \epsilon \in U$ para todo $|\epsilon| \leq r$.
+Decimos que $f$ es \textbf{diferenciable en todas partes} si es diferenciable en cada punto $x$ del \textbf{interior} de $U$, donde el interior es el conjunto de puntos $x\in U$ tales que existe $r > 0$ con ${x + \epsilon: |\epsilon|\leq r}\subseteq U$.
+Para los puntos ubicados en la frontera de $U$ (como $a$ y $b$ cuando $U=[a,b)$), se pueden definir las derivadas laterales: la derivada por derecha en $a$ y la derivada por izquierda en $b$, tomando los límites correspondientes al acercarnos a estos puntos desde el interior del intervalo.
+\end{remark}
+Para una $x\in \RR$ y dos funciones $f:\RR \to \RR$ y $g:\RR\to \RR$, la derivada de operaciones elementales entre $f$ y $g$ tales como sumas, productos o composiciones pueden ser fácilmente derivadas de la definición~\ref{def:derivada}, bajos las condiciones apropiadas de diferenciabilidad para $f$ y $g$ en $x_0$. Por ejemplo, si la derivada de $f$ y $f$ existen en $x_0$ entonces la derivada de su suma, $(af+bg)(x)$ o de su producto, $(fg)(x)$, existen y vienen dadas por:
+
+\begin{enumerate}
+    \item \textbf{Linealidad:} $(af + bg)'(x) = af'(x) + b g'(x)$, $\forall a, b \in \RR,$
+    \item \textbf{Regla del producto:} $(fg)'(x) = f'(x)g(x) + f(x)g'(x)$, $\forall a, b \in \RR.$
+\end{enumerate}
+donde $(af + bg)(x) = af(x) + bg(x)$ y $(fg)(x) = f(x)g(x)$.
+
 
 \end{subsubsection}
 \end{subsection}
 \end{section}
 
+\nocite{deisenroth2020mathematics}
+\bibliographystyle{plainnat}
+\bibliography{core/References}
 \end{document}
