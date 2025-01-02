@@ -40,84 +40,84 @@ Para estudiar funciones, así como sus derivadas, necesitamos capturar sus varia
 
 \begin{definition}[Límite]
     \label{def:límite}
-    Sea $f:\RR \mapsto \RR$ una función y sean $x_0,c\in \RR$. Diremos que $c$ es el límite de $f$ cuando $x$ tiende a $x_0$ si para todo $\epsilon > 0$, existe $\delta>0$ tal que para todo $x\in\RR$ que satisface $0<|x-x_0|<\delta$, se cumple que $|f(x)-c|<\epsilon$. En este caso escribimos:
+    Sea $f:\RR \mapsto \RR$ una función y sean $x_{_0},c\in \RR$. Diremos que $c$ es el límite de $f$ cuando $x$ tiende a $x_{_0}$ si para todo $\epsilon > 0$, existe $\delta>0$ tal que para todo $x\in\RR$ que satisface $0<|x-x_{_0}|<\delta$, se cumple que $|f(x)-c|<\epsilon$. En este caso escribimos:
     \begin{equation*}
-        \lim_{x\to x_0} f(x)=c.
+        \lim_{x\to x_{_0}} f(x)=c.
     \end{equation*}
 \end{definition}
 
 Los límites se preservan bajo operaciones algebraicas básicas. En efecto, si tenemos $f,g:\RR \to \RR$ y suponemos que existen los límites
-\[\lim_{x\to x_0}f(x) = c \quad \text{y} \quad \lim_{x\to x_0}g(x)=d.\]
+\[\lim_{x\to x_{_0}}f(x) = c \quad \text{y} \quad \lim_{x\to x_{_0}}g(x)=d.\]
 
 Entonces, para cualesquiera $a,b\in \RR$:
 
 \begin{enumerate}
     \item \textbf{Linealidad:} Si definimos $(af + bg)(x) := af(x) + bg(x)$, entonces
-    \[\lim_{x\to x_0} (af+bg)(x) = ac + bd\]
+    \[\lim_{x\to x_{_0}} (af+bg)(x) = ac + bd\]
     
     \item \textbf{Multiplicación:} Si definimos $(fg)(x):= f(x)g(x)$, entonces
-    \[\lim_{x\to x_0} (fg)(x) = cd.\]
+    \[\lim_{x\to x_{_0}} (fg)(x) = cd.\]
 \end{enumerate}
 
 Con la noción de límite, podemos definir la clase de funciones que presentan un comportamiento regular, es decir, aquellas funciones donde el límite en cualquier punto coincide con el valor de la función evaluada en ese punto. Esta propiedad fundamental se conoce como \textbf{continuidad}.
 
 \begin{definition}[Funciones continuas] 
-    Una función $f:\RR\to\RR$ es continua en un punto $x_0\in \RR$ si
-    \[\lim_{x\to x_0}f(x) = f(x_0).\]
-    Además, diremos que $f$ es continua (globalmente) si es continua en todo punto $x_0\in \RR$.
+    Una función $f:\RR\to\RR$ es continua en un punto $x_{_0}\in \RR$ si
+    \[\lim_{x\to x_{_0}}f(x) = f(x_{_0}).\]
+    Además, diremos que $f$ es continua (globalmente) si es continua en todo punto $x_{_0}\in \RR$.
 \end{definition}
 
 Aunque la noción de continuidad parece una suposición benigna, varias funciones sencillas, como la función escalón de Heavyside, no son continuas y requiren un tratamiento especial. 
 
 \begin{remark}[Notación de Landau]
-    A lo largo de este texto usaremos la notación \emph{o} pequeña de Landau. Para dos funciones $f,g:\RR\to\RR$, escribiremos $g(x) = o(f(x))$ cuando $x\to x_0$ si
+    A lo largo de este texto usaremos la notación \emph{o} pequeña de Landau. Para dos funciones $f,g:\RR\to\RR$, escribiremos $g(x) = o(f(x))$ cuando $x\to x_{_0}$ si
     \[
-    \lim_{x\to x_0} \frac{|g(x)|}{|f(x)|} = 0.
+    \lim_{x\to x_{_0}} \frac{|g(x)|}{|f(x)|} = 0.
     \]
-    Intuitivamente, esto significa que $g$ es asintóticamente dominada por $f$ cuando $x\to x_0$. Como caso particular, podemos caracterizar la continuidad de una función $f$ en un punto $x_0$ mediante esta notación: $f$ es continua en $x_0$ si y solo si 
-    \[f(x_0 + h) = f(x_0) + o(1) \quad \text{cuando } h\to 0.\]
+    Intuitivamente, esto significa que $g$ es asintóticamente dominada por $f$ cuando $x\to x_{_0}$. Como caso particular, podemos caracterizar la continuidad de una función $f$ en un punto $x_{_0}$ mediante esta notación: $f$ es continua en $x_{_0}$ si y solo si 
+    \[f(x_{_0} + h) = f(x_{_0}) + o(1) \quad \text{cuando } h\to 0.\]
 \end{remark}
 
-Consideremos ahora una función $f:\RR \to \RR$. Su valor en un intervalo $[w_0, w_0 + h]$ puede ser aproximado por la secante entre los puntos $(w_0,f(w_0))$ y $(w_0 + h,f(w_0 + h))$ como una función lineal con pendiente $(f(w_0 + h) - f(w_0))/h$. En el límite cuando la variación $h$ tiende a cero alrededor de $w_0$, la secante converge a la \textbf{recta tangente} de $f$ en $w_0$, y su pendiente se define como la derivada de $f$ en $w_0$. La siguiente definición formaliza esta intuición.
+Consideremos ahora una función $f:\RR \to \RR$. Su valor en un intervalo $[x_{_0}, x_{_0} + h]$ puede ser aproximado por la secante entre los puntos $(x_{_0},f(x_{_0}))$ y $(x_{_0} + h,f(x_{_0} + h))$ como una función lineal con pendiente $(f(x_{_0} + h) - f(x_{_0}))/h$. En el límite cuando la variación $h$ tiende a cero alrededor de $x_{_0}$, la secante converge a la \textbf{recta tangente} de $f$ en $x_{_0}$, y su pendiente se define como la derivada de $f$ en $x_{_0}$. La siguiente definición formaliza esta intuición.
 
 \begin{definition}[Derivada]
     \label{def:derivada}
-    La derivada de una función $f:\RR\to \RR$ en un punto $x_0\in \RR$ se define como 
+    La derivada de una función $f:\RR\to \RR$ en un punto $x_{_0}\in \RR$ se define como 
     \[
-    f'(x_0):=\lim_{h \to 0}\frac{f(x_0 + h) - f(x_0)}{h},
+    f'(x_{_0}):=\lim_{h \to 0}\frac{f(x_{_0} + h) - f(x_{_0})}{h},
     \]
-    siempre que este límite exista. En tal caso, diremos que $f$ es \textbf{diferenciable} en $x_0$.
+    siempre que este límite exista. En tal caso, diremos que $f$ es \textbf{diferenciable} en $x_{_0}$.
 \end{definition}
 
-Si $f$ es diferenciable en cualquier $x\in \RR$, diremos que es \textbf{diferenciable en todas partes}. Si $f$ es diferenciable en un $x_0$ dado, entonces es necesariamente continua en $x_0$ como veremos en la siguiente proposición. Sin embargo continuidad no implica diferenciable como se ilustra con función de Kink.
+Si $f$ es diferenciable en cualquier $x\in \RR$, diremos que es \textbf{diferenciable en todas partes}. Si $f$ es diferenciable en un $x_{_0}$ dado, entonces es necesariamente continua en $x_{_0}$ como veremos en la siguiente proposición. Sin embargo continuidad no implica diferenciable como se ilustra con función de Kink.
 
 \begin{theorem}[Diferenciabilidad implica continuidad]
-Si $f:\RR\to \RR$ es diferenciable en $x_0\in \RR$, entonces es continua en $x_0\in\RR$.
+Si $f:\RR\to \RR$ es diferenciable en $x_{_0}\in \RR$, entonces es continua en $x_{_0}\in\RR$.
 
 \begin{proof}
-Como $f$ es diferenciable en $x_0$, existe el límite
+Como $f$ es diferenciable en $x_{_0}$, existe el límite
 \[
-f'(x_0) = \lim_{h\to 0}\frac{f(x_0 + h) - f(x_0)}{h}.
+f'(x_{_0}) = \lim_{h\to 0}\frac{f(x_{_0} + h) - f(x_{_0})}{h}.
 \]
 Por lo tanto, podemos escribir la diferencia como
 \[
-f(x_0 + h) - f(x_0) = f'(x_0)h + r(h),
+f(x_{_0} + h) - f(x_{_0}) = f'(x_{_0})h + r(h),
 \]
 donde $r(h)$ es un término residual que satisface $r(h) = o(h)$ cuando $h\to 0$. En particular,
 \[
-\lim_{h\to 0}[f(x_0 + h) - f(x_0)] = \lim_{h\to 0}[f'(x_0)h + r(h)] = 0,
+\lim_{h\to 0}[f(x_{_0} + h) - f(x_{_0})] = \lim_{h\to 0}[f'(x_{_0})h + r(h)] = 0,
 \]
 ya que $\lim_{h\to 0}h = 0$ y $\lim_{h\to 0}r(h) = 0$. Por lo tanto,
 \[
-\lim_{h\to 0}f(x_0 + h) = f(x_0),
+\lim_{h\to 0}f(x_{_0} + h) = f(x_{_0}),
 \]
-es decir, $f$ es continua en $x_0$.
+es decir, $f$ es continua en $x_{_0}$.
 \end{proof}
 \end{theorem}
 
-La derivada nos permitir construir una aproximación lineal de una función $f$ en una vecindad de $x_0$, ya que representa la pendiente de la recta tangente de $f$ en $x_0$. Por otro lado, también nos da información sobre la \textbf{monotonicidad} de $f$ alrededor de $x_0$. 
+La derivada nos permitir construir una aproximación lineal de una función $f$ en una vecindad de $x_{_0}$, ya que representa la pendiente de la recta tangente de $f$ en $x_{_0}$. Por otro lado, también nos da información sobre la \textbf{monotonicidad} de $f$ alrededor de $x_{_0}$. 
 
-Si $f'(x_0)$ es positiva, la función es creciente alrededor de $x_0$. Si $f'(x_0)$ es negativa, la función es decreciente. Esta propiedad puede aprovecharse para desarrollar algoritmos iterativos minimicen $f$, generando una sucesión de valores de la forma $x_{t+1} = x_t - \gamma f'(x_t)$ para $\gamma > 0$, donde $t$ representa el número de iteración. Estos valores se desplazan siguiendo las direcciones de $f$ alrededor de $x_t$.
+Si $f'(x_{_0})$ es positiva, la función es creciente alrededor de $x_{_0}$. Si $f'(x_{_0})$ es negativa, la función es decreciente. Esta propiedad puede aprovecharse para desarrollar algoritmos iterativos minimicen $f$, generando una sucesión de valores de la forma $x_{t+1} = x_t - \gamma f'(x_t)$ para $\gamma > 0$, donde $t$ representa el número de iteración. Estos valores se desplazan siguiendo las direcciones de $f$ alrededor de $x_t$.
 
 Para muchas funciones elementales tales como $x^n$, $e^x$, $\ln x$, $\cos x$, $\sin x$, sus derivadas se pueden calcular directamente aplicando la definición~\ref{def:derivada} como ilustraremos en el siguiente ejemplo.
 
@@ -141,28 +141,28 @@ Decimos que $f$ es \textbf{diferenciable en todas partes} si es diferenciable en
 Para los puntos ubicados en la frontera de $U$ (como $a$ y $b$ cuando $U=[a,b)$), se pueden definir las derivadas laterales: la derivada por derecha en $a$ y la derivada por izquierda en $b$, tomando los límites correspondientes al acercarnos a estos puntos desde el interior del intervalo.
 \end{remark}
 
-Para $x_0\in \RR$ y funciones $f,g:\RR \to \RR$ diferenciables en $x_0$, entonces:
+Para $x_{_0}\in \RR$ y funciones $f,g:\RR \to \RR$ diferenciables en $x_{_0}$, entonces:
 \begin{itemize}
-\item \textbf{Linealidad:} $(af + bg)'(x_0) = af'(x_0) + b g'(x_0)$, $a,b \in \RR$
-\item \textbf{Regla del producto:} $(fg)'(x_0) = f'(x_0)g(x_0) + f(x_0)g'(x_0)$
+\item \textbf{Linealidad:} $(af + bg)'(x_{_0}) = af'(x_{_0}) + b g'(x_{_0})$, $a,b \in \RR$
+\item \textbf{Regla del producto:} $(fg)'(x_{_0}) = f'(x_{_0})g(x_{_0}) + f(x_{_0})g'(x_{_0})$
 \end{itemize}
 La linealidad se deriva directamente de la definición de derivada y las propiedades de límites. Para la regla del producto, usando notación $o(h)$:
 
 \begin{align*}
-    (fg)(x_0 + h) &= f(x_0 + h)g(x_0 + h) \\
-    &= \big(f(x_0) + f'(x_0)h + o(h)\big)\big(g(x_0) + g'(x_0)h + o(h)\big) \\
-    &= f(x_0)g(x_0) + f'(x_0)g(x_0)h + f(x_0)g'(x_0)h + o(h), 
+    (fg)(x_{_0} + h) &= f(x_{_0} + h)g(x_{_0} + h) \\
+    &= \big(f(x_{_0}) + f'(x_{_0})h + o(h)\big)\big(g(x_{_0}) + g'(x_{_0})h + o(h)\big) \\
+    &= f(x_{_0})g(x_{_0}) + f'(x_{_0})g(x_{_0})h + f(x_{_0})g'(x_{_0})h + o(h), 
 \end{align*}
 
 de donde se deduce que:
 
 \begin{equation*}
-    \frac{(fg)(x_0 + h) - f(x_0)g(x_0) }{ h} = f'(x_0)g(x_0) + f(x_0)g'(x_0) + \frac{o(h)}{h}.
+    \frac{(fg)(x_{_0} + h) - f(x_{_0})g(x_{_0}) }{ h} = f'(x_{_0})g(x_{_0}) + f(x_{_0})g'(x_{_0}) + \frac{o(h)}{h}.
 \end{equation*}
 
-Si $g$ es diferenciable en $x_0$ y $f$ es diferenciable en $g(x_0)$, entonces:
+Si $g$ es diferenciable en $x_{_0}$ y $f$ es diferenciable en $g(x_{_0})$, entonces:
 \begin{itemize}
-\item \textbf{Regla de la cadena:} $(f\circ g)'(x_0) = f'\big(g(x_0)\big)g'(x_0)$.
+\item \textbf{Regla de la cadena:} $(f\circ g)'(x_{_0}) = f'\big(g(x_{_0})\big)g'(x_{_0})$.
 \end{itemize}
 Como hemos visto, la linealidad y la regla del producto son subproductos de la regla de la cadena, siendo esta última fundamental para la diferenciabilidad.
 
@@ -206,8 +206,74 @@ La capacidad de la notación de Leibniz para capturar la regla de la cadena como
 \end{subsection}
 \begin{subsection}{Funciones multivariadas}
 \begin{subsubsection}{Derivada direccional}
-    
+Consideremos ahora una función $f:\RR^m\to \RR$ con $\pmb{x} = \points{x}[m] \in \RR^m$. La mayoría de la ejemplos importantes en aprendizaje computacional es una función en la cual $\pmb{x}\in \RR^n$ son los parámetros de una red neuronal, asociados a una función de perdida con valores en $\RR$. la variaciones de $f$ necesitan ser definidas a través de direcciones específicas, como por ejemplo la variación $f(\pmb{x} + h\pmb{v}) - f(\pmb{x})$ de $f$ alrededor de $\pmb{x}\in \RR^m$ en la dirección de $\pmb{v}\in \RR^m$ por una cantidad $h>0$. Esta consideración nos conduce a la definición de derivada direccional. 
+
+\begin{definition}[Derivada direccional]
+La \textbf{derivada direccional} de $f$ en $\pmb{x}$ en la dirección $\pmb{v}$ esta dada por: 
+\begin{equation*}
+    \partial f(\pmb{x})[\pmb{v}]:=\lim_{h\to 0}\frac{f(\pmb{x} + h\pmb{v}) - f(\pmb{v})}{h},
+\end{equation*}
+siempre que la derivada exista.
+\end{definition}
+
+Un ejemplo de derivada direccional consiste en calcular la derivada de la función $f$ en $\pmb{x}$ en cualquiera de las direcciones canónicas
+
+\begin{equation*}
+    \pmb{e}_{_i} := (0, \dots, \underbrace{1}_{i}, 0, \dots, 0).
+\end{equation*}
+Esto nos permite definir la noción de \textbf{derivadas parciales}, denotada para $i\in [0, m]_{\ZZ}$
+
+\begin{equation*}
+    \partial_{x_i} f(\pmb{x}) := \partial f(\pmb{x})[\pmb{e}_i] = \lim_{h\to 0}\frac{f(\pmb{x} + h\pmb{e}_i) - f(\pmb{x})}{h}.
+\end{equation*}
+
+Al moverse solamente a los largo de la coordenada $i$ - ésima de la función, la derivada parcial es similar a usar la función $\psi(x_{_i}) = f(x_{_1}, \dots, x_{_i}, \dots, x_{_m})$ alrededor de $x_{_1}$, manteniendo todas las demás coordenadas fijas en sus valores $x_{_i}$.
 \end{subsubsection}
+\begin{subsubsection}{Gradientes}
+Ahora introduciremos el vector gradiente, el cual reune a todas las derivadas parciales. Recordemos primero las definiciones de transformación lineal y forma lineal.
+
+\begin{definition}[Transformación lineal, formal lineal] Una función $L: \RR^m \to \RR^n$ es una \textbf{transformación lineal} si para cualquier $a, b \in \RR$ y $\pmb{u}, \pmb{v} \in \RR^m$,
+
+\begin{equation*}
+    L(a\pmb{u} + b\pmb{v}) = aL(\pmb{u}) + bL(\pmb{v}).
+\end{equation*}
+
+Una transformación lineal con valores en $\RR$, $L:\RR^m \to \RR$, se le conoce como \textbf{forma lineal}.    
+\end{definition}
+
+La linealidad juega un rol crucial en la diferenciabilidad de una función.
+
+\begin{definition}[Derivada de una función $f:\RR^m \to \RR$]. Una función $f:\RR^m \to \RR$ es diferenciable en $\pmb{x} \in \RR^m$ si las derivadas direccionales esta definidas en cualquier dirección, son lineales en cualquier dirección y se cumple que 
+
+\begin{equation*}
+    \lim_{||\pmb{v}||_{2}\to 0} \frac{|f(\pmb{x} + \pmb{v}) - f(\pmb{v}) - \partial f(\pmb{x})[\pmb{v}]|}{||\pmb{v}||_{2}} = 0.
+\end{equation*}
+\end{definition}
+A continuación introducimos la idea de gradiente.
+
+\begin{definition}[Gradiente] El \textbf{gradiente} de una función diferenciable $f:\RR^m \to \RR$ en un punto $\pmb{x}\in \RR^m$ es definido como el vector de derivadas parciales
+
+\begin{equation*}
+    \nabla f(\pmb{x}):=\begin{bmatrix}
+        \partial_{x_1}f(\pmb{x})\\
+        \vdots\\
+        \partial_{x_m}f(\pmb{x})
+    \end{bmatrix}=\begin{bmatrix}
+        \partial f(\pmb{x})[\pmb{e}_{_1}]\\
+        \vdots\\
+        \partial f(\pmb{x})[\pmb{e}_{_m}]
+    \end{bmatrix}
+\end{equation*}
+En virtud de la linealidad, la derivada direccional de $f$ en $\pmb{x}$ en la dirección de $\displaystyle \pmb{v} = \sum_{i=1}^m v_{_i}\pmb{e}_{_i}$ está dada por
+\begin{equation*}
+    \partial f(\pmb{x})[\pmb{v}] = \sum_{i=1}^m v_{_i}\partial f(\pmb{x})[\pmb{e}_{_i}] = \langle \pmb{v}, \nabla f(\pmb{x})\rangle.
+\end{equation*}
+\end{definition}
+Aquí, $\langle \cdot , \cdot \rangle$ denota el producto interno.
+
+En la definición anterior, el hecho de poder usar el gradiente para calcular la derivada direccional, es consecuencia de la linealidad. Sin embargo, para casos más abstractos, el gradiente se define a través de esta propiedad.
+\end{subsubsection}
+
     
 \end{subsection}
 \end{section}
