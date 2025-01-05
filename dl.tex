@@ -243,11 +243,14 @@ Una transformación lineal con valores en $\RR$, $L:\RR^m \to \RR$, se le conoce
 
 La linealidad juega un rol crucial en la diferenciabilidad de una función.
 
-\begin{definition}[Derivada de una función $f:\RR^m \to \RR$]. Una función $f:\RR^m \to \RR$ es diferenciable en $\pmb{x} \in \RR^m$ si las derivadas direccionales esta definidas en cualquier dirección, son lineales en cualquier dirección y se cumple que 
+\begin{definition}[Derivada de una función $f:\RR^m \to \RR$]. 
+\label{def:derivada_multivariada}
+Una función $f:\RR^m \to \RR$ es diferenciable en $\pmb{x} \in \RR^m$ si las derivadas direccionales esta definidas en cualquier dirección, son lineales en cualquier dirección y se cumple que 
 
 \begin{equation*}
     \lim_{||\pmb{v}||_{2}\to 0} \frac{|f(\pmb{x} + \pmb{v}) - f(\pmb{v}) - \partial f(\pmb{x})[\pmb{v}]|}{||\pmb{v}||_{2}} = 0.
 \end{equation*}
+\label{}
 \end{definition}
 A continuación introducimos la idea de gradiente.
 
@@ -272,9 +275,34 @@ En virtud de la linealidad, la derivada direccional de $f$ en $\pmb{x}$ en la di
 Aquí, $\langle \cdot , \cdot \rangle$ denota el producto interno.
 
 En la definición anterior, el hecho de poder usar el gradiente para calcular la derivada direccional, es consecuencia de la linealidad. Sin embargo, para casos más abstractos, el gradiente se define a través de esta propiedad.
-\end{subsubsection}
 
+Un ejemplo, cualquier transformación lineal de la forma $\displaystyle f(\pmb{x})=\langle \pmb{a}, \pmb{x}\rangle = \sum_{i=1}^m a_i x_i$ es diferenciable, efecto tenemos que
+
+\begin{equation*}
+    \lim_{||\pmb{v}||_2\to 0} \frac{\langle \pmb{a}, \pmb{x} + \pmb{v}\rangle - \langle \pmb{a}, \pmb{x}\rangle - \langle \pmb{a}, \pmb{v}\rangle}{||v||_2} = 0.
+\end{equation*}
+
+De donde se concluye que $\nabla f(\pmb{x}) = \pmb{a}.$
+
+Generalmente, para mostrar que una función es diferenciable y calcular su gradiente, un enfoque es aproximarse a $f(\pmb{x} + \pmb{v})$ alrededor de $\pmb{v} = 0$. Si podemos encontrar un vector $\pmb{g}$ tal que
+
+\begin{equation*}
+    f(\pmb{x} + \pmb{v}) = f(\pmb{x}) + \langle \pmb{g}, \pmb{v}\rangle + o(||\pmb{v}||_2),
+\end{equation*}
+
+entonces $f$ es diferenciable en $\pmb{x}$ dado que $\langle \pmb{g}, \cdot \rangle$ es lineal. Por lo tanto, $\pmb{g}$ sería el gradiente de $f$ en $\pmb{x}$.
+
+\begin{remark}[Funciones diferenciables de Gateux y Fréchet] Existen diferentes definiciones de diferenciabilidad. Una de ellas es la definición~\ref{def:derivada_multivariada} de \textbf{diferenciabilidad de Fréchet}. Alternativamente, si $f:\RR^m\to \RR$ tiene derivadas direccionales bien definidas a través de todas las direcciones entonces se dice que la función es \textbf{diferenciable de Gateaux}. Observe que el la existencia de las derivadas direccionales en cualquiera de sus direcciones no es condición suficiente para que la función sea diferenciable. En otras palabras, cualquier función diferenciable en el sentido de Fréchet en diferenciable en el sentido de Gateaux, en el sentido inverso no es verdad. Como contrajemplo, una puede verificar que la función $f(x_{_1}, x_{_2}) = \frac{x_{_1}^3}{x_{_1}^2 + x_{_2}^3}$ es Gateaux diferenciable pero no lo es Fréchet diferenciable en 0 (porque la derivada direcional no es lineal en 0).
+
+Algunos autores también exigen que las funciones diferenciables de Gateaux tengan derivadas lineales direccionales a lo largo de cualquier dirección. Estas funciones aún no son funciones diferenciables  de Fréchet. De hecho, el límite de la definición~\ref{def:derivada_multivariada} es sobre cualquier vector que tienda a 0 (potencialmente de forma patológica), mientras las derivadas direccionales consideran tales límites exclusivamente en términos de una única dirección.
+
+En el resto del capítulo, todas las definiciones de diferenciabilidad se basan en la diferenciabilidad en el sentido de Fréchet. En el siguiente ejemplo se ilustra cómo calcular el gradiente de la perdida logística y validad sus diferenciabilidad. 
+\end{remark}
+
+\begin{example}[Gradiente de la perdida logística]
     
+\end{example}
+\end{subsubsection}    
 \end{subsection}
 \end{section}
 
