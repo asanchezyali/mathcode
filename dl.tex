@@ -299,8 +299,28 @@ Algunos autores también exigen que las funciones diferenciables de Gateaux teng
 En el resto del capítulo, todas las definiciones de diferenciabilidad se basan en la diferenciabilidad en el sentido de Fréchet. En el siguiente ejemplo se ilustra cómo calcular el gradiente de la perdida logística y validad sus diferenciabilidad. 
 \end{remark}
 
-\begin{example}[Gradiente de la perdida logística]
-    
+\begin{example}[Gradiente de la pérdida logística]
+Consideremos la función de pérdida logística 
+\begin{equation*}
+    l(\pmb{\theta},\pmb{y}):= -\langle \pmb{y}, \pmb{\theta}\rangle + \log \sum_{i=1}^M \exp(\theta_{_i}),
+\end{equation*}
+que mide el error en las predicciones de los logits $\pmb{\theta}\in \mathbb{R}$ para la etiqueta correcta $\pmb{y}\in \{\pmb{e}_{_1},\dots, \pmb{e}_{_M}\}$. Lo que nos permite computar el gradiente de esta función de pérdida con respecto a $\pmb{\theta}$ para un valor fijo de $\pmb{y}$, es decir, nosotros queremos calcular el gradiente de $f(\pmb{\theta}):= l(\pmb{\theta}, \pmb{y})$. Esto nos permite descomponer a $f$ como $f = l + \operatorname{logsumexp}$ con $l(\pmb{\theta}):=\langle -\pmb{y}, \pmb{\theta}\rangle$ y
+\begin{equation*}
+    \operatorname{logsumexp}(\pmb{\theta}):=\log \sum_{i=1}^M \exp(\theta_{_i}),
+\end{equation*}
+la función $\operatorname{log\text{-}sum\text{-}exp}$. La función $l$ es lineal y diferenciable con gradiente $\nabla l(\theta) = -\pmb{y}$. Nosotros por lo tanto nos focalizamos sobre $\operatorname{logsumexp}$. Denotando $\exp(\pmb{\theta}) = \big(\exp(\theta_{_1}),\dots, \exp(\theta_{_M})\big)$, usando $\exp(x) = 1 + x + o(x)$, $\log(1+x) = x + o(x)$, y denotando por $\odot$ el producto elemento a elemento, así nosotros tenemos:
+\begin{align*}
+    \operatorname{logsumexp}(\pmb{\theta} + \pmb{v}) &= \log(\langle \exp(\pmb{\theta} + \pmb{v}), \pmb{1}\rangle) \\
+    &= \log\big(\langle \exp(\pmb{\theta}) \odot \exp(\pmb{v}), \pmb{1}\rangle\big) \\
+    &= \log\big(\langle \exp(\pmb{\theta}) \odot (1 + \pmb{v} + o(\|\pmb{v}\|_{_2})), \pmb{1}\rangle\big) \\
+    &= \log\big(\langle \exp(\pmb{\theta}), \pmb{1}\rangle + \langle \exp(\pmb{\theta}), \pmb{v}\rangle + o(\|\pmb{v}\|_{_2})\big) \\
+    &=\log\big(\langle \exp(\pmb{\theta}), \pmb{1}\rangle\big) + \left\langle \frac{\exp(\pmb{\theta})}{\langle \exp(\pmb{\theta}), \pmb{1}\rangle}, \pmb{v}\right\rangle + o(\|\pmb{v}\|_{_2}),
+\end{align*}
+La anterior descomposición de $\operatorname{logsumexp}(\pmb{\theta} + \pmb{v})$ muestra que es diferenciable, y que $\nabla \operatorname{logsumexp}(\pmb{\theta}) = \operatorname{softargmax}(\pmb{\theta})$ donde,
+\begin{equation*}
+    \operatorname{softargmax}(\pmb{\theta}):= \left(\frac{\exp(\theta_{_1})}{\sum_{j=1}^M \exp(\theta_{_j})},\dots, \frac{\exp(\theta_{_M})}{\sum_{j=1}^M \exp(\theta_{_j})}\right). 
+\end{equation*}
+En total, tenemos que $\nabla f(\pmb{\theta}) = -\pmb{y} + \operatorname{softargmax}(\pmb{\theta})$.
 \end{example}
 \end{subsubsection}    
 \end{subsection}
