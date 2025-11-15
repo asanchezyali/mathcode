@@ -1,0 +1,121 @@
+name: Build LaTeX Articles
+on:
+  push:
+    paths:
+      - 'articles/**'
+      - '.github/workflows/articles.yml'
+
+jobs:
+  build_articles:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      max-parallel: 1  # Compile one at a time to avoid conflicts
+      matrix:
+        article:
+          - name: dl
+            file: dl.tex
+            pdf: dl.pdf
+            emoji: "🧠"
+          - name: ml
+            file: ml.tex
+            pdf: ml.pdf
+            emoji: "🤖"
+          - name: inferencial_statistics
+            file: inferencial_statistics.tex
+            pdf: inferencial_statistics.pdf
+            emoji: "📊"
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check for changes in ${{ matrix.article.name }}
+        id: check_changes
+        run: |
+          # Check if article file or articles directory changed
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -qE '^articles/(${{ matrix.article.file }}|core/|\.github/workflows/articles\.yml)'; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Article ${{ matrix.article.name }} or dependencies have changes"
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "Article ${{ matrix.article.name }} has no changes"
+          fi
+
+      - name: Compile ${{ matrix.article.name }}
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: articles
+          root_file: ${{ matrix.article.file }}
+          args: -pdf -file-line-error -interaction=nonstopmode
+
+      - name: Rename PDF
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          if [ -f "articles/${{ matrix.article.name }}.pdf" ]; then
+            mv "articles/${{ matrix.article.name }}.pdf" "articles/${{ matrix.article.pdf }}"
+          fi
+
+      - name: Get current date
+        id: date
+        if: steps.check_changes.outputs.changed == 'true'
+        run: echo "date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
+
+      - name: Upload PDF to pdfs branch
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+
+          # Create temporary directory for PDFs
+          mkdir -p ../pdf_temp
+
+          # Move PDF to temporary directory
+          if [ -f "articles/${{ matrix.article.pdf }}" ]; then
+            mv "articles/${{ matrix.article.pdf }}" ../pdf_temp/
+          fi
+
+          # Switch to pdfs branch with retry logic
+          if git show-ref --verify --quiet refs/remotes/origin/pdfs; then
+            # Pull latest changes to avoid conflicts
+            git fetch origin pdfs
+            git checkout pdfs
+            git pull --rebase origin pdfs || true
+          else
+            git checkout --orphan pdfs
+            git rm -rf .
+          fi
+
+          # Create articles directory if it doesn't exist
+          mkdir -p articles
+
+          # Move PDF to articles folder
+          if [ -f "../pdf_temp/${{ matrix.article.pdf }}" ]; then
+            mv ../pdf_temp/${{ matrix.article.pdf }} articles/
+            git add articles/${{ matrix.article.pdf }}
+            git commit -m "${{ matrix.article.emoji }} Update articles/${{ matrix.article.pdf }} - ${{ steps.date.outputs.date }}" || true
+
+            # Push with retry
+            for i in 1 2 3; do
+              if git push origin pdfs; then
+                break
+              fi
+              echo "Push failed, retrying in 5 seconds..."
+              sleep 5
+              git pull --rebase origin pdfs
+            done
+          fi
+
+          # Switch back to main branch
+          git checkout ${{ github.ref_name }}
+
+      - name: Upload PDF as artifact
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.article.name }}-pdf
+          path: "articles/${{ matrix.article.pdf }}"
+          if-no-files-found: warn
