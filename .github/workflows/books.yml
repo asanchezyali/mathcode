@@ -73,34 +73,43 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          # Create temporary directory for PDFs
-          mkdir -p ../pdf_temp
-
-          # Move PDF to temporary directory
-          if [ -f "${{ matrix.book.dir }}/${{ matrix.book.pdf }}" ]; then
-            mv "${{ matrix.book.dir }}/${{ matrix.book.pdf }}" ../pdf_temp/
+          # Verify PDF exists
+          if [ ! -f "${{ matrix.book.dir }}/${{ matrix.book.pdf }}" ]; then
+            echo "ERROR: PDF not found at ${{ matrix.book.dir }}/${{ matrix.book.pdf }}"
+            exit 1
           fi
 
-          # Switch to pdfs branch with retry logic
+          # Create temporary directory and copy ONLY the PDF
+          mkdir -p /tmp/pdf_upload
+          cp "${{ matrix.book.dir }}/${{ matrix.book.pdf }}" /tmp/pdf_upload/
+
+          # Switch to pdfs branch
           if git show-ref --verify --quiet refs/remotes/origin/pdfs; then
-            # Pull latest changes to avoid conflicts
             git fetch origin pdfs
             git checkout pdfs
             git pull --rebase origin pdfs || true
           else
             git checkout --orphan pdfs
-            git rm -rf .
+            git rm -rf . || true
           fi
 
-          # Move PDF back from temporary directory
-          if [ -f "../pdf_temp/${{ matrix.book.pdf }}" ]; then
-            mv ../pdf_temp/${{ matrix.book.pdf }} .
-            git add ${{ matrix.book.pdf }}
-            git commit -m "${{ matrix.book.emoji }} Update ${{ matrix.book.pdf }} - ${{ steps.date.outputs.date }}" || true
+          # Remove everything to ensure clean state
+          rm -rf * .* 2>/dev/null || true
+
+          # Copy only the PDF file
+          cp /tmp/pdf_upload/${{ matrix.book.pdf }} .
+
+          # Add and commit only if changed
+          git add ${{ matrix.book.pdf }}
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "${{ matrix.book.emoji }} Update ${{ matrix.book.pdf }} - ${{ steps.date.outputs.date }}"
 
             # Push with retry
             for i in 1 2 3; do
               if git push origin pdfs; then
+                echo "Push successful!"
                 break
               fi
               echo "Push failed, retrying in 5 seconds..."

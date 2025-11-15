@@ -75,68 +75,49 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
-          echo "Setting up PDF upload..."
-
-          # Verify PDF exists before proceeding
+          # Verify PDF exists
           if [ ! -f "articles/${{ matrix.article.pdf }}" ]; then
             echo "ERROR: PDF not found at articles/${{ matrix.article.pdf }}"
             exit 1
           fi
 
-          # Create temporary directory for PDFs
-          mkdir -p ../pdf_temp
-          echo "Created temporary directory"
+          # Create temporary directory and copy ONLY the PDF
+          mkdir -p /tmp/pdf_upload
+          cp "articles/${{ matrix.article.pdf }}" /tmp/pdf_upload/
 
-          # Copy PDF to temporary directory (use cp instead of mv to debug)
-          cp "articles/${{ matrix.article.pdf }}" ../pdf_temp/
-          echo "Copied PDF to temp directory"
-          ls -la ../pdf_temp/
-
-          # Switch to pdfs branch with retry logic
+          # Switch to pdfs branch
           if git show-ref --verify --quiet refs/remotes/origin/pdfs; then
-            echo "Fetching pdfs branch..."
             git fetch origin pdfs
             git checkout pdfs
             git pull --rebase origin pdfs || true
           else
-            echo "Creating new pdfs branch..."
             git checkout --orphan pdfs
-            git rm -rf .
+            git rm -rf . || true
           fi
 
-          # Create articles directory if it doesn't exist
+          # Create articles directory (preserve existing PDFs in root)
           mkdir -p articles
-          echo "Created/verified articles directory"
 
-          # Move PDF to articles folder
-          if [ -f "../pdf_temp/${{ matrix.article.pdf }}" ]; then
-            echo "Moving PDF to articles folder..."
-            cp ../pdf_temp/${{ matrix.article.pdf }} articles/
-            ls -la articles/
+          # Copy only the PDF file
+          cp /tmp/pdf_upload/${{ matrix.article.pdf }} articles/
 
-            git add articles/${{ matrix.article.pdf }}
-
-            # Check if there are changes to commit
-            if git diff --staged --quiet; then
-              echo "No changes to commit (PDF unchanged)"
-            else
-              git commit -m "${{ matrix.article.emoji }} Update articles/${{ matrix.article.pdf }} - ${{ steps.date.outputs.date }}"
-
-              # Push with retry
-              for i in 1 2 3; do
-                echo "Attempting push (attempt $i)..."
-                if git push origin pdfs; then
-                  echo "Push successful!"
-                  break
-                fi
-                echo "Push failed, retrying in 5 seconds..."
-                sleep 5
-                git pull --rebase origin pdfs
-              done
-            fi
+          # Add and commit only if changed
+          git add articles/${{ matrix.article.pdf }}
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
           else
-            echo "ERROR: PDF not found in temp directory"
-            exit 1
+            git commit -m "${{ matrix.article.emoji }} Update articles/${{ matrix.article.pdf }} - ${{ steps.date.outputs.date }}"
+
+            # Push with retry
+            for i in 1 2 3; do
+              if git push origin pdfs; then
+                echo "Push successful!"
+                break
+              fi
+              echo "Push failed, retrying in 5 seconds..."
+              sleep 5
+              git pull --rebase origin pdfs
+            done
           fi
 
           # Switch back to main branch
