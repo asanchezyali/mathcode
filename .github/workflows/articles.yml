@@ -52,11 +52,16 @@ jobs:
           root_file: ${{ matrix.article.file }}
           args: -pdf -file-line-error -interaction=nonstopmode
 
-      - name: Rename PDF
+      - name: Verify PDF was generated
         if: steps.check_changes.outputs.changed == 'true'
         run: |
-          if [ -f "articles/${{ matrix.article.name }}.pdf" ]; then
-            mv "articles/${{ matrix.article.name }}.pdf" "articles/${{ matrix.article.pdf }}"
+          echo "Checking for generated PDF..."
+          ls -la articles/
+          if [ -f "articles/${{ matrix.article.pdf }}" ]; then
+            echo "PDF found: articles/${{ matrix.article.pdf }}"
+          else
+            echo "PDF not found at expected location"
+            exit 1
           fi
 
       - name: Get current date
@@ -70,43 +75,68 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
 
+          echo "Setting up PDF upload..."
+
+          # Verify PDF exists before proceeding
+          if [ ! -f "articles/${{ matrix.article.pdf }}" ]; then
+            echo "ERROR: PDF not found at articles/${{ matrix.article.pdf }}"
+            exit 1
+          fi
+
           # Create temporary directory for PDFs
           mkdir -p ../pdf_temp
+          echo "Created temporary directory"
 
-          # Move PDF to temporary directory
-          if [ -f "articles/${{ matrix.article.pdf }}" ]; then
-            mv "articles/${{ matrix.article.pdf }}" ../pdf_temp/
-          fi
+          # Copy PDF to temporary directory (use cp instead of mv to debug)
+          cp "articles/${{ matrix.article.pdf }}" ../pdf_temp/
+          echo "Copied PDF to temp directory"
+          ls -la ../pdf_temp/
 
           # Switch to pdfs branch with retry logic
           if git show-ref --verify --quiet refs/remotes/origin/pdfs; then
-            # Pull latest changes to avoid conflicts
+            echo "Fetching pdfs branch..."
             git fetch origin pdfs
             git checkout pdfs
             git pull --rebase origin pdfs || true
           else
+            echo "Creating new pdfs branch..."
             git checkout --orphan pdfs
             git rm -rf .
           fi
 
           # Create articles directory if it doesn't exist
           mkdir -p articles
+          echo "Created/verified articles directory"
 
           # Move PDF to articles folder
           if [ -f "../pdf_temp/${{ matrix.article.pdf }}" ]; then
-            mv ../pdf_temp/${{ matrix.article.pdf }} articles/
-            git add articles/${{ matrix.article.pdf }}
-            git commit -m "${{ matrix.article.emoji }} Update articles/${{ matrix.article.pdf }} - ${{ steps.date.outputs.date }}" || true
+            echo "Moving PDF to articles folder..."
+            cp ../pdf_temp/${{ matrix.article.pdf }} articles/
+            ls -la articles/
 
-            # Push with retry
-            for i in 1 2 3; do
-              if git push origin pdfs; then
-                break
-              fi
-              echo "Push failed, retrying in 5 seconds..."
-              sleep 5
-              git pull --rebase origin pdfs
-            done
+            git add articles/${{ matrix.article.pdf }}
+
+            # Check if there are changes to commit
+            if git diff --staged --quiet; then
+              echo "No changes to commit (PDF unchanged)"
+            else
+              git commit -m "${{ matrix.article.emoji }} Update articles/${{ matrix.article.pdf }} - ${{ steps.date.outputs.date }}"
+
+              # Push with retry
+              for i in 1 2 3; do
+                echo "Attempting push (attempt $i)..."
+                if git push origin pdfs; then
+                  echo "Push successful!"
+                  break
+                fi
+                echo "Push failed, retrying in 5 seconds..."
+                sleep 5
+                git pull --rebase origin pdfs
+              done
+            fi
+          else
+            echo "ERROR: PDF not found in temp directory"
+            exit 1
           fi
 
           # Switch back to main branch
