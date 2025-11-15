@@ -1,0 +1,47 @@
+\chapter{Introducción}
+
+% Optional: Add an epigraph/quote at the beginning of the chapter
+\epigraph{\textit{La inteligencia es la capacidad de adaptarse al cambio.}}{Albert Einstein}
+
+\section{Preliminares}
+
+\begin{definition}[Grupo simétrico de permutaciones]
+Sea $X$ un conjunto finito de $n$ elementos. El grupo simétrico de permutaciones, denotado por $S_n$, es el conjunto de
+todas las biyecciones de $X$ sobre sí mismo con la operación de composición de funciones.
+\end{definition}
+
+\begin{definition}[Signo de una permutación]
+Sea $\sigma \in S_n$ una permutación. El signo de $\sigma$, denotado por $\text{sgn}(\sigma)$, es $1$ si $\sigma$ es par (y se puede expresar como un producto de un número par de transposiciones) y $-1$ si $\sigma$ es impar (y se puede expresar como un producto de un número impar de transposiciones).
+\end{definition}
+
+El signo de una permutación $\sigma$ se puede calcular contando el número de inversiones en la permutación. Una inversión es un par de índices $(i, j)$ con $i < j$ tal que $\sigma(i) > \sigma(j)$. Si el número total de inversiones es par, entonces $\text{sgn}(\sigma) = 1$; si es impar, entonces $\text{sgn}(\sigma) = -1$.
+
+El proceso paso a paso para determinar el signo de una permutación es el siguiente:
+\begin{enumerate}
+    \item Escribe la permutación en forma de lista, por ejemplo, $(\sigma(1), \sigma(2), \ldots, \sigma(n))$.
+    \item Para cada par de índices $i < j$, compara los valores $\sigma(i)$ y $\sigma(j)$.
+    \item Cuenta cuántos pares cumplen que $\sigma(i) > \sigma(j)$. Cada uno de estos pares es una inversión.
+    \item Si el número total de inversiones es par, la permutación es par y $\text{sgn}(\sigma) = 1$.
+    \item Si el número total de inversiones es impar, la permutación es impar y $\text{sgn}(\sigma) = -1$.
+\end{enumerate}
+
+\begin{example}[Permutaciones y su signo]
+Consideremos el conjunto $X = \{1, 2, 3\}$. Las permutaciones de $X$ son:
+\begin{itemize}
+    \item $\sigma_1 = (1, 2, 3)$ (identidad)
+    \item $\sigma_2 = (1, 3, 2)$
+    \item $\sigma_3 = (2, 1, 3)$
+    \item $\sigma_4 = (2, 3, 1)$
+    \item $\sigma_5 = (3, 1, 2)$
+    \item $\sigma_6 = (3, 2, 1)$
+\end{itemize}
+El signo de cada permutación es:
+\begin{itemize}
+    \item $\text{sgn}(\sigma_1) = 1$ (par, 0 inversiones)
+    \item $\text{sgn}(\sigma_2) = -1$ (impar, 1 inversión: $(3,2)$)
+    \item $\text{sgn}(\sigma_3) = -1$ (impar, 1 inversión: $(2,1)$)
+    \item $\text{sgn}(\sigma_4) = 1$ (par, 2 inversiones: $(2,1)$ y $(3,1)$)
+    \item $\text{sgn}(\sigma_5) = 1$ (par, 2 inversiones: $(3,1)$ y $(3,2)$)
+    \item $\text{sgn}(\sigma_6) = -1$ (impar, 3 inversiones: $(3,2)$, $(3,1)$ y $(2,1)$)
+\end{itemize}
+\end{example}

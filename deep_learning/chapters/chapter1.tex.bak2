@@ -1,0 +1,321 @@
+\chapter{¿Qué es la programación diferenciable?}
+Un \textbf{programa de computadora} consiste en una serie de instrucciones básicas que efectúan una tarea específica. En el ámbito de las ciencias computacionales, estos programas son creados por \textbf{programadores}. Sin embargo, existen tareas, especialmente aquellas que involucran patrones intricados y decisiones complejas, como el reconocimiento de imágenes o la generación de texto, donde escribir un programa tradicional resulta extremadamente difícil, sino imposible. 
+
+En contraste, las redes neuronales modernas ofrecen diferentes enfoques. Estas se construyen mediante la combinación de funciones parametrizadas y se entrenan directamente de los datos usando optimización basada en el \textbf{gradiente}. Durante este proceso de entrenamiento, las redes neuronales aprenden simultáneamente la extracción de características y la ejecución de tareas, lo que les permite desarrollar tareas complejas que antes se consideraban inalcanzables para los programas tradicionales. Este nuevo paradigma de programación  ha sido denominado como «programación diferenciable» o «software 2.0», términos que han sido popularizados por LeCun (2018) y Karpathy (2017).
+
+\begin{definition}[Programación diferenciable]
+\textbf{Programación diferenciable} es un paradigma de programación donde los programas (incluyendo flujos de control y estructuras de datos) pueden ser derivados automáticamente, permitiendo la optimización de parámetros basada en gradiente.
+\end{definition}
+\subsection{Redes neuronales modernas como programas parametrizados}
+En programación diferenciable, un programa de computadora clásico se puede definir como la composición de operaciones elementales, formando un \textbf{grafo computacional}. La diferencia clave es que los programas (como las redes neuronales) contienen parámetros que pueden ser ajustados a partir de los datos y pueden ser derivados usando la derivación automática (\emph{autodiff}). Típicamente, se asume que los programas definen funciones matemáticamente válidas: la función debe retornar valores idénticos para argumentos idénticos y no debe tener efectos colaterales. Además, la función debe tener derivadas bien definidas, asegurando que se pueda usar la optimización basada en el algoritmo del gradiente. Por lo tanto, la programación diferenciable no es solo el arte de derivar a través de programas, sino también de diseñarlos cuidadosamente.
+
+\subsection{¿Por qué las derivadas son importantes?}
+El aprendizaje computacional típicamente se reduce a la optimización de una función objetivo determinada, que es la composición de una función de pérdida y una función del modelo (red neuronal). La optimización sin derivadas se denomina \textbf{optimización de orden cero}. En este caso, solo se asume que podemos evaluar la función objetivo que deseamos optimizar. Lamentablemente, este método sufre de la maldición de la dimensionalidad, es decir, solo es viable para problemas de baja dimensión, con menos de 10 dimensiones. La optimización basada en derivadas, por otro lado, es mucho más eficiente y puede escalar a millones o miles de millones de parámetros. Los algoritmos que utilizan primeras y segundas derivadas se conocen, respectivamente, como algoritmos de \textbf{primer orden} y \textbf{segundo orden}.
+
+\subsection{¿Por qué la diferenciación automática es importante?}
+Antes de la revolución de la diferenciación automática, investigadores y practicantes necesitaban implementar manualmente el gradiente de las funciones que deseaban optimizar. Calcular gradientes manualmente podía convertirse en algo tedioso para funciones complicadas. Además, cada vez que la función era modificada (por ejemplo, para probar una nueva idea), el gradiente necesitaba ser recalculado. La diferenciación automática representa un cambio radical porque permite a los usuarios enfocarse en la experimentación creativa con funciones para sus tareas específicas.
+
+\subsection{Programación diferenciable no es solo aprendizaje computacional}
+Aunque existe un solapamiento entre el aprendizaje computacional y la programación diferenciable, sus enfoques son diferentes. El aprendizaje computacional estudia las redes neuronales compuestas de múltiples capas, que les permiten aprender \textbf{representaciones intermedias} de los datos. Por ejemplo, las redes neuronales convolucionales están diseñadas para el procesamiento de imágenes, mientras que las redes recurrentes están diseñadas para secuencias. Por otro lado, la programación diferenciable estudia las técnicas para diseñar programas complejos y diferenciables. Su uso va más allá del aprendizaje computacional: por ejemplo, en el aprendizaje por refuerzo, la programación probabilística y la computación científica en general.
+
+\subsection{Programación diferenciable no es solo diferenciación automatizada}
+Si bien la diferenciación automatizada es un ingrediente clave de la programación diferenciable, no es el único. La programación diferenciable también está comprometida con el diseño de operaciones que sean diferenciables en principio. De hecho, gran parte de la investigación sobre programación diferenciable se ha dedicado a hacer que las operaciones de la programación computacional clásica sean compatibles con la programación diferenciable. Cabe destacar que muchas relajaciones diferenciables pueden interpretarse en un marco probabilístico. El tema central de este libro es la interacción entre la optimización, la probabilidad y la diferenciación. La diferenciación es útil para la optimización y, recíprocamente, la optimización puede ser útil para diseñar operadores diferenciables.
+
+
+\section{Fundamentos}
+En este capítulo revisaremos los conceptos clave de la diferenciación. En particular, enfatizaremos el papel fundamental que juegan las transformaciones lineales. 
+\subsection{Funciones univariadas}
+\subsubsection{Derivadas}
+Para estudiar funciones, así como sus derivadas, necesitamos capturar sus variaciones infinitesimales alrededor de los puntos tal como se ha definido para la noción de límite.
+
+\begin{definition}[Límite]
+    \label{def:límite}
+    Sea $f:\RR \mapsto \RR$ una función y sean $x_{_0},c\in \RR$. Diremos que $c$ es el límite de $f$ cuando $x$ tiende a $x_{_0}$ si para todo $\epsilon > 0$, existe $\delta>0$ tal que para todo $x\in\RR$ que satisface $0<|x-x_{_0}|<\delta$, se cumple que $|f(x)-c|<\epsilon$. En este caso escribimos:
+    \begin{equation*}
+        \lim_{x\to x_{_0}} f(x)=c.
+    \end{equation*}
+\end{definition}
+
+Los límites se preservan bajo operaciones algebraicas básicas. En efecto, si tenemos $f,g:\RR \to \RR$ y suponemos que existen los límites
+\[\lim_{x\to x_{_0}}f(x) = c \quad \text{y} \quad \lim_{x\to x_{_0}}g(x)=d.\]
+
+Entonces, para cualesquiera $a,b\in \RR$:
+
+\begin{enumerate}
+    \item \textbf{Linealidad:} Si definimos $(af + bg)(x) := af(x) + bg(x)$, entonces
+    \[\lim_{x\to x_{_0}} (af+bg)(x) = ac + bd\]
+    
+    \item \textbf{Multiplicación:} Si definimos $(fg)(x):= f(x)g(x)$, entonces
+    \[\lim_{x\to x_{_0}} (fg)(x) = cd.\]
+\end{enumerate}
+
+Con la noción de límite, podemos definir la clase de funciones que presentan un comportamiento regular, es decir, aquellas funciones donde el límite en cualquier punto coincide con el valor de la función evaluada en ese punto. Esta propiedad fundamental se conoce como \textbf{continuidad}.
+
+\begin{definition}[Funciones continuas] 
+    Una función $f:\RR\to\RR$ es continua en un punto $x_{_0}\in \RR$ si
+    \[\lim_{x\to x_{_0}}f(x) = f(x_{_0}).\]
+    Además, diremos que $f$ es continua (globalmente) si es continua en todo punto $x_{_0}\in \RR$.
+\end{definition}
+
+Aunque la noción de continuidad parece una suposición benigna, varias funciones sencillas, como la función escalón de Heavyside, no son continuas y requiren un tratamiento especial. 
+
+\begin{remark}[Notación de Landau]
+    A lo largo de este texto usaremos la notación \emph{o} pequeña de Landau. Para dos funciones $f,g:\RR\to\RR$, escribiremos $g(x) = o(f(x))$ cuando $x\to x_{_0}$ si
+    \[
+    \lim_{x\to x_{_0}} \frac{|g(x)|}{|f(x)|} = 0.
+    \]
+    Intuitivamente, esto significa que $g$ es asintóticamente dominada por $f$ cuando $x\to x_{_0}$. Como caso particular, podemos caracterizar la continuidad de una función $f$ en un punto $x_{_0}$ mediante esta notación: $f$ es continua en $x_{_0}$ si y solo si 
+    \[f(x_{_0} + h) = f(x_{_0}) + o(1) \quad \text{cuando } h\to 0.\]
+\end{remark}
+
+Consideremos ahora una función $f:\RR \to \RR$. Su valor en un intervalo $[x_{_0}, x_{_0} + h]$ puede ser aproximado por la secante entre los puntos $(x_{_0},f(x_{_0}))$ y $(x_{_0} + h,f(x_{_0} + h))$ como una función lineal con pendiente $(f(x_{_0} + h) - f(x_{_0}))/h$. En el límite cuando la variación $h$ tiende a cero alrededor de $x_{_0}$, la secante converge a la \textbf{recta tangente} de $f$ en $x_{_0}$, y su pendiente se define como la derivada de $f$ en $x_{_0}$. La siguiente definición formaliza esta intuición.
+
+\begin{definition}[Derivada]
+    \label{def:derivada}
+    La derivada de una función $f:\RR\to \RR$ en un punto $x_{_0}\in \RR$ se define como 
+    \[
+    f'(x_{_0}):=\lim_{h \to 0}\frac{f(x_{_0} + h) - f(x_{_0})}{h},
+    \]
+    siempre que este límite exista. En tal caso, diremos que $f$ es \textbf{diferenciable} en $x_{_0}$.
+\end{definition}
+
+Si $f$ es diferenciable en cualquier $x\in \RR$, diremos que es \textbf{diferenciable en todas partes}. Si $f$ es diferenciable en un $x_{_0}$ dado, entonces es necesariamente continua en $x_{_0}$ como veremos en la siguiente proposición. Sin embargo continuidad no implica diferenciable como se ilustra con función de Kink.
+
+\begin{theorem}[Diferenciabilidad implica continuidad]
+Si $f:\RR\to \RR$ es diferenciable en $x_{_0}\in \RR$, entonces es continua en $x_{_0}\in\RR$.
+
+\begin{proof}
+Como $f$ es diferenciable en $x_{_0}$, existe el límite
+\[
+f'(x_{_0}) = \lim_{h\to 0}\frac{f(x_{_0} + h) - f(x_{_0})}{h}.
+\]
+Por lo tanto, podemos escribir la diferencia como
+\[
+f(x_{_0} + h) - f(x_{_0}) = f'(x_{_0})h + r(h),
+\]
+donde $r(h)$ es un término residual que satisface $r(h) = o(h)$ cuando $h\to 0$. En particular,
+\[
+\lim_{h\to 0}[f(x_{_0} + h) - f(x_{_0})] = \lim_{h\to 0}[f'(x_{_0})h + r(h)] = 0,
+\]
+ya que $\lim_{h\to 0}h = 0$ y $\lim_{h\to 0}r(h) = 0$. Por lo tanto,
+\[
+\lim_{h\to 0}f(x_{_0} + h) = f(x_{_0}),
+\]
+es decir, $f$ es continua en $x_{_0}$.
+\end{proof}
+\end{theorem}
+
+La derivada nos permitir construir una aproximación lineal de una función $f$ en una vecindad de $x_{_0}$, ya que representa la pendiente de la recta tangente de $f$ en $x_{_0}$. Por otro lado, también nos da información sobre la \textbf{monotonicidad} de $f$ alrededor de $x_{_0}$. 
+
+Si $f'(x_{_0})$ es positiva, la función es creciente alrededor de $x_{_0}$. Si $f'(x_{_0})$ es negativa, la función es decreciente. Esta propiedad puede aprovecharse para desarrollar algoritmos iterativos minimicen $f$, generando una sucesión de valores de la forma $x_{t+1} = x_t - \gamma f'(x_t)$ para $\gamma > 0$, donde $t$ representa el número de iteración. Estos valores se desplazan siguiendo las direcciones de $f$ alrededor de $x_t$.
+
+Para muchas funciones elementales tales como $x^n$, $e^x$, $\ln x$, $\cos x$, $\sin x$, sus derivadas se pueden calcular directamente aplicando la definición~\ref{def:derivada} como ilustraremos en el siguiente ejemplo.
+
+\begin{example}[Derivada de la función potencia] Considere la función $f(x) = x^n$ para $x \in \RR$, $n\in \NN\setminus \{0\}$. Para cualquier $h\in \RR$, tenemos:
+\begin{align*}
+    \frac{f(x + h) - f(x)}{h} &= \frac{(x + h)^n - x^n}{h} \\
+    &= \frac{\displaystyle\sum_{k=0}^{n}\binom{n}{k}h^k x^{n-k} - x^n}{h} \\
+    &= \sum_{k=1}^n \binom{n}{k}h^{k-1}x^{n-k}\\
+    &= \binom{n}{1}x^{n-1} + \sum_{k=2}^{n}\binom{n}{k}h^{k-1}x^{n-k},
+\end{align*}
+en donde, en la segunda linea, usamos el teorema del binomio. Dado que:
+\begin{equation*}
+\binom{n}{1} = n \text{ y } \lim_{h\to 0} \sum_{k=2}^{n}\binom{n}{k}h^{k-1}x^{n-k} = 0,
+\end{equation*}
+obtenemos que $f'(x) = nx^{n-1}$. 
+\end{example}
+\begin{remark}[Funciones definidas en un subconjunto $U\subset \RR$]
+Si bien la definición de derivada se presentó inicialmente para funciones definidas en todo $\RR$, esta puede extenderse naturalmente a funciones $f:U\subset \RR \to \RR$ definidas en un subconjunto $U$ de los números reales (como es el caso de $f(x)=\sqrt{x}$ definida sobre $\RR^{+}$).
+Para $x\in U$, la derivada de $f$ en $x$ viene dada por el límite de la definición~\ref{def:límite}, siempre que $f$ esté bien definida en una vecindad de $x$. Es decir, debe existir $r > 0$ tal que $x + \epsilon \in U$ para todo $|\epsilon| \leq r$.
+Decimos que $f$ es \textbf{diferenciable en todas partes} si es diferenciable en cada punto $x$ del \textbf{interior} de $U$, donde el interior es el conjunto de puntos $x\in U$ tales que existe $r > 0$ con ${x + \epsilon: |\epsilon|\leq r}\subseteq U$.
+Para los puntos ubicados en la frontera de $U$ (como $a$ y $b$ cuando $U=[a,b)$), se pueden definir las derivadas laterales: la derivada por derecha en $a$ y la derivada por izquierda en $b$, tomando los límites correspondientes al acercarnos a estos puntos desde el interior del intervalo.
+\end{remark}
+
+Para $x_{_0}\in \RR$ y funciones $f,g:\RR \to \RR$ diferenciables en $x_{_0}$, entonces:
+\begin{itemize}
+\item \textbf{Linealidad:} $(af + bg)'(x_{_0}) = af'(x_{_0}) + b g'(x_{_0})$, $a,b \in \RR$
+\item \textbf{Regla del producto:} $(fg)'(x_{_0}) = f'(x_{_0})g(x_{_0}) + f(x_{_0})g'(x_{_0})$
+\end{itemize}
+La linealidad se deriva directamente de la definición de derivada y las propiedades de límites. Para la regla del producto, usando notación $o(h)$:
+
+\begin{align*}
+    (fg)(x_{_0} + h) &= f(x_{_0} + h)g(x_{_0} + h) \\
+    &= \big(f(x_{_0}) + f'(x_{_0})h + o(h)\big)\big(g(x_{_0}) + g'(x_{_0})h + o(h)\big) \\
+    &= f(x_{_0})g(x_{_0}) + f'(x_{_0})g(x_{_0})h + f(x_{_0})g'(x_{_0})h + o(h), 
+\end{align*}
+
+de donde se deduce que:
+
+\begin{equation*}
+    \frac{(fg)(x_{_0} + h) - f(x_{_0})g(x_{_0}) }{ h} = f'(x_{_0})g(x_{_0}) + f(x_{_0})g'(x_{_0}) + \frac{o(h)}{h}.
+\end{equation*}
+
+Si $g$ es diferenciable en $x_{_0}$ y $f$ es diferenciable en $g(x_{_0})$, entonces:
+\begin{itemize}
+\item \textbf{Regla de la cadena:} $(f\circ g)'(x_{_0}) = f'\big(g(x_{_0})\big)g'(x_{_0})$.
+\end{itemize}
+Como hemos visto, la linealidad y la regla del producto son subproductos de la regla de la cadena, siendo esta última fundamental para la diferenciabilidad.
+
+Consideremos una función expresada mediante sumas, productos o composición de funciones elementales, como $f(x) = e^x\ln x + \cos x^2$. Su derivada puede calcularse descomponiendo la función en operaciones elementales y aplicando las reglas de linealidad, producto y composición, como ilustraremos a continuación.
+
+\begin{example}{Aplicando la reglas de diferenciabilidad}
+ Consideremos la función $f(x) = e^x\ln x + \cos x^2$. La derivada de $f$  sobre $x>0$ puede calcularse paso a paso como sigue, denotando $\operatorname{sq}(x):= x^2$,
+
+\begin{align*}
+    &f'(x) = (\exp \cdot \ln)'(x) + (\cos \circ \operatorname{sq})'(x) && \text{(Linealidad)} \\
+    &(\exp \cdot \ln)'(x) = \exp'(x) \cdot \ln(x) + \exp(x) \cdot \ln'(x) && \text{(Regla del producto)} \\
+    &(\cos \circ \operatorname{sq})'(x) = \cos'(\operatorname{sq}(w))\operatorname{sq}'(x) && \text{(Regla de la cadena)} \\
+    &\exp'(x) = \exp(x), \qquad \ln'(x) = 1/x, && \text{(Función elemental)} \\
+    &\operatorname{sq}'(x) = 2x, \qquad \cos'(x) = -\sin(x). && \text{(Función elemental)}
+\end{align*}
+Para finalmente obtener que $f'(x) = e^x \ln x + e^x/x - 2x \sin x^2$.
+\end{example}
+El proceso de derivación es puramente mecánico y conduce en si mismo a un proceso automatizado, el cual constituye la idea principal de la diferenciación automática.
+
+\subsubsection{Notación de Leibniz}
+La idea de derivada fue introducida independiente por Newton y Leibniz en el siglo XVIII \citep{ball1960short}. Posteriormente, las derivadas fueron consideradas como el cociente de variaciones infinitesimales. Específicamente, denotando $u=f(x)$ como una variable que depende de $x$ a través de $f$, Leibniz consideró la derivada de $f$ como el cociente
+
+\begin{equation*}
+    f'(x) = \left. \frac{du}{dx}\right|_{x}
+\end{equation*}
+
+donde $du$ y $dx$ denota las variaciones infinitesimales de $u$ y $x$ respectivamente y el símbolo $|_{x}$ denota la evaluación de la derivada en un punto $x$. Esta notación simplifica la enunciación de la regla de la cadena. En efecto, si tenemos $v=g(x)$ y $u = f(v)$, entonces
+
+\begin{equation*}
+    \frac{du}{dx} = \frac{du}{dv}\frac{dv}{dx}.
+\end{equation*}
+
+Estos nos ayuda a ver que las derivadas son multiplicadas cuando consideremos composiciones. En la evaluación, la regla de cadena en la notación de Leibniz expresa de la siguiente forma:
+
+\begin{equation*}
+    \left.\frac{du}{dx}\right|_{x} = \left. \frac{du}{dv}\right|_{g(x)}\left.\frac{dv}{dx}\right|_{x} = f'\big(g(x)\big)g'(x) = (f\circ g)'(x).
+\end{equation*}
+
+La capacidad de la notación de Leibniz para capturar la regla de la cadena como un simple producto de cocientes la hizo popular a los largo de los siglos, especialmente en mecánica \citep{ball1960short}. La lógica detrás de la notación de Leibniz, es decir, el concepto de «variaciones infinitesimales», fue cuestionada porsteriormente por matemáticos debido a sus posibles problemas lógicos \citep{ball1960short}. La notación $f'(x)$, introducida por primera vez por Euler y posteriormente popularizada por Lagrange \citep{cajori2007history}, ha predominado en numerosos libros de texto matemáticos. El concepto de variaciones infinitesimales ha sido definido rigurosamente al considerar el conjunto de los números hiperreales. Esto amplían el conjunto de números reales al considerar cada número como la suma de una parte no infinitesimal y una parte infinitesimal \citep{hewitt1948rings}. El formalismo de las variaciones infinitesimales también sustenta el desarrollo de algoritmos de diferenciación automática mediante el concepto de números duales.
+
+
+\subsection{Funciones multivariadas}
+\subsubsection{Derivada direccional}
+Consideremos ahora una función $f:\RR^m\to \RR$ con $\pmb{x} = \points{x}[m] \in \RR^m$. La mayoría de la ejemplos importantes en aprendizaje computacional es una función en la cual $\pmb{x}\in \RR^n$ son los parámetros de una red neuronal, asociados a una función de perdida con valores en $\RR$. la variaciones de $f$ necesitan ser definidas a través de direcciones específicas, como por ejemplo la variación $f(\pmb{x} + h\pmb{v}) - f(\pmb{x})$ de $f$ alrededor de $\pmb{x}\in \RR^m$ en la dirección de $\pmb{v}\in \RR^m$ por una cantidad $h>0$. Esta consideración nos conduce a la definición de derivada direccional. 
+
+\begin{definition}[Derivada direccional]
+La \textbf{derivada direccional} de $f$ en $\pmb{x}$ en la dirección $\pmb{v}$ esta dada por: 
+\begin{equation*}
+    \partial f(\pmb{x})[\pmb{v}]:=\lim_{h\to 0}\frac{f(\pmb{x} + h\pmb{v}) - f(\pmb{v})}{h},
+\end{equation*}
+siempre que la derivada exista.
+\end{definition}
+
+Un ejemplo de derivada direccional consiste en calcular la derivada de la función $f$ en $\pmb{x}$ en cualquiera de las direcciones canónicas
+
+\begin{equation*}
+    \pmb{e}_{_i} := (0, \dots, \underbrace{1}_{i}, 0, \dots, 0).
+\end{equation*}
+Esto nos permite definir la noción de \textbf{derivadas parciales}, denotada para $i\in [0, m]_{\ZZ}$
+
+\begin{equation*}
+    \partial_{x_i} f(\pmb{x}) := \partial f(\pmb{x})[\pmb{e}_i] = \lim_{h\to 0}\frac{f(\pmb{x} + h\pmb{e}_i) - f(\pmb{x})}{h}.
+\end{equation*}
+
+Al moverse solamente a los largo de la coordenada $i$ - ésima de la función, la derivada parcial es similar a usar la función $\psi(x_{_i}) = f(x_{_1}, \dots, x_{_i}, \dots, x_{_m})$ alrededor de $x_{_1}$, manteniendo todas las demás coordenadas fijas en sus valores $x_{_i}$.
+
+\subsubsection{Gradientes}
+Ahora introduciremos el vector gradiente, el cual reune a todas las derivadas parciales. Recordemos primero las definiciones de transformación lineal y forma lineal.
+
+\begin{definition}[Transformación lineal, formal lineal] Una función $L: \RR^m \to \RR^n$ es una \textbf{transformación lineal} si para cualquier $a, b \in \RR$ y $\pmb{u}, \pmb{v} \in \RR^m$,
+
+\begin{equation*}
+    L(a\pmb{u} + b\pmb{v}) = aL(\pmb{u}) + bL(\pmb{v}).
+\end{equation*}
+
+Una transformación lineal con valores en $\RR$, $L:\RR^m \to \RR$, se le conoce como \textbf{forma lineal}.    
+\end{definition}
+
+La linealidad juega un rol crucial en la diferenciabilidad de una función.
+
+\begin{definition}[Derivada de una función $f:\RR^m \to \RR$]. 
+\label{def:derivada_multivariada}
+Una función $f:\RR^m \to \RR$ es diferenciable en $\pmb{x} \in \RR^m$ si las derivadas direccionales esta definidas en cualquier dirección, son lineales en cualquier dirección y se cumple que 
+
+\begin{equation*}
+    \lim_{||\pmb{v}||_{2}\to 0} \frac{|f(\pmb{x} + \pmb{v}) - f(\pmb{v}) - \partial f(\pmb{x})[\pmb{v}]|}{||\pmb{v}||_{2}} = 0.
+\end{equation*}
+\label{}
+\end{definition}
+A continuación introducimos la idea de gradiente.
+
+\begin{definition}[Gradiente] El \textbf{gradiente} de una función diferenciable $f:\RR^m \to \RR$ en un punto $\pmb{x}\in \RR^m$ es definido como el vector de derivadas parciales
+
+\begin{equation*}
+    \nabla f(\pmb{x}):=\begin{bmatrix}
+        \partial_{x_1}f(\pmb{x})\\
+        \vdots\\
+        \partial_{x_m}f(\pmb{x})
+    \end{bmatrix}=\begin{bmatrix}
+        \partial f(\pmb{x})[\pmb{e}_{_1}]\\
+        \vdots\\
+        \partial f(\pmb{x})[\pmb{e}_{_m}]
+    \end{bmatrix}
+\end{equation*}
+En virtud de la linealidad, la derivada direccional de $f$ en $\pmb{x}$ en la dirección de $\displaystyle \pmb{v} = \sum_{i=1}^m v_{_i}\pmb{e}_{_i}$ está dada por
+\begin{equation*}
+    \partial f(\pmb{x})[\pmb{v}] = \sum_{i=1}^m v_{_i}\partial f(\pmb{x})[\pmb{e}_{_i}] = \langle \pmb{v}, \nabla f(\pmb{x})\rangle.
+\end{equation*}
+\end{definition}
+Aquí, $\langle \cdot , \cdot \rangle$ denota el producto interno.
+
+En la definición anterior, el hecho de poder usar el gradiente para calcular la derivada direccional, es consecuencia de la linealidad. Sin embargo, para casos más abstractos, el gradiente se define a través de esta propiedad.
+
+Un ejemplo, cualquier transformación lineal de la forma $\displaystyle f(\pmb{x})=\langle \pmb{a}, \pmb{x}\rangle = \sum_{i=1}^m a_i x_i$ es diferenciable, efecto tenemos que
+
+\begin{equation*}
+    \lim_{||\pmb{v}||_2\to 0} \frac{\langle \pmb{a}, \pmb{x} + \pmb{v}\rangle - \langle \pmb{a}, \pmb{x}\rangle - \langle \pmb{a}, \pmb{v}\rangle}{||v||_2} = 0.
+\end{equation*}
+
+De donde se concluye que $\nabla f(\pmb{x}) = \pmb{a}.$
+
+Generalmente, para mostrar que una función es diferenciable y calcular su gradiente, un enfoque es aproximarse a $f(\pmb{x} + \pmb{v})$ alrededor de $\pmb{v} = 0$. Si podemos encontrar un vector $\pmb{g}$ tal que
+
+\begin{equation*}
+    f(\pmb{x} + \pmb{v}) = f(\pmb{x}) + \langle \pmb{g}, \pmb{v}\rangle + o(||\pmb{v}||_2),
+\end{equation*}
+
+entonces $f$ es diferenciable en $\pmb{x}$ dado que $\langle \pmb{g}, \cdot \rangle$ es lineal. Por lo tanto, $\pmb{g}$ sería el gradiente de $f$ en $\pmb{x}$.
+
+\begin{remark}[Funciones diferenciables de Gateux y Fréchet] Existen diferentes definiciones de diferenciabilidad. Una de ellas es la definición~\ref{def:derivada_multivariada} de \textbf{diferenciabilidad de Fréchet}. Alternativamente, si $f:\RR^m\to \RR$ tiene derivadas direccionales bien definidas a través de todas las direcciones entonces se dice que la función es \textbf{diferenciable de Gateaux}. Observe que el la existencia de las derivadas direccionales en cualquiera de sus direcciones no es condición suficiente para que la función sea diferenciable. En otras palabras, cualquier función diferenciable en el sentido de Fréchet en diferenciable en el sentido de Gateaux, en el sentido inverso no es verdad. Como contrajemplo, una puede verificar que la función $f(x_{_1}, x_{_2}) = \frac{x_{_1}^3}{x_{_1}^2 + x_{_2}^3}$ es Gateaux diferenciable pero no lo es Fréchet diferenciable en 0 (porque la derivada direcional no es lineal en 0).
+
+Algunos autores también exigen que las funciones diferenciables de Gateaux tengan derivadas lineales direccionales a lo largo de cualquier dirección. Estas funciones aún no son funciones diferenciables  de Fréchet. De hecho, el límite de la definición~\ref{def:derivada_multivariada} es sobre cualquier vector que tienda a 0 (potencialmente de forma patológica), mientras las derivadas direccionales consideran tales límites exclusivamente en términos de una única dirección.
+
+En el resto del capítulo, todas las definiciones de diferenciabilidad se basan en la diferenciabilidad en el sentido de Fréchet. En el siguiente ejemplo se ilustra cómo calcular el gradiente de la perdida logística y validad sus diferenciabilidad. 
+\end{remark}
+
+\begin{example}[Gradiente de la pérdida logística]
+Consideremos la función de pérdida logística 
+\begin{equation*}
+    l(\pmb{\theta},\pmb{y}):= -\langle \pmb{y}, \pmb{\theta}\rangle + \log \sum_{i=1}^M \exp(\theta_{_i}),
+\end{equation*}
+que mide el error en las predicciones de los logits $\pmb{\theta}\in \mathbb{R}$ para la etiqueta correcta $\pmb{y}\in \{\pmb{e}_{_1},\dots, \pmb{e}_{_M}\}$. Lo que nos permite computar el gradiente de esta función de pérdida con respecto a $\pmb{\theta}$ para un valor fijo de $\pmb{y}$, es decir, nosotros queremos calcular el gradiente de $f(\pmb{\theta}):= l(\pmb{\theta}, \pmb{y})$. Esto nos permite descomponer a $f$ como $f = l + \operatorname{logsumexp}$ con $l(\pmb{\theta}):=\langle -\pmb{y}, \pmb{\theta}\rangle$ y
+\begin{equation*}
+    \operatorname{logsumexp}(\pmb{\theta}):=\log \sum_{i=1}^M \exp(\theta_{_i}),
+\end{equation*}
+la función $\operatorname{log\text{-}sum\text{-}exp}$. La función $l$ es lineal y diferenciable con gradiente $\nabla l(\theta) = -\pmb{y}$. Nosotros por lo tanto nos focalizamos sobre $\operatorname{logsumexp}$. Denotando $\exp(\pmb{\theta}) = \big(\exp(\theta_{_1}),\dots, \exp(\theta_{_M})\big)$, usando $\exp(x) = 1 + x + o(x)$, $\log(1+x) = x + o(x)$, y denotando por $\odot$ el producto elemento a elemento, así nosotros tenemos:
+\begin{align*}
+    \operatorname{logsumexp}(\pmb{\theta} + \pmb{v}) &= \log(\langle \exp(\pmb{\theta} + \pmb{v}), \pmb{1}\rangle) \\
+    &= \log\big(\langle \exp(\pmb{\theta}) \odot \exp(\pmb{v}), \pmb{1}\rangle\big) \\
+    &= \log\big(\langle \exp(\pmb{\theta}) \odot (1 + \pmb{v} + o(\|\pmb{v}\|_{_2})), \pmb{1}\rangle\big) \\
+    &= \log\big(\langle \exp(\pmb{\theta}), \pmb{1}\rangle + \langle \exp(\pmb{\theta}), \pmb{v}\rangle + o(\|\pmb{v}\|_{_2})\big) \\
+    &=\log\big(\langle \exp(\pmb{\theta}), \pmb{1}\rangle\big) + \left\langle \frac{\exp(\pmb{\theta})}{\langle \exp(\pmb{\theta}), \pmb{1}\rangle}, \pmb{v}\right\rangle + o(\|\pmb{v}\|_{_2}),
+\end{align*}
+La anterior descomposición de $\operatorname{logsumexp}(\pmb{\theta} + \pmb{v})$ muestra que es diferenciable, y que $\nabla \operatorname{logsumexp}(\pmb{\theta}) = \operatorname{softargmax}(\pmb{\theta})$ donde,
+\begin{equation*}
+    \operatorname{softargmax}(\pmb{\theta}):= \left(\frac{\exp(\theta_{_1})}{\sum_{j=1}^M \exp(\theta_{_j})},\dots, \frac{\exp(\theta_{_M})}{\sum_{j=1}^M \exp(\theta_{_j})}\right). 
+\end{equation*}
+En total, tenemos que $\nabla f(\pmb{\theta}) = -\pmb{y} + \operatorname{softargmax}(\pmb{\theta})$.
+\end{example}
+    
+
+
+
+\nocite{deisenroth2020mathematics}
+\bibliographystyle{plainnat}
+\bibliography{core/References}

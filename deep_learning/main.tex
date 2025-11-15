@@ -1,0 +1,45 @@
+\input{preamble.tex}
+
+% Document information
+\title{Elementos de Programación Diferenciable}
+\author{Alejandro Sánchez Yalí}
+\date{\today}
+
+% Carga las definiciones del glosario antes de cualquier uso
+\input{backmatter/glossary.tex}
+\makeglossaries
+
+\begin{document}
+
+% Frontmatter - Roman page numbering
+\frontmatter
+\input{frontmatter/titlepage.tex}
+\input{frontmatter/dedication.tex}
+\input{frontmatter/abstract.tex}
+\input{frontmatter/preface.tex}
+
+% Table of contents
+\tableofcontents
+\listoffigures
+\listoftables
+
+% Mainmatter - Arabic page numbering
+\mainmatter
+
+% Chapters
+\input{chapters/chapter1.tex}
+% Add more chapters as needed
+
+% Backmatter
+\backmatter
+\input{backmatter/appendix.tex}
+
+% Bibliography
+\printbibliography
+
+% Glossary
+\printglossaries
+% Index
+\printindex
+
+\end{document}

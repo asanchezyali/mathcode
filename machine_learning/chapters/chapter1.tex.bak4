@@ -1,0 +1,61 @@
+\chapter{Preliminares}
+Para comenzar a trabajar con el aprendizaje computacional, necesitamos desarrollar algunas habilidades básicas. Todo el aprendizaje computacional está relacionado con la extracción de información de los datos. Así que comenzaremos por aprender habilidades prácticas para almacenar, manipular y pre-procesar datos. Ademas, el aprendizaje computacional por lo general trabaja con grandes cantidades de datos, los cuales podemos pensar como tablas numéricas, en donde las filas corresponden a ejemplos y las columnas a atributos. El Álgebra Lineal nos da un conjunto de técnicas para trabajar con datos representados como tables numéricas. No nos extenderemos demasiado en la teoría del Álgebra Lineal, por ahora solo nos enfocaremos en las operaciones básicas de matrices y su implementación.  
+
+
+
+\section{Datos, modelos y aprendizaje}
+Existen tres componentes principales en un sistema de aprendizaje computacional: datos, modelos y aprendizaje. La pregunta principal del aprendizaje computacional es ¿Qué entendemos por un buen modelo? La palabra modelo tiene muchas sutilezas, y lo estaremos revisando varias veces en este capítulo. No es fácil definir objetivamente que se quiere decir por «bueno». Unos de los principios que guía al aprendizaje estadístico es que los buenos modelos se deben tener un buen desempeño sobre datos que nunca han visto. Esto requiere que se definan algunas métricas de desempeño, tales como la exactitud o la distancia a los datos reales, así como también averiguar formas o estrategias para mejorar estas métricas de desempeño. 
+\subsection{Datos como vectores}
+Asumimos que nuestros datos pueden ser leídos por un computador, y representados adecuadamente en una tabla numérica, en donde cada fila de la tabla representa un ejemplo o instancia particular, y cada columna una característica particular. En años recientes, el aprendizaje computacional ha sido aplicado a muchos tipos de datos que no son presentados en tablas numéricas, por ejemplo: secuencias genómicas, texto e imágenes de una página web y grafos de una red social. 
+
+
+\subsection{Funciones como modelos}
+Un \emph{predictor} es una función que cuando recibe una ejemplo (en nuestro caso, un vector de características), produce una \emph{predicción}. Por hora, vamos a considerar la \emph{predicción} como un solo número real. Esto puede ser escrito como:
+
+\begin{equation}
+    f:\mathbb{R}^d \to \mathbb{R},
+\end{equation}
+
+donde el vector de entrada $\pmb{x}$ es $d$-dimensional (tiene $d$ características), y la función $f$ es aplicada sobre él (escrito como $f(x)$) regresa un valor real. En estos apuntes no vamos a considerar el caso general de todas las funciones, que podría estar involucradas, en su lugar, solo vamos a considerar el caso especial de la funciones lineales:
+
+\begin{equation}
+    f(\pmb{x}) = \pmb{\theta}^\top \pmb{x} + \theta_0
+\end{equation}
+
+para valores desconocidos de $\pmb{\theta}$ y $\theta_0$. 
+
+\subsection{Modelos como distribuciones de probabilidad}
+ En lugar de considerar un predictor como una simple función, nosotros podemos considerar los predictores como modelos probabilísticos, es decir; modelos que describen la distribución de funciones posibles. 
+
+\subsection{Hipótesis de la clase de funciones}
+Dado un número $n$ de ejemplos $x_{_i} \in \RR^d$ y es el correspondiente valor escalar $y_{_n}\in \RR$. Nosotros consideramos la tarea de aprendizaje supervisado, sobre los datos $(\pmb{x}_{_1}, y_{_1}),\dots (\pmb{x}_{_n}, y_{_n})$. Dado este conjunto de dato, deseamos estimar el predictor $f(\cdot, \pmb{\theta}):\RR^d \to \RR$, parametrizado por $\pmb{\theta}$. El objetivo es encontrar un buen parámetro $\pmb{\theta}^*$ tal que la predictor resultante se ajuste bien a los datos, esto es,
+\begin{equation}
+    f(\pmb{x}_{_i}, \pmb{\theta}^*)\approx y_{_i} \text{ para todo } i =1, \dots, n.
+\end{equation}
+En esta sección, nosotros usamos la notación $\hat{y}_{_i} = f(x_{_i}, \theta^*)$ para representar la predicción del predictor.
+\begin{example}
+Vamos a introducir el problema de regresión por mínimos cuadrados ordinarios para ilustrar el proceso de minimización del riesgo empírico. Cuando la etiqueta $y_{_n}$ es un valor real, un elección popular de la clase de funciones para los predictores es el conjunto de todas las funciones afines. Aquí definimos una notación más compacta para representar una función afín, haciendo $x_{_i}^{(0)}=1$ para $x_{_i}$, es decir, $x_{_i}=[1, x_{_{i, 1}}, x_{_{i, 2}}, \dots , x_{_{i, d}}]^\top$. El vector de vectores correspondientes es $\pmb{\theta}=[\points{\theta}[d]]^\top$, lo que nos permite escribir el predictor como una función lineal
+\begin{equation}
+    f(\pmb{x}_{_i}, \pmb{\theta}) = \pmb{\theta}^\top \pmb{x}_{_i}. 
+\end{equation}
+
+\end{example}
+
+
+
+
+\nocite{deisenroth2020mathematics}
+
+
+
+
+%\listoffigures 
+
+%Referencia a la bibliografía: \cite[nota]{clave}
+%Referenciar una entrada no citada en el documento \nocite{autor}
+%Tamaño natural de las ecuaciones: $\displaystyle$  o $\displaystyle{}$
+%\nocite{Anand1}
+%\nocite{Vallejo1}
+\bibliography{core/References}
+
+

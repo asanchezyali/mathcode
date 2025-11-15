@@ -1,106 +1,106 @@
-name: Build LaTeX documents and Generate README
+name: Build LaTeX Books
 on: [push]
 jobs:
-  build_latex_and_readme:
+  build_latex_books:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    strategy:
+      matrix:
+        book:
+          - name: deep_learning
+            dir: deep_learning
+            pdf: deep_learning.pdf
+            emoji: "🧠"
+          - name: machine_learning
+            dir: machine_learning
+            pdf: machine_learning.pdf
+            emoji: "🤖"
+          - name: llms
+            dir: llms
+            pdf: llms.pdf
+            emoji: "💬"
+          - name: inferencial_statistics
+            dir: inferencial_statistics
+            pdf: inferencial_statistics.pdf
+            emoji: "📊"
+          - name: src
+            dir: src
+            pdf: src.pdf
+            emoji: "📚"
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
-      - name: Check for changes in dl.tex
-        id: check_dl
+
+      - name: Check for changes in ${{ matrix.book.name }}
+        id: check_changes
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^dl\.tex$'; then
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^${{ matrix.book.dir }}/'; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
             echo "changed=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Check for changes in ml.tex
-        id: check_ml
+      - name: Compile ${{ matrix.book.name }}
+        if: steps.check_changes.outputs.changed == 'true'
+        uses: xu-cheng/latex-action@v3
+        with:
+          working_directory: ${{ matrix.book.dir }}
+          root_file: main.tex
+          args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
+
+      - name: Rename PDF
+        if: steps.check_changes.outputs.changed == 'true'
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^ml\.tex$'; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-          else
-            echo "changed=false" >> $GITHUB_OUTPUT
+          if [ -f "${{ matrix.book.dir }}/main.pdf" ]; then
+            mv "${{ matrix.book.dir }}/main.pdf" "${{ matrix.book.dir }}/${{ matrix.book.pdf }}"
           fi
-
-      - name: Compile dl.tex
-        if: steps.check_dl.outputs.changed == 'true'
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: dl.tex
-          args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
-
-      - name: Compile ml.tex
-        if: steps.check_ml.outputs.changed == 'true'
-        uses: xu-cheng/latex-action@v3
-        with:
-          root_file: ml.tex
-          args: -pdf -file-line-error -interaction=nonstopmode -shell-escape
 
       - name: Get current date
         id: date
-        if: steps.check_dl.outputs.changed == 'true' || steps.check_ml.outputs.changed == 'true'
+        if: steps.check_changes.outputs.changed == 'true'
         run: echo "date=$(date +'%Y-%m-%d %H:%M:%S')" >> $GITHUB_OUTPUT
 
-      - name: Upload PDFs to pdfs branch
-        if: steps.check_dl.outputs.changed == 'true' || steps.check_ml.outputs.changed == 'true'
+      - name: Upload PDF to pdfs branch
+        if: steps.check_changes.outputs.changed == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          
+
           # Create temporary directory for PDFs
           mkdir -p ../pdf_temp
-          
-          # Move PDFs to temporary directory
-          if [ "${{ steps.check_dl.outputs.changed }}" == "true" ]; then
-            mv dl.pdf ../pdf_temp/ || echo "dl.pdf not found"
+
+          # Move PDF to temporary directory
+          if [ -f "${{ matrix.book.dir }}/${{ matrix.book.pdf }}" ]; then
+            mv "${{ matrix.book.dir }}/${{ matrix.book.pdf }}" ../pdf_temp/
           fi
-          if [ "${{ steps.check_ml.outputs.changed }}" == "true" ]; then
-            mv ml.pdf ../pdf_temp/ || echo "ml.pdf not found"
-          fi
-          
+
           # Switch to pdfs branch
           if git show-ref --verify --quiet refs/remotes/origin/pdfs; then
+            git fetch origin pdfs
             git checkout pdfs
           else
             git checkout --orphan pdfs
             git rm -rf .
           fi
-          
-          # Move PDFs back from temporary directory
-          if [ "${{ steps.check_dl.outputs.changed }}" == "true" ]; then
-            mv ../pdf_temp/dl.pdf . 2>/dev/null || echo "dl.pdf not found in temp"
-            if [ -f dl.pdf ]; then
-              git add dl.pdf
-              git commit -m "📚 Update dl.pdf - ${{ steps.date.outputs.date }}"
-            fi
-          fi
-          
-          if [ "${{ steps.check_ml.outputs.changed }}" == "true" ]; then
-            mv ../pdf_temp/ml.pdf . 2>/dev/null || echo "ml.pdf not found in temp"
-            if [ -f ml.pdf ]; then
-              git add ml.pdf
-              git commit -m "📖 Update ml.pdf - ${{ steps.date.outputs.date }}"
-            fi
-          fi
-          
-          # Push only if there are commits to push
-          if git rev-list -n 1 HEAD &>/dev/null; then
+
+          # Move PDF back from temporary directory
+          if [ -f "../pdf_temp/${{ matrix.book.pdf }}" ]; then
+            mv ../pdf_temp/${{ matrix.book.pdf }} .
+            git add ${{ matrix.book.pdf }}
+            git commit -m "${{ matrix.book.emoji }} Update ${{ matrix.book.pdf }} - ${{ steps.date.outputs.date }}"
             git push origin pdfs
-          else
-            echo "No changes to push"
           fi
 
-      - name: Upload PDFs as artifacts
-        if: steps.check_dl.outputs.changed == 'true' || steps.check_ml.outputs.changed == 'true'
+          # Switch back to main branch
+          git checkout ${{ github.ref_name }}
+
+      - name: Upload PDF as artifact
+        if: steps.check_changes.outputs.changed == 'true'
         uses: actions/upload-artifact@v4
         with:
-          name: PDFs
-          path: "*.pdf"
+          name: ${{ matrix.book.name }}-pdf
+          path: "${{ matrix.book.dir }}/${{ matrix.book.pdf }}"
           if-no-files-found: warn
