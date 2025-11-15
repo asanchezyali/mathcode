@@ -93,8 +93,8 @@ jobs:
             git rm -rf . || true
           fi
 
-          # Remove everything to ensure clean state
-          rm -rf * .* 2>/dev/null || true
+          # Remove all files except .git directory
+          find . -maxdepth 1 -not -name '.git' -not -name '.' -delete 2>/dev/null || true
 
           # Copy only the PDF file
           cp /tmp/pdf_upload/${{ matrix.book.pdf }} .
