@@ -6,6 +6,7 @@ jobs:
     permissions:
       contents: write
     strategy:
+      max-parallel: 1  # Compile one at a time to avoid conflicts
       matrix:
         book:
           - name: deep_learning
@@ -77,10 +78,12 @@ jobs:
             mv "${{ matrix.book.dir }}/${{ matrix.book.pdf }}" ../pdf_temp/
           fi
 
-          # Switch to pdfs branch
+          # Switch to pdfs branch with retry logic
           if git show-ref --verify --quiet refs/remotes/origin/pdfs; then
+            # Pull latest changes to avoid conflicts
             git fetch origin pdfs
             git checkout pdfs
+            git pull --rebase origin pdfs || true
           else
             git checkout --orphan pdfs
             git rm -rf .
@@ -90,8 +93,17 @@ jobs:
           if [ -f "../pdf_temp/${{ matrix.book.pdf }}" ]; then
             mv ../pdf_temp/${{ matrix.book.pdf }} .
             git add ${{ matrix.book.pdf }}
-            git commit -m "${{ matrix.book.emoji }} Update ${{ matrix.book.pdf }} - ${{ steps.date.outputs.date }}"
-            git push origin pdfs
+            git commit -m "${{ matrix.book.emoji }} Update ${{ matrix.book.pdf }} - ${{ steps.date.outputs.date }}" || true
+
+            # Push with retry
+            for i in 1 2 3; do
+              if git push origin pdfs; then
+                break
+              fi
+              echo "Push failed, retrying in 5 seconds..."
+              sleep 5
+              git pull --rebase origin pdfs
+            done
           fi
 
           # Switch back to main branch
