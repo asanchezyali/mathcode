@@ -38,10 +38,13 @@ jobs:
       - name: Check for changes in ${{ matrix.book.name }}
         id: check_changes
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -q '^${{ matrix.book.dir }}/'; then
+          # Check if book directory or workflow changed
+          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep -qE '^(${{ matrix.book.dir }}/|\.github/workflows/)'; then
             echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Book ${{ matrix.book.name }} or workflow has changes"
           else
             echo "changed=false" >> $GITHUB_OUTPUT
+            echo "Book ${{ matrix.book.name }} has no changes"
           fi
 
       - name: Compile ${{ matrix.book.name }}
