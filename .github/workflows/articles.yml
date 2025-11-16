@@ -95,25 +95,14 @@ jobs:
             git rm -rf . || true
           fi
 
-          # Backup existing articles if they exist
-          if [ -d "articles" ]; then
-            cp -r articles /tmp/articles_backup 2>/dev/null || true
-          fi
-
-          # Remove and recreate articles directory to avoid permission issues
-          rm -rf articles
+          # Create articles directory if it doesn't exist
           mkdir -p articles
-
-          # Restore other PDFs if they existed
-          if [ -d "/tmp/articles_backup" ]; then
-            cp /tmp/articles_backup/*.pdf articles/ 2>/dev/null || true
-          fi
 
           # Copy the new/updated PDF file (will overwrite if exists)
           cp /tmp/pdf_upload/${{ matrix.article.pdf }} articles/
 
-          # Add all PDFs in articles directory
-          git add articles/
+          # Add only the specific PDF file
+          git add articles/${{ matrix.article.pdf }}
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
