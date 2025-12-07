@@ -1,0 +1,8 @@
+# LaTeX Indent Configuration - 120 columns
+# https://latexindentpl.readthedocs.io/
+
+defaultIndent: "    "
+
+modifyLineBreaks:
+    textWrapOptions:
+        columns: 120

@@ -13,7 +13,7 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Available books
-BOOKS=("deep_learning" "machine_learning" "llms" "inferencial_statistics" "src")
+BOOKS=("deep_learning" "machine_learning" "llms" "inferencial_statistics" "src" "geometry")
 
 show_help() {
     echo "Usage: ./compile.sh [options] [book_name]"
@@ -29,6 +29,7 @@ show_help() {
     echo "  - llms"
     echo "  - inferencial_statistics"
     echo "  - src"
+    echo "  - geometry"
     echo ""
     echo "Examples:"
     echo "  ./compile.sh                   # Compile all books"
@@ -41,26 +42,18 @@ clean_aux_files() {
     local basename="$1"
     echo -e "${BLUE}Cleaning auxiliary files for ${basename}...${NC}"
 
-    # Remove all auxiliary files but keep PDF
-    rm -f "${basename}.aux" "${basename}.lof" "${basename}.log" "${basename}.lot" \
-          "${basename}.fls" "${basename}.out" "${basename}.toc" "${basename}.fmt" \
-          "${basename}.fot" "${basename}.cb" "${basename}.cb2" "${basename}.bbl" \
-          "${basename}.bcf" "${basename}.blg" "${basename}.run.xml" \
-          "${basename}.fdb_latexmk" "${basename}.synctex" "${basename}.synctex.gz" \
-          "${basename}.pdfsync" "${basename}.nav" "${basename}.pre" "${basename}.snm" \
-          "${basename}.vrb" "${basename}.acn" "${basename}.acr" "${basename}.glg" \
-          "${basename}.glo" "${basename}.gls" "${basename}.glsdefs" "${basename}.lzo" \
-          "${basename}.lzs" "${basename}.brf" "${basename}.lol" "${basename}.idx" \
-          "${basename}.ilg" "${basename}.ind" "${basename}.maf" "${basename}.mlf" \
-          "${basename}.mlt" "${basename}.mtc"* "${basename}.slf"* "${basename}.slt"* \
-          "${basename}.stc"* "${basename}.mw" "${basename}.nlg" "${basename}.nlo" \
-          "${basename}.nls" "${basename}.pax" "${basename}.pdfpc" "${basename}.wrt" \
-          "${basename}.sout" "${basename}.sympy" "${basename}.dpth" "${basename}.md5" \
-          "${basename}.auxlock" "${basename}.tdo" "${basename}.xdy" "${basename}.dvi" \
-          "${basename}.xdv" 2>/dev/null
+    # Remove ALL files except .tex, .pdf, .bib, .cls, .sty, .ist and keep directories
+    find . -maxdepth 1 -type f \
+        ! -name "*.tex" \
+        ! -name "*.pdf" \
+        ! -name "*.bib" \
+        ! -name "*.cls" \
+        ! -name "*.sty" \
+        ! -name "*.ist" \
+        -delete 2>/dev/null
 
     # Remove minted directories
-    rm -rf "_minted-${basename}" 2>/dev/null
+    rm -rf "_minted-"* 2>/dev/null
 }
 
 clean_all() {
@@ -71,17 +64,14 @@ clean_all() {
             echo -e "${CYAN}Cleaning ${book}...${NC}"
             cd "$book"
 
-            # Remove all LaTeX auxiliary files
-            rm -f *.aux *.lof *.log *.lot *.fls *.out *.toc *.fmt *.fot *.cb *.cb2 \
-                  *.bbl *.bcf *.blg *.run.xml *.fdb_latexmk *.synctex *.synctex.gz \
-                  *.pdfsync *.nav *.pre *.snm *.vrb *.acn *.acr *.glg *.glo *.gls \
-                  *.glsdefs *.ist *.lzo *.lzs *.brf *.lol *.idx *.ilg *.ind *.maf *.mlf \
-                  *.mlt *.mtc* *.slf* *.slt* *.stc* *.mw *.nlg *.nlo *.nls *.pax \
-                  *.pdfpc *.wrt *.sout *.sympy *.dpth *.md5 *.auxlock *.tdo *.xdy \
-                  *.dvi *.xdv 2>/dev/null
-
-            # Remove PDFs
-            rm -f *.pdf 2>/dev/null
+            # Remove ALL files except .tex, .bib, .cls, .sty, .ist (including PDFs)
+            find . -maxdepth 1 -type f \
+                ! -name "*.tex" \
+                ! -name "*.bib" \
+                ! -name "*.cls" \
+                ! -name "*.sty" \
+                ! -name "*.ist" \
+                -delete 2>/dev/null
 
             # Remove minted directories
             rm -rf _minted* 2>/dev/null

@@ -29,6 +29,10 @@ jobs:
             dir: src
             pdf: src.pdf
             emoji: "📚"
+          - name: geometry
+            dir: geometry
+            pdf: geometry.pdf
+            emoji: "📐"
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4

@@ -1,0 +1,18 @@
+{
+    // LaTeX formatter settings
+    "latex.formatter.columnLimit": 120,
+    "latex.formatter.config": "latexindent.yaml",
+    "latex.linter.enabled": true,
+
+    // Format on save for LaTeX files
+    "[latex]": {
+        "editor.formatOnSave": true,
+        "editor.wordWrap": "wordWrapColumn",
+        "editor.wordWrapColumn": 120,
+        "editor.rulers": [120]
+    },
+
+    // Editor defaults
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true
+}

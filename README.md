@@ -3,8 +3,6 @@
 [![Compilación de Libros](https://github.com/asanchezyali/machine-learning-es/workflows/Build%20LaTeX%20Books/badge.svg)](https://github.com/asanchezyali/machine-learning-es/actions)
 [![Licencia](https://img.shields.io/badge/Licencia-MIT-blue.svg)](LICENSE)
 
-> **Notas de estudio sobre Inteligencia Artificial en español**
-
 Este repositorio contiene mis apuntes y notas de estudio sobre diversos temas de Inteligencia Artificial. Son principalmente resúmenes de artículos, papers, libros y cursos que he estudiado.
 
 ## ⚠️ Importante
