@@ -87,10 +87,13 @@ jobs:
           mkdir -p /tmp/pdf_upload
           cp "${{ matrix.book.dir }}/${{ matrix.book.pdf }}" /tmp/pdf_upload/
 
+          # Clean up auxiliary files before switching branches
+          git stash --include-untracked || true
+
           # Switch to pdfs branch
           if git show-ref --verify --quiet refs/remotes/origin/pdfs; then
             git fetch origin pdfs
-            git checkout pdfs
+            git checkout -f pdfs
             git pull --rebase origin pdfs || true
           else
             git checkout --orphan pdfs
