@@ -126,8 +126,8 @@ Este código nos permite automatizar la expansión del árbol y explorar niveles
 Después de explorar el árbol de derivaciones, surge una pregunta natural: ¿es posible alcanzar \texttt{MU}? La
 respuesta es \textbf{no}, y la demostración es un ejemplo elegante de razonamiento matemático.
 
-La clave está en observar un \emph{invariante}: una propiedad que se preserva bajo todas las reglas del sistema.
-Contemos las letras $I$ en cada cadena y clasifiquémoslas según el \emph{residuo} al dividir entre 3. Por ejemplo: 1
+La clave está en observar un \textbf{invariante}: una propiedad que se preserva bajo todas las reglas del sistema.
+Contemos las letras $I$ en cada cadena y clasifiquémoslas según el \textbf{residuo} al dividir entre 3. Por ejemplo: 1
 letra $I$ deja residuo 1; 2 letras dejan residuo 2; 3 letras dejan residuo 0; 4 letras dejan residuo 1 (porque $4 = 3 +
     1$), y así sucesivamente.
 
@@ -160,4 +160,39 @@ desde una perspectiva externa.
         \item Retornar \texttt{True} si el residuo es 1 o 2, y \texttt{False} si es 0.
     \end{enumerate}
     Prueba tu función con las cadenas \texttt{MU}, \texttt{MIU}, \texttt{MIUIU} y \texttt{MUII}.
+\end{exercise}
+
+Los siguientes ejercicios se basan en un sistema axiomático minimalista con dos tipos de objetos: \textbf{Fe}'s y
+\textbf{Fo}'s. Los axiomas del sistema son:
+\begin{enumerate}
+    \item Existen exactamente tres Fe's.
+    \item Para cada par de Fe's distintos, existe exactamente un Fo al cual ambos pertenecen.
+    \item No todos los Fe's pertenecen al mismo Fo.
+    \item Dos Fo's distintos tienen al menos un Fe en común.
+\end{enumerate}
+
+\begin{exercise}
+    Demuestra que cada Fo tiene exactamente dos Fe's que le pertenecen.
+
+    \emph{Pista:} Usa el Axioma 3 para mostrar que un Fo no puede tener más de dos Fe's, y luego supón que tiene menos
+    de dos para llegar a una contradicción usando los Axiomas 2 y 4.
+\end{exercise}
+
+\begin{exercise}
+    Demuestra que un Fo está completamente caracterizado por los Fe's que contiene. Es decir, si dos Fo's son distintos,
+    entonces no contienen los mismos Fe's.
+
+    \emph{Pista:} Supón que dos Fo's distintos contienen los mismos Fe's y encuentra una contradicción con el Axioma 2.
+\end{exercise}
+
+\begin{exercise}
+    Demuestra que dos Fo's distintos contienen exactamente un Fe en común.
+
+    \emph{Pista:} El Axioma 4 garantiza al menos uno. ¿Qué pasaría si tuvieran más de uno en común?
+\end{exercise}
+
+\begin{exercise}
+    Demuestra que existen exactamente tres Fo's distintos.
+
+    \emph{Pista:} Cada Fo tiene exactamente dos Fe's. ¿Cuántas formas hay de elegir 2 elementos de un conjunto de 3?
 \end{exercise}

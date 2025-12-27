@@ -76,6 +76,7 @@ cd machine-learning-es
 ./compile.sh machine_learning
 ./compile.sh llms
 ./compile.sh inferencial_statistics
+./compile.sh geometry
 ```
 
 ### Compilar artículos
@@ -111,6 +112,7 @@ machine-learning-es/
 ├── machine_learning/     # Notas de ML clásico
 ├── llms/                 # Notas de LLMs
 ├── inferencial_statistics/  # Notas de estadística
+├── geometry/             # Fundamentos geométricos
 ├── src/                  # Material adicional
 ├── articles/             # Artículos cortos
 ├── compile.sh            # Script de compilación
