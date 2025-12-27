@@ -110,8 +110,35 @@ aplicaciones de la Regla 3 en diferentes posiciones, generando diversos hijos.
 Dado que el árbol de derivación crece exponencialmente, la exploración manual se vuelve inviable rápidamente. Aquí es
 donde la programación se convierte en una herramienta indispensable para las matemáticas.
 
-Podemos modelar el sistema MIU utilizando Python. El siguiente script define una función que toma una cadena y devuelve
-todas las posibles derivaciones inmediatas aplicando las cuatro reglas:
+El algoritmo para generar todas las derivaciones posibles de una cadena se puede expresar de manera abstracta mediante
+el siguiente pseudocódigo:
+
+\begin{algorithm}[H]
+    \caption{Derivaciones en el sistema MIU}
+    \KwEntrada{Una cadena $s$ del sistema MIU}
+    \KwSalida{Conjunto de todas las cadenas derivables en un paso}
+    $D \leftarrow \emptyset$\;
+    \tcp{Regla 1: $xI \Rightarrow xIU$}
+    \Si{$s$ termina en $I$}{
+        $D \leftarrow D \cup \{s + U\}$\;
+    }
+    \tcp{Regla 2: $Mx \Rightarrow Mxx$}
+    \Si{$s$ comienza con $M$}{
+        Sea $x$ la subcadena después de $M$\;
+        $D \leftarrow D \cup \{M + x + x\}$\;
+    }
+    \tcp{Regla 3: $xIIIy \Rightarrow xUy$}
+    \ParaCada{posición $i$ donde aparece $III$ en $s$}{
+        $D \leftarrow D \cup \{s[0{:}i] + U + s[i{+}3{:}]\}$\;
+    }
+    \tcp{Regla 4: $xUUy \Rightarrow xy$}
+    \ParaCada{posición $i$ donde aparece $UU$ en $s$}{
+        $D \leftarrow D \cup \{s[0{:}i] + s[i{+}2{:}]\}$\;
+    }
+    \Retornar{$D$}\;
+\end{algorithm}
+
+A continuación, traducimos este pseudocódigo a Python:
 
 \codefile[listing options={language=Python}, title={Código 1.1: Implementación de las reglas del sistema MIU en Python}]{code/miu_rules.py}
 
@@ -129,13 +156,13 @@ una letra $I$ deja residuo 1; dos letras dejan residuo 2; tres letras dejan resi
 
 Analicemos cómo cada regla afecta este residuo:
 \begin{itemize}
-    \item \textbf{Estado inicial:} \texttt{MI} tiene una letra $I$ $\Rightarrow$ residuo 1.
-    \item \textbf{Regla 1} (Añadir \texttt{U}): No cambia el número de $I$ $\Rightarrow$ residuo sin cambio.
-    \item \textbf{Regla 2} (Duplicar): Duplica las $I$. Si antes teníamos residuo 1, ahora tenemos residuo 2. Si teníamos
-          residuo 2, ahora tenemos residuo 1 (porque $2 \times 2 = 4$, y $4$ deja residuo 1).
-    \item \textbf{Regla 3} (\texttt{III} $\to$ \texttt{U}): Elimina exactamente tres letras $I$ $\Rightarrow$ residuo sin
-          cambio.
-    \item \textbf{Regla 4} (eliminar \texttt{UU}): No cambia el número de $I$ $\Rightarrow$ residuo sin cambio.
+    \item \textbf{Estado inicial:} La cadena \texttt{MI} tiene una sola letra $I$, por lo que su residuo es 1.
+    \item \textbf{Regla 1} (añadir \texttt{U}): No altera el número de letras $I$, así que el residuo permanece igual.
+    \item \textbf{Regla 2} (duplicar): Duplica las $I$. Si el residuo era 1, pasa a ser 2. Si era 2, pasa a ser 1
+          (porque $2 \times 2 = 4$, y $4$ deja residuo 1). Nótese que el residuo 0 pasaría a 0.
+    \item \textbf{Regla 3} (\texttt{III} $\to$ \texttt{U}): Elimina exactamente tres letras $I$, lo cual no cambia el
+          residuo (restar 3 no afecta el residuo módulo 3).
+    \item \textbf{Regla 4} (eliminar \texttt{UU}): No involucra letras $I$, por lo que el residuo no cambia.
 \end{itemize}
 
 Partiendo de residuo 1, solo podemos alcanzar residuos 1 o 2, pero \textbf{nunca 0}. La cadena \texttt{MU} no tiene
