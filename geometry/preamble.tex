@@ -1,8 +1,8 @@
 % preamble.tex - Contains all packages and configurations
 \documentclass[12pt, a4paper, oneside]{book}
 %%% BASIC PACKAGES
-\usepackage[T1]{fontenc}        
-\usepackage[utf8]{inputenc}    
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage[spanish, es-noshorthands]{babel}
 \usepackage{comment}
@@ -20,7 +20,6 @@
 \usepackage{amssymb}
 \usepackage{mathtools}
 
-
 %%% STYLE AND DESIGN PACKAGES
 \usepackage[dvipsnames]{xcolor}
 \usepackage{tikz}
@@ -30,6 +29,8 @@
 
 %%% CODE LISTINGS
 \usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings, skins, breakable}
 \renewcommand{\lstlistingname}{Código}
 
 % Modern code color palette
@@ -44,41 +45,72 @@
 \definecolor{codeVariable}{RGB}{217, 70, 239}         % Fuchsia for special
 
 \lstset{
-    % Typography (reduced ~20%)
     basicstyle=\ttfamily\footnotesize\linespread{1.1}\selectfont,
     keywordstyle=\color{codeKeyword}\bfseries,
     keywordstyle=[2]\color{codeFunction},
     commentstyle=\color{codeComment}\itshape,
     stringstyle=\color{codeString},
-    % Line numbers
     numbers=left,
     numberstyle=\tiny\color{codeNumber}\ttfamily,
-    numbersep=12pt,
-    % Frame and background
-    frame=l,
-    framesep=10pt,
-    framerule=1.5pt,
-    rulecolor=\color{codeAccent!70},
-    backgroundcolor=\color{codeBackground},
-    framextopmargin=6pt,
-    framexbottommargin=6pt,
-    % Spacing
-    xleftmargin=18pt,
-    xrightmargin=10pt,
-    aboveskip=20pt,
-    belowskip=12pt,
-    % Behavior
+    numbersep=10pt,
     breaklines=true,
     breakatwhitespace=true,
-    captionpos=b,
     showstringspaces=false,
     tabsize=4,
-    % Extra settings
     extendedchars=true,
     inputencoding=utf8,
     literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
              {ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1
              {Ú}{{\'U}}1 {Ñ}{{\~N}}1
+}
+
+% Custom tcolorbox style for code listings
+\newtcblisting{codebox}[2][]{
+    listing only,
+    listing options={language=#2, style=tcblatex},
+    enhanced,
+    breakable,
+    colback=codeBackground,
+    colframe=codeFrame,
+    boxrule=0.4pt,
+    left=8pt,
+    right=8pt,
+    top=10pt,
+    bottom=10pt,
+    arc=2pt,
+    borderline west={2pt}{0pt}{codeAccent!70},
+    #1
+}
+
+% Style for lstinputlisting with tcolorbox
+\tcbset{
+    codestyle/.style={
+        listing only,
+        enhanced,
+        breakable,
+        colback=codeBackground,
+        colframe=codeFrame,
+        boxrule=0.4pt,
+        left=16pt,
+        right=8pt,
+        top=8pt,
+        bottom=10pt,
+        arc=2pt,
+        borderline west={2pt}{0pt}{codeAccent!70},
+        fonttitle=\bfseries\small\color{black!80},
+        coltitle=black!80,
+        colbacktitle=codeFrame!50,
+        toptitle=3pt,
+        bottomtitle=3pt,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm},
+        boxed title style={colback=codeFrame!50, colframe=codeFrame, boxrule=0pt, arc=1pt},
+    }
+}
+
+\newtcbinputlisting{\codefile}[2][]{
+    codestyle,
+    listing file={#2},
+    #1
 }
 
 %%% BOOK-SPECIFIC PACKAGES
@@ -105,11 +137,11 @@
 
 %%% HYPERLINKS
 \usepackage[
-	breaklinks=true, 
-	colorlinks=true, 
-	linkcolor=blue,
-	citecolor=blue, 
-	urlcolor=gray
+    breaklinks=true,
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=gray
 ]{hyperref}
 \usepackage{xurl} % Break URLs
 
@@ -132,8 +164,8 @@
 %%% THEOREM STYLES
 \mdfdefinestyle{theoremstyle}{
     linecolor=theoremBorder,
-    linewidth=0.4pt,                
-    backgroundcolor=theoremBG!40,  
+    linewidth=0.4pt,
+    backgroundcolor=theoremBG!40,
     innertopmargin=10pt,
     innerbottommargin=10pt,
     innerleftmargin=10pt,
@@ -245,23 +277,23 @@
 
 %%% PROOF STYLE
 \renewenvironment{proof}[1][\proofname]
-    {\par\noindent\textit{#1.}\space}
-    {\hfill$\square$\par\vspace{\baselineskip}}
+{\par\noindent\textit{#1.}\space}
+{\hfill$\square$\par\vspace{\baselineskip}}
 
 %%% CUSTOM CHAPTER FORMATTING
 \titleformat{\chapter}[display]
-  {\normalfont\huge\bfseries}
-  {\chaptertitlename\ \thechapter}
-  {20pt}
-  {\Huge}
+{\normalfont\huge\bfseries}
+{\chaptertitlename\ \thechapter}
+{20pt}
+{\Huge}
 \titlespacing*{\chapter}{0pt}{50pt}{40pt}
 
 %%% CUSTOM SECTION FORMATTING
 \titleformat{\section}
-  {\normalfont\Large\bfseries}
-  {\thesection}
-  {1em}
-  {}
+{\normalfont\Large\bfseries}
+{\thesection}
+{1em}
+{}
 \titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 
 %%% HEADER AND FOOTER SETTINGS

@@ -113,11 +113,7 @@ donde la programación se convierte en una herramienta indispensable para las ma
 Podemos modelar el sistema MIU utilizando Python. El siguiente script define una función que toma una cadena y devuelve
 todas las posibles derivaciones inmediatas aplicando las cuatro reglas:
 
-\lstinputlisting[
-    language=Python,
-    caption=Implementación de las reglas del sistema MIU en Python,
-    label=code:miu_rules
-]{code/miu_rules.py}
+\codefile[listing options={language=Python}, title={Código 1.1: Implementación de las reglas del sistema MIU en Python}]{code/miu_rules.py}
 
 Este código nos permite automatizar la expansión del árbol y explorar niveles más profundos del espacio de búsqueda.
 
@@ -127,22 +123,22 @@ Después de explorar el árbol de derivaciones, surge una pregunta natural: ¿es
 respuesta es \textbf{no}, y la demostración es un ejemplo elegante de razonamiento matemático.
 
 La clave está en observar un \textbf{invariante}: una propiedad que se preserva bajo todas las reglas del sistema.
-Contemos las letras $I$ en cada cadena y clasifiquémoslas según el \textbf{residuo} al dividir entre 3. Por ejemplo: 1
-letra $I$ deja residuo 1; 2 letras dejan residuo 2; 3 letras dejan residuo 0; 4 letras dejan residuo 1 (porque $4 = 3 +
-    1$), y así sucesivamente.
+Contemos las letras $I$ en cada cadena y clasifiquémoslas según el \textbf{residuo} al dividir entre 3. Por ejemplo:
+una letra $I$ deja residuo 1; dos letras dejan residuo 2; tres letras dejan residuo 0; cuatro letras dejan residuo 1
+(porque $4 = 3 + 1$), y así sucesivamente.
 
 Analicemos cómo cada regla afecta este residuo:
 \begin{itemize}
-    \item \textbf{Estado inicial:} \texttt{MI} tiene 1 letra $I$ $\Rightarrow$ residuo 1.
+    \item \textbf{Estado inicial:} \texttt{MI} tiene una letra $I$ $\Rightarrow$ residuo 1.
     \item \textbf{Regla 1} (Añadir \texttt{U}): No cambia el número de $I$ $\Rightarrow$ residuo sin cambio.
     \item \textbf{Regla 2} (Duplicar): Duplica las $I$. Si antes teníamos residuo 1, ahora tenemos residuo 2. Si teníamos
           residuo 2, ahora tenemos residuo 1 (porque $2 \times 2 = 4$, y $4$ deja residuo 1).
-    \item \textbf{Regla 3} (\texttt{III} $\to$ \texttt{U}): Elimina exactamente 3 letras $I$ $\Rightarrow$ residuo sin
+    \item \textbf{Regla 3} (\texttt{III} $\to$ \texttt{U}): Elimina exactamente tres letras $I$ $\Rightarrow$ residuo sin
           cambio.
     \item \textbf{Regla 4} (eliminar \texttt{UU}): No cambia el número de $I$ $\Rightarrow$ residuo sin cambio.
 \end{itemize}
 
-Partiendo de residuo 1, solo podemos alcanzar residuos 1 o 2, pero \textbf{nunca 0}. La cadena \texttt{MU} tiene 0
+Partiendo de residuo 1, solo podemos alcanzar residuos 1 o 2, pero \textbf{nunca 0}. La cadena \texttt{MU} no tiene
 letras $I$ (residuo 0), lo cual es imposible de alcanzar desde \texttt{MI}.
 
 Este resultado ilustra un principio fundamental: a veces, la exploración computacional no basta. Se requiere un
@@ -181,7 +177,7 @@ Los siguientes ejercicios se basan en un sistema axiomático minimalista con dos
 \end{exercise}
 
 \begin{exercise}
-    Demuestra que dos Fo's distintos contienen exactamente un Fe en común.
+    Demuestra que dos Fo's distintos tienen exactamente un Fe en común.
 \end{exercise}
 
 \begin{exercise}
