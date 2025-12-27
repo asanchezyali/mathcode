@@ -33,6 +33,10 @@ Notas sobre transformers, fine-tuning y aplicaciones de LLMs
 Apuntes sobre inferencia estadística y análisis bayesiano
 📥 [Descargar PDF](../../raw/pdfs/inferencial_statistics.pdf)
 
+**📐 Geometría** - Fundamentos geométricos para IA
+Notas sobre sistemas formales, geometría computacional y sus aplicaciones
+📥 [Descargar PDF](../../raw/pdfs/geometry.pdf)
+
 ### Artículos
 
 Artículos cortos sobre temas específicos ([ver artículos](articles/)):
