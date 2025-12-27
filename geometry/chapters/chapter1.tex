@@ -47,7 +47,7 @@ Para implementar computacionalmente un sistema formal, se requiere definir cuatr
     \item Un conjunto finito de \textbf{reglas de inferencia} para derivar nuevos teoremas.
 \end{enumerate}
 
-\section{El Acertijo MU: Un enfoque computacional}
+\subsection{El Acertijo MU: Un enfoque computacional}
 
 En esta sección estudiaremos el acertijo \texttt{MU}, el cual representa un sistema formal minimalista. Este problema
 fue planteado por Douglas Hofstadter en 1979 en su obra seminal \emph{Gödel, Escher, Bach: Un Eterno y Grácil
@@ -58,7 +58,7 @@ El objetivo es producir la cadena \texttt{MU} (de ahí su nombre) dentro de un s
 \texttt{I}, \texttt{U}. Esto significa que las cadenas del sistema estarán formadas únicamente por combinaciones de
 estas tres letras.
 
-\subsection{Definición del sistema MIU}
+\subsubsection{Definición del sistema MIU}
 
 El sistema parte de una cadena inicial o axioma: la cadena \texttt{MI}. A partir de ella, se pueden generar nuevas
 cadenas aplicando reglas de transformación. Si definimos $x$ e $y$ como variables que representan cualquier cadena de
@@ -82,7 +82,7 @@ símbolos del sistema, las reglas son:
           \emph{Ejemplo:} De \texttt{MUUUIII} se deriva \texttt{MUIII}.
 \end{itemize}
 
-\subsection{Exploración del espacio de búsqueda}
+\subsubsection{Exploración del espacio de búsqueda}
 
 Generar teoremas en un sistema formal es equivalente a realizar una \emph{búsqueda en un espacio de estados}, donde
 cada estado es una cadena válida y las transiciones son las reglas de inferencia. Esta perspectiva computacional
@@ -105,7 +105,7 @@ aplicaciones de la Regla 3 en diferentes posiciones, generando diversos hijos.
     \label{fig:treeMIU}
 \end{figure}
 
-\subsection{Implementación algorítmica}
+\subsubsection{Implementación algorítmica}
 
 Dado que el árbol de derivación crece exponencialmente, la exploración manual se vuelve inviable rápidamente. Aquí es
 donde la programación se convierte en una herramienta indispensable para las matemáticas.
@@ -129,11 +129,11 @@ el siguiente pseudocódigo:
     }
     \tcp{Regla 3: $xIIIy \Rightarrow xUy$}
     \ParaCada{posición $i$ donde aparece $III$ en $s$}{
-        $D \leftarrow D \cup \{s[0{:}i] + U + s[i{+}3{:}]\}$\;
+    $D \leftarrow D \cup \{s[0{:}i] + U + s[i{+}3{:}]\}$\;
     }
     \tcp{Regla 4: $xUUy \Rightarrow xy$}
     \ParaCada{posición $i$ donde aparece $UU$ en $s$}{
-        $D \leftarrow D \cup \{s[0{:}i] + s[i{+}2{:}]\}$\;
+    $D \leftarrow D \cup \{s[0{:}i] + s[i{+}2{:}]\}$\;
     }
     \Retornar{$D$}\;
 \end{algorithm}
@@ -144,7 +144,7 @@ A continuación, traducimos este pseudocódigo a Python:
 
 Este código nos permite automatizar la expansión del árbol y explorar niveles más profundos del espacio de búsqueda.
 
-\subsection{La imposibilidad de MU}
+\subsubsection{La imposibilidad de MU}
 
 Después de explorar el árbol de derivaciones, surge una pregunta natural: ¿es posible alcanzar \texttt{MU}? La
 respuesta es \textbf{no}, y la demostración es un ejemplo elegante de razonamiento matemático.
@@ -185,28 +185,21 @@ desde una perspectiva externa.
     Prueba tu función con las cadenas \texttt{MU}, \texttt{MIU}, \texttt{MIUIU} y \texttt{MUII}.
 \end{exercise}
 
-Los siguientes ejercicios se basan en un sistema axiomático minimalista con dos tipos de objetos: \textbf{Fe}'s y
-\textbf{Fo}'s. Los axiomas del sistema son:
-\begin{enumerate}
-    \item Existen exactamente tres Fe's.
-    \item Para cada par de Fe's distintos, existe exactamente un Fo al cual ambos pertenecen.
-    \item No todos los Fe's pertenecen al mismo Fo.
-    \item Dos Fo's distintos tienen al menos un Fe en común.
-\end{enumerate}
-
 \begin{exercise}
-    Demuestra que cada Fo tiene exactamente dos Fe's que le pertenecen.
-\end{exercise}
-
-\begin{exercise}
-    Demuestra que un Fo está completamente caracterizado por los Fe's que contiene. Es decir, si dos Fo's son distintos,
-    entonces no contienen los mismos Fe's.
-\end{exercise}
-
-\begin{exercise}
-    Demuestra que dos Fo's distintos tienen exactamente un Fe en común.
-\end{exercise}
-
-\begin{exercise}
-    Demuestra que existen exactamente tres Fo's distintos.
+    Considera un sistema axiomático minimalista con dos tipos de objetos: \textbf{Fe}'s y \textbf{Fo}'s. Los axiomas
+    del sistema son:
+    \begin{enumerate}
+        \item Existen exactamente tres Fe's.
+        \item Para cada par de Fe's distintos, existe exactamente un Fo al cual ambos pertenecen.
+        \item No todos los Fe's pertenecen al mismo Fo.
+        \item Dos Fo's distintos tienen al menos un Fe en común.
+    \end{enumerate}
+    A partir de estos axiomas, demuestra las siguientes proposiciones:
+    \begin{enumerate}
+        \item[(a)] Cada Fo tiene exactamente dos Fe's que le pertenecen.
+        \item[(b)] Un Fo está completamente caracterizado por los Fe's que contiene. Es decir, si dos Fo's son distintos,
+              entonces no contienen los mismos Fe's.
+        \item[(c)] Dos Fo's distintos tienen exactamente un Fe en común.
+        \item[(d)] Existen exactamente tres Fo's distintos.
+    \end{enumerate}
 \end{exercise}
