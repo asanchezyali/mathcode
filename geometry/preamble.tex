@@ -43,27 +43,29 @@
 \definecolor{codeVariable}{RGB}{217, 70, 239}         % Fuchsia for special
 
 \lstset{
-    % Typography
-    basicstyle=\ttfamily\small\linespread{1.1}\selectfont,
+    % Typography (reduced ~20%)
+    basicstyle=\ttfamily\footnotesize\linespread{1.1}\selectfont,
     keywordstyle=\color{codeKeyword}\bfseries,
     keywordstyle=[2]\color{codeFunction},
     commentstyle=\color{codeComment}\itshape,
     stringstyle=\color{codeString},
     % Line numbers
     numbers=left,
-    numberstyle=\scriptsize\color{codeNumber}\ttfamily,
+    numberstyle=\tiny\color{codeNumber}\ttfamily,
     numbersep=12pt,
     % Frame and background
     frame=l,
-    framesep=8pt,
-    framerule=2.5pt,
-    rulecolor=\color{codeAccent},
+    framesep=10pt,
+    framerule=1.5pt,
+    rulecolor=\color{codeAccent!70},
     backgroundcolor=\color{codeBackground},
+    framextopmargin=6pt,
+    framexbottommargin=6pt,
     % Spacing
     xleftmargin=18pt,
-    xrightmargin=8pt,
-    aboveskip=14pt,
-    belowskip=10pt,
+    xrightmargin=10pt,
+    aboveskip=20pt,
+    belowskip=12pt,
     % Behavior
     breaklines=true,
     breakatwhitespace=true,

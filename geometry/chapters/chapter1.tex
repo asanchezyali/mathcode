@@ -1,29 +1,45 @@
 \chapter{Preliminares}
 \label{chap:preliminares}
 
-Antes de adentrarnos en la geometría computacional, es fundamental establecer un lenguaje común. En este capítulo
-exploraremos las bases de los sistemas formales, las estructuras que nos permiten modelar matemáticamente la realidad y
-cómo estos conceptos teóricos se traducen en algoritmos ejecutables.
+La Geometría es, posiblemente, la rama más antigua de las matemáticas. Sus aplicaciones fueron estudiadas hace miles de
+años por egipcios, babilonios y chinos, mientras que su teoría fue desarrollada por los griegos. Lo que distingue el
+estudio moderno de la geometría del antiguo es el \emph{método axiomático}, piedra angular sobre la cual descansa toda
+la matemática pura. En este capítulo exploraremos las bases de los sistemas formales y cómo estos conceptos teóricos se
+traducen en algoritmos ejecutables.
 
-\section{Sistemas Formales}
+\section{Sistemas formales}
 
-El núcleo metodológico de las ciencias formales —como la Lógica y la Matemática— reside en el \textbf{método
-    axiomático}. Este enfoque se fundamenta en la postulación de un conjunto inicial de enunciados denominados
-\emph{axiomas}, los cuales guardan entre sí una relación de deducibilidad. Este cuerpo de proposiciones conforma lo que
-denominamos un \textbf{sistema axiomático} o \textbf{sistema formal}, donde el punto de partida de toda cadena
-deductiva son los axiomas: proposiciones que se asumen como verdaderas sin necesidad de demostración previa.
+El núcleo metodológico de las matemáticas reside en el \textbf{método axiomático}. Este enfoque se fundamenta en la
+postulación de un conjunto inicial de enunciados denominados \textbf{axiomas}, los cuales deben ser mutuamente
+consistentes e idealmente independientes entre sí. Este cuerpo de proposiciones conforma lo que denominamos un
+\textbf{sistema axiomático} o \textbf{sistema formal}, donde el punto de partida de toda cadena deductiva son los
+axiomas: proposiciones que se asumen como verdaderas sin necesidad de demostración previa.
 
-Desde una perspectiva estructural, un sistema formal es un artificio matemático abstracto. Está constituido por un
-alfabeto de símbolos que se \textbf{concatenan} para formar secuencias (o cadenas), las cuales son manipuladas
-siguiendo reglas estrictas para producir nuevas secuencias. Esta capacidad de manipulación simbólica permite que el
-sistema funcione como una representación estructurada, capaz de modelar aspectos específicos de la realidad.
+¿Por qué necesitamos axiomas? La respuesta está en un problema lógico fundamental: no es posible justificar una afirmación partiendo de la nada. Si una proposición se sostiene en otra, entonces surge la pregunta de cómo se justifica esta última. A su vez, necesitaría apoyarse en una tercera, y así sucesivamente. Si seguimos este razonamiento, nos encontramos con una regresión infinita de justificaciones, como una cadena interminable de dominós. Para evitar este problema, es necesario aceptar ciertas proposiciones como verdaderas sin necesidad de demostración. Estas proposiciones son los axiomas.
+
+El método axiomático puede resumirse en los siguientes principios:
+\begin{enumerate}
+    \item Todo sistema axiomático debe contener un conjunto de \textbf{términos primitivos}, deliberadamente elegidos como
+          indefinidos y sujetos a la interpretación del lector.
+    \item Todos los demás términos técnicos del sistema se definen a partir de los términos primitivos. Estos son las
+          \textbf{definiciones} del sistema.
+    \item El sistema contiene un conjunto de enunciados sobre términos primitivos y definiciones que se eligen sin demostrar.
+          Estos son los \textbf{axiomas} del sistema.
+    \item Todos los demás enunciados del sistema deben ser consecuencias lógicas de los axiomas. Estos enunciados derivados se
+          denominan \textbf{teoremas}.
+\end{enumerate}
+
+Desde una perspectiva computacional, un sistema formal es un mecanismo de manipulación de signos puramente sintáctico.
+Está constituido por un alfabeto de símbolos que se \textbf{concatenan} para formar secuencias (o cadenas), las cuales
+son manipuladas siguiendo reglas estrictas para producir nuevas secuencias. Esta capacidad de manipulación simbólica
+permite que el sistema funcione como una representación estructurada, permitiéndonos explorar relaciones lógicas y
+deducciones mediante razonamientos formales.
 
 En disciplinas como la informática, la teoría de la información y la estadística, estos sistemas actúan como gramáticas
 formales diseñadas para la modelización. Al proceso de construir estos sistemas se le llama \textbf{formalización}: un
-acto de abstracción mediante el cual capturamos la esencia de fenómenos del mundo real y los traducimos a un modelo
-conceptual expresado en un lenguaje formal riguroso.
+acto de abstracción mediante el cual estructuramos conceptos y relaciones en un lenguaje formal riguroso.
 
-Para especificar un sistema formal, se requiere definir cuatro elementos fundamentales:
+Para implementar computacionalmente un sistema formal, se requiere definir cuatro elementos:
 \begin{enumerate}
     \item Un \textbf{alfabeto} de símbolos primitivos.
     \item Un conjunto de reglas gramaticales para definir las \textbf{fórmulas bien formadas} (cadenas válidas).
@@ -33,49 +49,54 @@ Para especificar un sistema formal, se requiere definir cuatro elementos fundame
 
 \section{El Acertijo MU: Un enfoque computacional}
 
-En esta sección estudiaremos el acertijo $MU$, el cual representa un sistema formal minimalista. Este problema fue
-planteado por Douglas Hofstadter en 1979 en su obra seminal \emph{Gödel, Escher, Bach: Un Eterno y Grácil
+En esta sección estudiaremos el acertijo \texttt{MU}, el cual representa un sistema formal minimalista. Este problema
+fue planteado por Douglas Hofstadter en 1979 en su obra seminal \emph{Gödel, Escher, Bach: Un Eterno y Grácil
     Bucle}\footnote{Una lectura recomendada para entender la recursividad y la inteligencia artificial.}.
 
-El objetivo es producir la cadena $MU$ (de ahí su nombre) dentro de un sistema formal conocido como el \textbf{sistema
-    MIU}. El nombre deriva de su alfabeto, compuesto exclusivamente por tres símbolos: $M$, $I$, $U$. Esto significa que
-las cadenas del sistema $MIU$ estarán formadas únicamente por combinaciones de estas tres letras.
+El objetivo es producir la cadena \texttt{MU} (de ahí su nombre) dentro de un sistema formal conocido como el
+\textbf{sistema MIU}. El nombre deriva de su alfabeto, compuesto exclusivamente por tres símbolos: \texttt{M},
+\texttt{I}, \texttt{U}. Esto significa que las cadenas del sistema estarán formadas únicamente por combinaciones de
+estas tres letras.
 
-\subsection{Definición del Sistema MIU}
+\subsection{Definición del sistema MIU}
 
-El sistema parte de una cadena inicial o axioma: la cadena $MI$. A partir de ella, se pueden generar nuevas cadenas
-aplicando reglas de transformación. Si definimos $x$ e $y$ como variables que representan cualquier cadena de símbolos
-del sistema, las reglas son:
+El sistema parte de una cadena inicial o axioma: la cadena \texttt{MI}. A partir de ella, se pueden generar nuevas
+cadenas aplicando reglas de transformación. Si definimos $x$ e $y$ como variables que representan cualquier cadena de
+símbolos del sistema, las reglas son:
 
 \begin{itemize}
-    \item \textbf{Regla 1 (Adición de U).} Si una cadena termina en $I$, se puede agregar una $U$ al final.
+    \item \textbf{Regla 1 (Adición de U).} Si una cadena termina en \texttt{I}, se puede agregar una \texttt{U} al final.
           \[ xI \implies xIU \]
-          \emph{Ejemplo:} Si tenemos $MII$, podemos derivar $MIIU$.
+          \emph{Ejemplo:} Si tenemos \texttt{MII}, podemos derivar \texttt{MIIU}.
 
-    \item \textbf{Regla 2 (Duplicación).} Si una cadena comienza con $M$, se puede duplicar todo lo que sigue a la $M$.
+    \item \textbf{Regla 2 (Duplicación).} Si una cadena comienza con \texttt{M}, se puede duplicar todo lo que sigue.
           \[ Mx \implies Mxx \]
-          \emph{Ejemplo:} De $MIU$ se deriva $MIUIU$.
+          \emph{Ejemplo:} De \texttt{MIU} se deriva \texttt{MIUIU}.
 
-    \item \textbf{Regla 3 (Reducción de III).} Si en cualquier parte de la cadena aparece la secuencia $III$, puede sustituirse por $U$.
+    \item \textbf{Regla 3 (Reducción de III).} Si aparece la secuencia \texttt{III}, se puede sustituirse por \texttt{U}.
           \[ xIIIy \implies xUy \]
-          \emph{Ejemplo:} De $UMIIIMU$ se deriva $UMUMU$. Nótese que las tres $I$ deben ser consecutivas.
+          \emph{Ejemplo:} De \texttt{UMIIIMU} se deriva \texttt{UMUMU}. Nótese que las tres \texttt{I} deben ser consecutivas.
 
-    \item \textbf{Regla 4 (Eliminación de UU).} Si aparece la secuencia $UU$ en el interior de una cadena, está permitida su eliminación.
+    \item \textbf{Regla 4 (Eliminación de UU).} Si aparece la secuencia \texttt{UU}, está permitida su eliminación.
           \[ xUUy \implies xy \]
-          \emph{Ejemplo:} De $MUUUIII$ se deriva $MUIII$.
+          \emph{Ejemplo:} De \texttt{MUUUIII} se deriva \texttt{MUIII}.
 \end{itemize}
 
-\subsection{Exploración del Espacio de Búsqueda}
+\subsection{Exploración del espacio de búsqueda}
 
-Para intentar resolver el acertijo, procedemos a generar cadenas manualmente partiendo del axioma $MI$:
+Generar teoremas en un sistema formal es equivalente a realizar una \emph{búsqueda en un espacio de estados}, donde
+cada estado es una cadena válida y las transiciones son las reglas de inferencia. Esta perspectiva computacional
+justifica el uso de algoritmos de búsqueda para explorar el sistema.
+
+Para intentar resolver el acertijo, procedemos a generar cadenas manualmente partiendo del axioma \texttt{MI}:
 \begin{enumerate}
-    \item Aplicando la Regla 2 a $MI$, obtenemos $MII$.
-    \item Aplicando la Regla 1 a $MI$, obtenemos $MIU$.
+    \item Aplicando la Regla 2 a \texttt{MI}, obtenemos \texttt{MII}.
+    \item Aplicando la Regla 1 a \texttt{MI}, obtenemos \texttt{MIU}.
 \end{enumerate}
 
 Este proceso genera una estructura de árbol (\autoref{fig:treeMIU}). Sin embargo, a diferencia de los árboles binarios
-simples, aquí el factor de ramificación es variable. Por ejemplo, la cadena $MIIIIIIIU$ permite múltiples aplicaciones
-de la Regla 3 en diferentes posiciones, generando diversos hijos.
+simples, aquí el factor de ramificación es variable. Por ejemplo, la cadena \texttt{MIIIIIIIU} permite múltiples
+aplicaciones de la Regla 3 en diferentes posiciones, generando diversos hijos.
 
 \begin{figure}[h!]
     \centering
@@ -84,52 +105,59 @@ de la Regla 3 en diferentes posiciones, generando diversos hijos.
     \label{fig:treeMIU}
 \end{figure}
 
-\subsection{Implementación Algorítmica}
+\subsection{Implementación algorítmica}
 
 Dado que el árbol de derivación crece exponencialmente, la exploración manual se vuelve inviable rápidamente. Aquí es
 donde la programación se convierte en una herramienta indispensable para las matemáticas.
 
-Podemos modelar el sistema $MIU$ utilizando Python. El siguiente script define una función que toma una cadena y
-devuelve todas las posibles derivaciones inmediatas aplicando las cuatro reglas:
+Podemos modelar el sistema MIU utilizando Python. El siguiente script define una función que toma una cadena y devuelve
+todas las posibles derivaciones inmediatas aplicando las cuatro reglas:
 
-\begin{lstlisting}[language=Python, caption=Implementación de las reglas del sistema MIU en Python, label=code:miu_rules]
-def aplicar_reglas(cadena):
-    """
-    Recibe una cadena del sistema MIU y devuelve un conjunto 
-    con todas las cadenas que se pueden derivar de ella en un paso.
-    """
-    derivaciones = set()
-    
-    # Regla 1: xI -> xIU
-    if cadena.endswith('I'):
-        derivaciones.add(cadena + 'U')
-        
-    # Regla 2: Mx -> Mxx
-    if cadena.startswith('M'):
-        x = cadena[1:]
-        derivaciones.add('M' + x + x)
-        
-    # Regla 3: III -> U (Buscamos en todas las posiciones posibles)
-    for i in range(len(cadena) - 2):
-        if cadena[i:i+3] == 'III':
-            # Reconstruimos la cadena reemplazando III por U
-            nueva = cadena[:i] + 'U' + cadena[i+3:]
-            derivaciones.add(nueva)
-            
-    # Regla 4: UU -> eliminar (Buscamos en todas las posiciones posibles)
-    for i in range(len(cadena) - 1):
-        if cadena[i:i+2] == 'UU':
-            # Reconstruimos la cadena eliminando UU
-            nueva = cadena[:i] + cadena[i+2:]
-            derivaciones.add(nueva)
-            
-    return derivaciones
+\lstinputlisting[
+    language=Python,
+    caption=Implementación de las reglas del sistema MIU en Python,
+    label=code:miu_rules
+]{code/miu_rules.py}
 
-# Prueba del axioma inicial
-axioma = "MI"
-hijos = aplicar_reglas(axioma)
-print(f"Del axioma '{axioma}' se derivan: {hijos}")
-\end{lstlisting}
+Este código nos permite automatizar la expansión del árbol y explorar niveles más profundos del espacio de búsqueda.
 
-Este código nos permite automatizar la expansión del árbol. Tu reto ahora es construir un bucle que utilice esta
-función para explorar niveles más profundos y determinar si la cadena $MU$ es alcanzable o no.
+\subsection{La imposibilidad de MU}
+
+Después de explorar el árbol de derivaciones, surge una pregunta natural: ¿es posible alcanzar \texttt{MU}? La
+respuesta es \textbf{no}, y la demostración es un ejemplo elegante de razonamiento matemático.
+
+La clave está en observar un \emph{invariante}: una propiedad que se preserva bajo todas las reglas del sistema.
+Contemos las letras $I$ en cada cadena y clasifiquémoslas según el \emph{residuo} al dividir entre 3. Por ejemplo: 1
+letra $I$ deja residuo 1; 2 letras dejan residuo 2; 3 letras dejan residuo 0; 4 letras dejan residuo 1 (porque $4 = 3 +
+    1$), y así sucesivamente.
+
+Analicemos cómo cada regla afecta este residuo:
+\begin{itemize}
+    \item \textbf{Estado inicial:} \texttt{MI} tiene 1 letra $I$ $\Rightarrow$ residuo 1.
+    \item \textbf{Regla 1} (Añadir \texttt{U}): No cambia el número de $I$ $\Rightarrow$ residuo sin cambio.
+    \item \textbf{Regla 2} (Duplicar): Duplica las $I$. Si antes teníamos residuo 1, ahora tenemos residuo 2. Si teníamos
+          residuo 2, ahora tenemos residuo 1 (porque $2 \times 2 = 4$, y $4$ deja residuo 1).
+    \item \textbf{Regla 3} (\texttt{III} $\to$ \texttt{U}): Elimina exactamente 3 letras $I$ $\Rightarrow$ residuo sin
+          cambio.
+    \item \textbf{Regla 4} (eliminar \texttt{UU}): No cambia el número de $I$ $\Rightarrow$ residuo sin cambio.
+\end{itemize}
+
+Partiendo de residuo 1, solo podemos alcanzar residuos 1 o 2, pero \textbf{nunca 0}. La cadena \texttt{MU} tiene 0
+letras $I$ (residuo 0), lo cual es imposible de alcanzar desde \texttt{MI}.
+
+Este resultado ilustra un principio fundamental: a veces, la exploración computacional no basta. Se requiere un
+argumento matemático que trascienda la búsqueda exhaustiva. El acertijo MU nos enseña que trabajar \emph{dentro} de un
+sistema formal tiene límites, y que para entender verdaderamente sus propiedades debemos \emph{salir} de él y razonar
+desde una perspectiva externa.
+
+\begin{exercise}
+    Implementa en Python una función \texttt{es\_derivable(cadena)} que determine si una cadena dada es alcanzable desde
+    \texttt{MI} en el sistema MIU. La función debe:
+    \begin{enumerate}
+        \item Verificar que la cadena comience con \texttt{M} y solo contenga los símbolos \texttt{M}, \texttt{I}, \texttt{U}.
+        \item Contar el número de letras \texttt{I} en la cadena.
+        \item Calcular el residuo de ese número al dividir entre 3.
+        \item Retornar \texttt{True} si el residuo es 1 o 2, y \texttt{False} si es 0.
+    \end{enumerate}
+    Prueba tu función con las cadenas \texttt{MU}, \texttt{MIU}, \texttt{MIUIU} y \texttt{MUII}.
+\end{exercise}
