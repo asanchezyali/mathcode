@@ -127,6 +127,7 @@ cd nuevo_libro/
 
 MIT License - Ver [LICENSE](LICENSE)
 
-## Autor
+## Autores
 
-**Alejandro Sánchez Yalí** - [@asanchezyali](https://github.com/asanchezyali)
+- **Alejandro Sánchez Yalí** - Matemático, Universidad de Antioquia - [@asanchezyali](https://github.com/asanchezyali)
+- **Juan Pablo Restrepo** - Matemático, Universidad de Antioquia
