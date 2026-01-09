@@ -9,6 +9,10 @@ jobs:
       max-parallel: 1  # Compile one at a time to avoid conflicts
       matrix:
         book:
+          - name: math_fundamentals
+            dir: math_fundamentals
+            pdf: math_fundamentals.pdf
+            emoji: "📖"
           - name: deep_learning
             dir: deep_learning
             pdf: deep_learning.pdf
