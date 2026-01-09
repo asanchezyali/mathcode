@@ -1,144 +1,132 @@
-# 📚 Apuntes de Inteligencia Artificial
+# Math & Code
 
-[![Compilación de Libros](https://github.com/asanchezyali/machine-learning-es/workflows/Build%20LaTeX%20Books/badge.svg)](https://github.com/asanchezyali/machine-learning-es/actions)
+[![Compilar Libros](https://github.com/asanchezyali/mathcode/workflows/Build%20LaTeX%20Books/badge.svg)](https://github.com/asanchezyali/mathcode/actions)
 [![Licencia](https://img.shields.io/badge/Licencia-MIT-blue.svg)](LICENSE)
+[![LaTeX](https://img.shields.io/badge/LaTeX-TeX%20Live-008080.svg)](https://www.latex-project.org/)
 
-Este repositorio contiene mis apuntes y notas de estudio sobre diversos temas de Inteligencia Artificial. Son principalmente resúmenes de artículos, papers, libros y cursos que he estudiado.
+Colección de libros y artículos sobre **matemáticas** y **programación**, explorando los fundamentos teóricos y su aplicación práctica en inteligencia artificial, estadística y geometría computacional.
 
-## ⚠️ Importante
+## Objetivo
 
-Estos materiales son:
-- 📝 **Notas de estudio personales**, no libros completos
-- 🔬 **Resúmenes de papers y artículos**, no contenido 100% original
-- 🚧 **Trabajo en progreso**, se actualizan constantemente
-- 🎓 **Recursos educativos**, compartidos con la comunidad
+Construir recursos educativos que conecten la teoría matemática con la implementación en código, facilitando la comprensión de conceptos complejos a través de ejemplos prácticos y visualizaciones.
 
-## 📖 Contenido
+## Contenido
 
-### Libros (en desarrollo)
+### Libros
 
-**🧠 Deep Learning** - Elementos de Programación Diferenciable
-Notas sobre diferenciación automática, backpropagation y optimización
-📥 [Descargar PDF](../../raw/pdfs/deep_learning.pdf)
-
-**🤖 Machine Learning** - Aprendizaje Computacional
-Apuntes sobre teoría del aprendizaje estadístico y algoritmos clásicos
-📥 [Descargar PDF](../../raw/pdfs/machine_learning.pdf)
-
-**💬 LLMs** - Modelos de Lenguaje de Gran Escala
-Notas sobre transformers, fine-tuning y aplicaciones de LLMs
-📥 [Descargar PDF](../../raw/pdfs/llms.pdf)
-
-**📊 Estadística Inferencial** - Fundamentos Estadísticos
-Apuntes sobre inferencia estadística y análisis bayesiano
-📥 [Descargar PDF](../../raw/pdfs/inferencial_statistics.pdf)
-
-**📐 Geometría** - Fundamentos geométricos para IA
-Notas sobre sistemas formales, geometría computacional y sus aplicaciones
-📥 [Descargar PDF](../../raw/pdfs/geometry.pdf)
+| Libro | Descripción | PDF |
+|-------|-------------|-----|
+| **Fundamentos de las Matemáticas** | Lógica, conjuntos y estructuras algebraicas | [Descargar](../../raw/pdfs/math_fundamentals.pdf) |
+| **Geometría Plana** | Sistemas formales, axiomas y geometría computacional | [Descargar](../../raw/pdfs/geometry.pdf) |
+| **Deep Learning** | Diferenciación automática, backpropagation y optimización | [Descargar](../../raw/pdfs/deep_learning.pdf) |
+| **Machine Learning** | Teoría del aprendizaje estadístico y algoritmos | [Descargar](../../raw/pdfs/machine_learning.pdf) |
+| **LLMs** | Transformers, fine-tuning y modelos de lenguaje | [Descargar](../../raw/pdfs/llms.pdf) |
+| **Estadística Inferencial** | Inferencia estadística y análisis bayesiano | [Descargar](../../raw/pdfs/inferencial_statistics.pdf) |
 
 ### Artículos
 
-Artículos cortos sobre temas específicos ([ver artículos](articles/)):
-- 📄 [Deep Learning](../../raw/pdfs/articles/dl.pdf)
-- 📄 [Machine Learning](../../raw/pdfs/articles/ml.pdf)
-- 📄 [Estadística Inferencial](../../raw/pdfs/articles/inferencial_statistics.pdf)
+Artículos cortos sobre temas específicos ([ver todos](articles/)):
+- [Deep Learning](../../raw/pdfs/articles/dl.pdf)
+- [Machine Learning](../../raw/pdfs/articles/ml.pdf)
+- [Estadística Inferencial](../../raw/pdfs/articles/inferencial_statistics.pdf)
 
-## 🚀 Compilar
+## Compilar
 
 ### Requisitos
 
 - LaTeX (TeX Live o MiKTeX)
 - `pdflatex`, `biber`, `makeglossaries`, `makeindex`
 
-**Instalar en macOS:**
 ```bash
+# macOS
 brew install --cask mactex
-```
 
-**Instalar en Ubuntu/Debian:**
-```bash
+# Ubuntu/Debian
 sudo apt-get install texlive-full
 ```
 
-### Compilar todos los libros
+### Compilación
 
 ```bash
-git clone https://github.com/asanchezyali/machine-learning-es.git
-cd machine-learning-es
+git clone https://github.com/asanchezyali/mathcode.git
+cd mathcode
+
+# Compilar todos los libros
 ./compile.sh
-```
 
-### Compilar un libro específico
-
-```bash
+# Compilar un libro específico
+./compile.sh math_fundamentals
+./compile.sh geometry
 ./compile.sh deep_learning
 ./compile.sh machine_learning
-./compile.sh llms
-./compile.sh inferencial_statistics
-./compile.sh geometry
+
+# Compilar artículos
+cd articles && ./compile.sh
 ```
 
-### Compilar artículos
+## Estructura
+
+```
+mathcode/
+├── math_fundamentals/      # Fundamentos de las matemáticas
+├── geometry/               # Geometría plana
+├── deep_learning/          # Deep learning
+├── machine_learning/       # Machine learning
+├── llms/                   # Modelos de lenguaje
+├── inferencial_statistics/ # Estadística inferencial
+├── articles/               # Artículos cortos
+├── template/               # Plantilla para nuevos libros
+├── src/                    # Material compartido
+└── compile.sh              # Script de compilación
+```
+
+Cada libro sigue la estructura:
+```
+libro/
+├── chapters/       # Capítulos del libro
+├── code/           # Código fuente y ejemplos
+├── frontmatter/    # Portada, prefacio, dedicatoria
+├── backmatter/     # Apéndices, glosario
+├── bibliography/   # Referencias bibliográficas
+└── main.tex        # Documento principal
+```
+
+## Crear un Nuevo Libro
+
+Usa el directorio `template/` como base para nuevos libros:
 
 ```bash
-cd articles
-./compile.sh              # Todos los artículos
-./compile.sh dl.tex       # Artículo específico
+cp -r template/ nuevo_libro/
+cd nuevo_libro/
+# Edita main.tex y cambia el título
+# Agrega capítulos en chapters/
 ```
 
-## 🤝 Contribuciones
+## Contribuir
 
-Las contribuciones son bienvenidas. Si encuentras errores o quieres agregar contenido:
+1. Fork del repositorio
+2. Crear rama: `git checkout -b feature/nuevo-capitulo`
+3. Commit: `git commit -m 'Agregar capítulo sobre X'`
+4. Push: `git push origin feature/nuevo-capitulo`
+5. Abrir Pull Request
 
-1. Haz fork del repositorio
-2. Crea una rama (`git checkout -b fix/error-capitulo-3`)
-3. Haz commit de tus cambios (`git commit -m 'Corregir error en ecuación'`)
-4. Push a la rama (`git push origin fix/error-capitulo-3`)
-5. Abre un Pull Request
+**Guías de estilo:**
+- Español neutro (LATAM)
+- Citar fuentes con `\parencite{}`
+- Verificar compilación antes del PR
 
-### Guías
+## Roadmap
 
-- Usa español neutro (LATAM)
-- Cita las fuentes apropiadamente
-- Usa `\parencite{}` para referencias bibliográficas
-- Compila sin errores antes de hacer PR
+- [ ] Completar libro de Fundamentos de las Matemáticas
+- [ ] Completar libro de Geometría Plana
+- [ ] Agregar ejemplos de código en Python
+- [ ] Crear visualizaciones interactivas
+- [ ] Traducción al inglés
 
-## 📁 Estructura
+## Licencia
 
-```
-machine-learning-es/
-├── deep_learning/        # Notas de deep learning
-├── machine_learning/     # Notas de ML clásico
-├── llms/                 # Notas de LLMs
-├── inferencial_statistics/  # Notas de estadística
-├── geometry/             # Fundamentos geométricos
-├── src/                  # Material adicional
-├── articles/             # Artículos cortos
-├── compile.sh            # Script de compilación
-└── README.md
-```
+MIT License - Ver [LICENSE](LICENSE)
 
-## 📜 Licencia
+## Autor
 
-MIT License - Ver [LICENSE](LICENSE) para más detalles.
-
-Puedes usar, modificar y compartir este material libremente, dando crédito apropiado.
-
-## 👤 Autor
-
-**Alejandro Sánchez Yalí**
-[@asanchezyali](https://github.com/asanchezyali)
-
-## 🙏 Agradecimientos
-
-Este material es posible gracias a:
-- Los autores de los papers y libros que he estudiado
-- La comunidad de LaTeX
-- Todos los que han contribuido con correcciones y sugerencias
-
----
-
-<p align="center">
-  <sub>Compartido con la comunidad • Hecho con LaTeX ❤️</sub>
-</p>
+**Alejandro Sánchez Yalí** - [@asanchezyali](https://github.com/asanchezyali)

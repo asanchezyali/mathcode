@@ -1,0 +1,68 @@
+% chapter1.tex - Lógica Proposicional
+
+\chapter{Lógica Proposicional}
+
+\section{Introducción}
+
+La lógica matemática es el estudio de los métodos de razonamiento. En este capítulo introducimos los conceptos fundamentales de la lógica proposicional, que constituye la base del pensamiento matemático riguroso.
+
+\begin{definition}
+Una \textbf{proposición} es un enunciado declarativo que puede ser verdadero o falso, pero no ambos simultáneamente.
+\end{definition}
+
+\begin{example}
+Los siguientes son ejemplos de proposiciones:
+\begin{itemize}
+    \item ``2 + 2 = 4'' (verdadera)
+    \item ``La Tierra es plana'' (falsa)
+    \item ``Existen infinitos números primos'' (verdadera)
+\end{itemize}
+\end{example}
+
+\section{Conectivos Lógicos}
+
+Los conectivos lógicos permiten construir proposiciones compuestas a partir de proposiciones simples.
+
+\begin{definition}
+Los \textbf{conectivos lógicos} básicos son:
+\begin{itemize}
+    \item Negación ($\neg$): ``no''
+    \item Conjunción ($\land$): ``y''
+    \item Disyunción ($\lor$): ``o''
+    \item Implicación ($\rightarrow$): ``si... entonces''
+    \item Bicondicional ($\leftrightarrow$): ``si y solo si''
+\end{itemize}
+\end{definition}
+
+\section{Tablas de Verdad}
+
+Las tablas de verdad determinan el valor de verdad de proposiciones compuestas.
+
+\begin{theorem}
+Para toda proposición $p$, se cumple que $\neg(\neg p) \equiv p$.
+\end{theorem}
+
+\begin{proof}
+Construimos la tabla de verdad:
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+$p$ & $\neg p$ & $\neg(\neg p)$ \\
+\hline
+V & F & V \\
+F & V & F \\
+\hline
+\end{tabular}
+\end{center}
+Observamos que las columnas $p$ y $\neg(\neg p)$ son idénticas.
+\end{proof}
+
+\section{Ejercicios}
+
+\begin{exercise}
+Construye la tabla de verdad para la proposición $(p \land q) \rightarrow p$.
+\end{exercise}
+
+\begin{exercise}
+Demuestra que $(p \rightarrow q) \equiv (\neg p \lor q)$.
+\end{exercise}

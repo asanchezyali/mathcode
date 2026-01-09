@@ -1,0 +1,363 @@
+% preamble.tex - Contains all packages and configurations
+\documentclass[12pt, a4paper, oneside]{book}
+%%% BASIC PACKAGES
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[spanish, es-noshorthands]{babel}
+\usepackage{comment}
+\usepackage{textcomp}
+
+%%% DOCUMENT GEOMETRY
+\usepackage[top=2.5cm, bottom=2.5cm, right=2.5cm, left=2.5cm, headheight=15pt, marginparwidth=2.5cm]{geometry}
+\usepackage{multicol}
+\usepackage{lscape}
+
+%%% MATH PACKAGES
+\usepackage{amsmath, amsthm, amsfonts, latexsym, cancel}
+\usepackage{amsbsy}
+\usepackage{thmtools}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+%%% STYLE AND DESIGN PACKAGES
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc,shapes,shadows,decorations.pathmorphing,matrix,positioning}
+\usepackage{tikz-qtree}
+\usepackage{mdframed}
+
+%%% CODE LISTINGS
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings, skins, breakable}
+\renewcommand{\lstlistingname}{Código}
+
+% Modern code color palette
+\definecolor{codeBackground}{RGB}{250, 250, 252}
+\definecolor{codeFrame}{RGB}{218, 220, 235}
+\definecolor{codeAccent}{RGB}{99, 102, 241}
+\definecolor{codeKeyword}{RGB}{124, 58, 237}
+\definecolor{codeString}{RGB}{5, 150, 105}
+\definecolor{codeComment}{RGB}{148, 163, 184}
+\definecolor{codeNumber}{RGB}{180, 190, 205}
+\definecolor{codeFunction}{RGB}{37, 99, 235}
+\definecolor{codeVariable}{RGB}{217, 70, 239}
+
+\lstset{
+    basicstyle=\ttfamily\footnotesize\linespread{1.1}\selectfont,
+    keywordstyle=\color{codeKeyword}\bfseries,
+    keywordstyle=[2]\color{codeFunction},
+    commentstyle=\color{codeComment}\itshape,
+    stringstyle=\color{codeString},
+    numbers=left,
+    numberstyle=\tiny\color{codeNumber}\ttfamily,
+    numbersep=10pt,
+    breaklines=true,
+    breakatwhitespace=true,
+    showstringspaces=false,
+    tabsize=4,
+    extendedchars=true,
+    inputencoding=utf8,
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+             {ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1
+             {Ú}{{\'U}}1 {Ñ}{{\~N}}1
+}
+
+% Custom tcolorbox style for code listings
+\newtcblisting{codebox}[2][]{
+    listing only,
+    listing options={language=#2, style=tcblatex},
+    enhanced,
+    breakable,
+    colback=codeBackground,
+    colframe=codeFrame,
+    boxrule=0.4pt,
+    left=8pt,
+    right=8pt,
+    top=10pt,
+    bottom=10pt,
+    arc=2pt,
+    borderline west={2pt}{0pt}{codeAccent!70},
+    #1
+}
+
+% Style for lstinputlisting with tcolorbox
+\tcbset{
+    codestyle/.style={
+        listing only,
+        enhanced,
+        breakable,
+        colback=codeBackground,
+        colframe=codeFrame,
+        boxrule=0.4pt,
+        left=16pt,
+        right=8pt,
+        top=8pt,
+        bottom=10pt,
+        arc=2pt,
+        borderline west={2pt}{0pt}{codeAccent!70},
+        fonttitle=\bfseries\small\color{black!80},
+        coltitle=black!80,
+        colbacktitle=codeFrame!50,
+        toptitle=3pt,
+        bottomtitle=3pt,
+        attach boxed title to top left={yshift=-2mm, xshift=2mm},
+        boxed title style={colback=codeFrame!50, colframe=codeFrame, boxrule=0pt, arc=1pt},
+    }
+}
+
+\newtcbinputlisting{\codefile}[2][]{
+    codestyle,
+    listing file={#2},
+    #1
+}
+
+%%% BOOK-SPECIFIC PACKAGES
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{minitoc}
+\usepackage{epigraph}
+\usepackage{titlesec}
+
+%%% ALGORITHMS
+\usepackage[ruled,vlined,spanish,onelanguage]{algorithm2e}
+\SetKwInput{KwEntrada}{Entrada}
+\SetKwInput{KwSalida}{Salida}
+\SetKwFor{ParaCada}{para cada}{hacer}{fin}
+\SetKwIF{Si}{SinoSi}{Sino}{si}{entonces}{sino si}{sino}{fin}
+\SetKwFor{Para}{para}{hacer}{fin}
+\SetKw{Retornar}{retornar}
+
+%%% BIBLIOGRAPHY AND REFERENCES
+\usepackage[backend=biber, style=apa, sorting=ynt]{biblatex}
+\usepackage{csquotes}
+
+%%% INDEX AND GLOSSARY
+\usepackage{imakeidx}
+\usepackage[toc]{glossaries}
+\makeindex[columns=3, title=Índice Alfabético]
+
+%%% GRAPHICS AND FIGURES
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\graphicspath{{./images/}}
+
+%%% HYPERLINKS
+\usepackage[
+    breaklinks=true,
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=gray
+]{hyperref}
+\usepackage{xurl}
+
+%%% COLOR DEFINITIONS
+\definecolor{theoremBG}{RGB}{235,245,255}
+\definecolor{theoremBorder}{RGB}{210,225,250}
+\definecolor{definitionBG}{RGB}{235,255,240}
+\definecolor{definitionBorder}{RGB}{210,245,220}
+\definecolor{remarkBG}{RGB}{255,240,230}
+\definecolor{remarkBorder}{RGB}{250,220,205}
+\definecolor{easyBG}{RGB}{230,242,255}
+\definecolor{easyBorder}{RGB}{205,220,250}
+\definecolor{mediumBG}{RGB}{255,240,225}
+\definecolor{mediumBorder}{RGB}{250,220,205}
+\definecolor{hardBG}{RGB}{255,230,240}
+\definecolor{hardBorder}{RGB}{250,205,220}
+\definecolor{exerciseBG}{RGB}{240,240,255}
+\definecolor{exerciseBorder}{RGB}{220,220,250}
+
+%%% THEOREM STYLES
+\mdfdefinestyle{theoremstyle}{
+    linecolor=theoremBorder,
+    linewidth=0.4pt,
+    backgroundcolor=theoremBG!40,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{definitionstyle}{
+    linecolor=definitionBorder,
+    linewidth=0.4pt,
+    backgroundcolor=definitionBG!40,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{remarkstyle}{
+    linecolor=remarkBorder,
+    linewidth=0.4pt,
+    backgroundcolor=remarkBG!40,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{easyproblemstyle}{
+    linecolor=easyBorder,
+    linewidth=0.4pt,
+    backgroundcolor=easyBG!40,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{mediumproblemstyle}{
+    linecolor=mediumBorder,
+    linewidth=0.4pt,
+    backgroundcolor=mediumBG!40,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{hardproblemstyle}{
+    linecolor=hardBorder,
+    linewidth=0.4pt,
+    backgroundcolor=hardBG!40,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+\mdfdefinestyle{exercisestyle}{
+    linecolor=exerciseBorder,
+    linewidth=0.4pt,
+    backgroundcolor=exerciseBG!40,
+    innertopmargin=10pt,
+    innerbottommargin=10pt,
+    innerleftmargin=10pt,
+    innerrightmargin=10pt,
+    skipabove=\topskip,
+    skipbelow=\topskip,
+}
+
+%%% THEOREM DEFINITIONS
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem{lemma}[theorem]{Lema}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}[chapter]
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Observación}
+
+\newtheorem{example}{Ejemplo}[chapter]
+\newtheorem{easyproblem}{Problema}[chapter]
+\newtheorem{mediumproblem}{Problema}[chapter]
+\newtheorem{hardproblem}{Problema}[chapter]
+\newtheorem{exercise}{Ejercicio}[chapter]
+
+%%% APPLY STYLES TO THEOREMS
+\surroundwithmdframed[style=theoremstyle]{theorem}
+\surroundwithmdframed[style=theoremstyle]{corollary}
+\surroundwithmdframed[style=theoremstyle]{lemma}
+\surroundwithmdframed[style=definitionstyle]{definition}
+\surroundwithmdframed[style=remarkstyle]{remark}
+\surroundwithmdframed[style=theoremstyle]{example}
+\surroundwithmdframed[style=easyproblemstyle]{easyproblem}
+\surroundwithmdframed[style=mediumproblemstyle]{mediumproblem}
+\surroundwithmdframed[style=hardproblemstyle]{hardproblem}
+\surroundwithmdframed[style=exercisestyle]{exercise}
+
+%%% PROOF STYLE
+\renewenvironment{proof}[1][\proofname]
+{\par\noindent\textit{#1.}\space}
+{\hfill$\square$\par\vspace{\baselineskip}}
+
+%%% CUSTOM CHAPTER FORMATTING
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries}
+{\chaptertitlename\ \thechapter}
+{20pt}
+{\Huge}
+\titlespacing*{\chapter}{0pt}{50pt}{40pt}
+
+%%% CUSTOM SECTION FORMATTING
+\titleformat{\section}
+{\normalfont\Large\bfseries}
+{\thesection}
+{1em}
+{}
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+
+%%% HEADER AND FOOTER SETTINGS
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\chaptermark}[1]{\markboth{\chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\textit{\rightmark}}
+\fancyhead[RE]{\textit{\leftmark}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+%%% MATH OPERATORS
+\DeclareMathOperator{\sen}{sen\,}
+\DeclareMathOperator{\senh}{senh\,}
+\DeclareMathOperator{\sech}{sech\,}
+\DeclareMathOperator{\rot}{rot\,}
+\DeclareMathOperator{\dive}{div\,}
+\DeclareMathOperator{\nulo}{nul\,}
+\DeclareMathOperator{\im}{img}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Tr}{Tr\,}
+\DeclareMathOperator{\Crit}{Crit\,}
+\DeclareMathOperator{\md}{\;mod}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\mcd}{mcd}
+\DeclareMathOperator{\mcm}{mcm}
+
+%%% MATH SYMBOLS AND COMMANDS
+\newcommand{\KK}{\mathbb{K}}
+\newcommand{\EE}{\mathcal{E}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\NNO}{\mathbb{N}_{_0}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\CC}{\mathbb{C}}
+
+%%% PARAGRAPH SETTINGS
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{2mm}
+
+%%% ORPHANS AND WIDOWS PREVENTION
+\clubpenalty=1000
+\widowpenalty=1000
+\displaywidowpenalty=1000
+
+% --- Custom commands for title page ---
+\makeatletter
+\newcommand{\printbooktitle}{\@title}
+\newcommand{\printbookauthor}{\@author}
+\newcommand{\printbookdate}{\@date}
+\makeatother
+\let\cleardoublepage\clearpage
+\addbibresource{bibliography/references.bib}
