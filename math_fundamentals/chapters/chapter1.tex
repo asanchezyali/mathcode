@@ -1,68 +1,22 @@
-% chapter1.tex - Lógica Proposicional
+\chapter{La genesis del análisis de Fourier}
 
-\chapter{Lógica Proposicional}
+\epigraph{Respecto a las investigaciones de d'Alembert y Euler, ¿no podría añadirse que, si conocían esta expansión, hicieron un uso muy imperfecto de ella? Ambos estaban persuadidos de que una función arbitraria y discontinua nunca podría resolverse en series de este tipo, y ni siquiera parece que alguien hubiera desarrollado una constante en cosenos de arcos múltiples, el primer problema que tuve que resolver en la teoría del calor.}{\textit{J. Fourier}, 1808-9}
 
-\section{Introducción}
+\section{Introducción histórica}
 
-La lógica matemática es el estudio de los métodos de razonamiento. En este capítulo introducimos los conceptos fundamentales de la lógica proposicional, que constituye la base del pensamiento matemático riguroso.
+Durante el siglo XVIII, matemaáticos como Jean Le Rond d'Alembert(1717-1783) y Leonhard Euler (1707-1783) investigaron
+la ecuación de onda para describir el movimiento de una cuerda vibrante \parencite{stein2003}. Aunque en 1753 Daniel
+Bernulli (1700-1782) propuso que cualquier movimiento en la cuerda podía expresarse como una suma infinita de
+oscilaciones sinusoidales (armónicos), Euler y d'Alembert Euler y d'Alembert rechazaron la propuesta de Bernoulli,
+argumentando que una suma de funciones suaves y periódicas (como senos y cosenos) jamás podría representar una curva
+que no fuera inherentemente suave o que tuviera comportamientos no periódicos en su origen
+\parencite{rodriguez-zuazua}. En esa época, se creía firmemente que una función con discontinuidades nunca podría ser
+representada por una serie de funciones continuas y suaves como el seno y el coseno.
 
-\begin{definition}
-Una \textbf{proposición} es un enunciado declarativo que puede ser verdadero o falso, pero no ambos simultáneamente.
-\end{definition}
-
-\begin{example}
-Los siguientes son ejemplos de proposiciones:
-\begin{itemize}
-    \item ``2 + 2 = 4'' (verdadera)
-    \item ``La Tierra es plana'' (falsa)
-    \item ``Existen infinitos números primos'' (verdadera)
-\end{itemize}
-\end{example}
-
-\section{Conectivos Lógicos}
-
-Los conectivos lógicos permiten construir proposiciones compuestas a partir de proposiciones simples.
-
-\begin{definition}
-Los \textbf{conectivos lógicos} básicos son:
-\begin{itemize}
-    \item Negación ($\neg$): ``no''
-    \item Conjunción ($\land$): ``y''
-    \item Disyunción ($\lor$): ``o''
-    \item Implicación ($\rightarrow$): ``si... entonces''
-    \item Bicondicional ($\leftrightarrow$): ``si y solo si''
-\end{itemize}
-\end{definition}
-
-\section{Tablas de Verdad}
-
-Las tablas de verdad determinan el valor de verdad de proposiciones compuestas.
-
-\begin{theorem}
-Para toda proposición $p$, se cumple que $\neg(\neg p) \equiv p$.
-\end{theorem}
-
-\begin{proof}
-Construimos la tabla de verdad:
-\begin{center}
-\begin{tabular}{|c|c|c|}
-\hline
-$p$ & $\neg p$ & $\neg(\neg p)$ \\
-\hline
-V & F & V \\
-F & V & F \\
-\hline
-\end{tabular}
-\end{center}
-Observamos que las columnas $p$ y $\neg(\neg p)$ son idénticas.
-\end{proof}
-
-\section{Ejercicios}
-
-\begin{exercise}
-Construye la tabla de verdad para la proposición $(p \land q) \rightarrow p$.
-\end{exercise}
-
-\begin{exercise}
-Demuestra que $(p \rightarrow q) \equiv (\neg p \lor q)$.
-\end{exercise}
+La revolución en el pensamiento matemático llegó con Joseph Fourier (1768-1830) a principios del siglo XIX
+\parencite{sensenbaugh2023}, \parencite{wiki-fourier}. Mientras servía como prefecto en Isère, Francia, Fourier comenzó
+a experimentar con la difusión térmica, adoptando un enfoque fenomenológico: no buscacaba entender qué era el calor,
+sino las leyes matemáticas que gobernaban su propagación. En su memoría de 1807, \textit{Mémoire sur la propagation de
+    la chaleur dans les corps solides}, \parencite{fourier1807}, Fourier derivó la ecuación del calor basándose en el
+principio de conservación de la energía y en la ley que establece que el flujo de calor es proporcional al gradiente
+negativo de la temperatura.

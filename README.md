@@ -16,7 +16,7 @@ Construir recursos educativos que conecten la teoría matemática con la impleme
 
 | Libro | Descripción | PDF |
 |-------|-------------|-----|
-| **Fundamentos de las Matemáticas** | Lógica, conjuntos y estructuras algebraicas | [Descargar](../../raw/pdfs/math_fundamentals.pdf) |
+| **Fundamentos de las Matemáticas** | Compilación de ideas fundamentales para el desarrollo de matemáticas avanzadas | [Descargar](../../raw/pdfs/math_fundamentals.pdf) |
 | **Geometría Plana** | Sistemas formales, axiomas y geometría computacional | [Descargar](../../raw/pdfs/geometry.pdf) |
 | **Deep Learning** | Diferenciación automática, backpropagation y optimización | [Descargar](../../raw/pdfs/deep_learning.pdf) |
 | **Machine Learning** | Teoría del aprendizaje estadístico y algoritmos | [Descargar](../../raw/pdfs/machine_learning.pdf) |
