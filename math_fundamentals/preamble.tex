@@ -144,6 +144,18 @@
 % Add spacing between bibliography entries
 \setlength{\bibitemsep}{1em}
 
+% Remove hanging indent and add square bullets
+\setlength{\bibhang}{0pt}
+\defbibenvironment{bibliography}
+  {\list
+     {\tiny$\blacksquare$}
+     {\setlength{\leftmargin}{1.5em}%
+      \setlength{\itemindent}{0pt}%
+      \setlength{\itemsep}{\bibitemsep}%
+      \setlength{\parsep}{\bibparsep}}}
+  {\endlist}
+  {\item}
+
 %%% INDEX AND GLOSSARY
 \usepackage{imakeidx}
 \usepackage[toc]{glossaries}
