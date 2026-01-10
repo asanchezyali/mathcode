@@ -24,6 +24,8 @@
 \usepackage[dvipsnames]{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{calc,shapes,shadows,decorations.pathmorphing,matrix,positioning}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
 \usepackage{tikz-qtree}
 \usepackage{mdframed}
 
@@ -133,6 +135,14 @@
 %%% BIBLIOGRAPHY AND REFERENCES
 \usepackage[backend=biber, style=apa, sorting=ynt]{biblatex}
 \usepackage{csquotes}
+\usepackage{fontawesome5}
+
+% Format URL as clickable globe icon
+\DeclareFieldFormat{url}{\href{#1}{\faGlobe}}
+\DeclareFieldFormat{urldate}{}
+
+% Add spacing between bibliography entries
+\setlength{\bibitemsep}{1em}
 
 %%% INDEX AND GLOSSARY
 \usepackage{imakeidx}
