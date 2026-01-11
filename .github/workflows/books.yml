@@ -29,10 +29,6 @@ jobs:
             dir: inferencial_statistics
             pdf: inferencial_statistics.pdf
             emoji: "📊"
-          - name: src
-            dir: src
-            pdf: src.pdf
-            emoji: "📚"
           - name: geometry
             dir: geometry
             pdf: geometry.pdf
