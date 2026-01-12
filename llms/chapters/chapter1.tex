@@ -1,0 +1,123 @@
+\chapter{Estructura algebraicas y matemáticas antes de los números}
+
+En esta sección, estudiamos las estructuras pre-numéricas que son fundamentales para entender la inteligencia
+artificial. Estructuras como los conjuntos las funciones nos permiten describir matemáticamente colecciones de objetos,
+las conexiones entre ellos y las operaciones que se pueden realizar sobre ellos. Un enfoque clave está en los grupos,
+que se utilizan para modelar las transformaciones de los datos y las simetrías en los modelos de aprendizaje
+automático.
+
+\section{Conjuntos, mapas y funciones}
+
+A primera vista, los números pueden parecer los objetos más elementales en matemáticas. Sin embargo, es posible
+identificar estructuras aún más simples y básicas. De hecho, los números pueden sumarse, restarse, multiplicarse, etc.,
+lo cual requiere un conjunto de reglas que definan cómo se realizan estas operaciones. ¿Pero qué pasa si consideramos
+solo una colección de objetos, despojados de cualquier suposición adicional sobre ellos?
+
+\begin{definition}
+    Un \textit{conjunto} es una colección de objetos distintos, llamados \textit{elementos} o \textit{miembros} del conjunto.
+\end{definition}
+
+Estos elementos pueden ser cualquier cosa: números, símbolos o incluso otros conjuntos. Lo que caracteriza a un
+conjunto es que no permite la repetición de elementos (es decir, cada elemento aparece solo una vez en un conjunto), y
+el orden en que aparecen los elementos no importa (es decir, los conjuntos no están ordenados). Los conjuntos son la
+base para definir estructuras matemáticas más complejas.
+
+Típicamente se denotan con letras mayúsculas, como $A, B, X$, etc. Los miembros de un conjunto se listan dentro de
+llaves $\{\;\}$, y si un elemento $x$ pertenece a un conjunto $A$, escribimos $x \in A$, que se lee como «$x$ es un
+elemento de $A$». Si $x$ no pertenece a $A$, escribimos $x \notin A$. Por ejemplo, si $A = \{1, 2, 3\}$, entonces $2
+    \in A$, pero $4 \notin A$. Algunos ejemplos son:
+
+\begin{itemize}
+    \item El \textbf{conjunto vacío}, un conjunto sin elementos. Se denota por $\emptyset$ o a veces por $\{\;\}$.
+    \item El \textbf{conjunto Unitario (Singleton)}, un conjunto con exactamente un elemento, por ejemplo, $\{1\}$.
+    \item El \textbf{conjunto de los números naturales}. Denotado por $\NN$, es el conjunto de todos los enteros no negativos:
+          $\NN = \{0, 1, 2, 3, \dots\}$.
+    \item El \textbf{conjunto de los enteros}, que incluye números positivos, números negativos y el cero.
+    \item El \textbf{conjunto de los números racionales}, que son números que pueden expresarse como una razón de dos enteros.
+    \item El \textbf{conjunto de los números reales}, incluyendo tanto números racionales (e.g., $1, 0.75, -3$) como números
+          irracionales (e.g., $\pi, \sqrt{2}$).
+    \item El \textbf{conjunto de los números complejos}, que pueden escribirse como $a + bi$, donde $a$ y $b$ son números reales
+          e $i$ es la unidad imaginaria con $i^2 = -1$.
+\end{itemize}
+
+\subsection{Notación de conjuntos y operaciones}
+
+\begin{itemize}
+    \item \textbf{Notación constructiva de conjuntos}: Se utiliza para describir un conjunto especificando una expresión o la forma general de un elemento, seguida de una barra vertical separadora $|$, y a su derecha, una regla que la expresión de la izquierda debe satisfacer.
+          \[
+              \{x \mid f(x)\} = \{\text{expresión} \mid \text{regla satisfecha por la expresión}\}.
+          \]
+          En palabras, se puede leer como «$x$ tal que (para el cual) $f(x)$».
+
+    \item \textbf{Subconjunto}: Un conjunto $A$ es un subconjunto de un conjunto $B$, escrito $A \subseteq B$, si cada elemento de $A$ es también un elemento de $B$. Si $A \subseteq B$ pero $A \neq B$, decimos que $A$ es un \textbf{subconjunto propio}, escrito $A \subset B$.
+
+    \item \textbf{Unión}: La unión de dos conjuntos $A$ y $B$, escrita $A \cup B$, es el conjunto de todos los elementos que están en $A$, en $B$, o en ambos.
+
+    \item \textbf{Intersección}: La intersección de dos conjuntos $A$ y $B$, escrita $A \cap B$, es el conjunto de todos los elementos que están tanto en $A$ como en $B$.
+    \item \textbf{Diferencia}: La diferencia de dos conjuntos $A$ y $B$, escrita $A \setminus B$, es el conjunto de todos los elementos que están en $A$ pero no en $B$.
+
+    \item \textbf{Complemento}: El complemento de un conjunto $A$, escrito $A^c$, es el conjunto de todos los elementos que
+          no están en $A$, asumiendo que existe un conjunto universal $U$ que contiene todos los elementos bajo consideración.
+
+    \item \textbf{Conjunto potencia}: El conjunto potencia de un conjunto $A$, denotado por $\mathcal{P}(A)$, es el conjunto de todos los subconjuntos de $A$, incluyendo el conjunto vacío y el propio $A$.
+
+    \item \textbf{Cardinalidad}: La cardinalidad de un conjunto es el tamaño o número de elementos que contiene. Si un conjunto es finito, su cardinalidad es un entero no negativo. Para conjuntos infinitos, la cardinalidad se define de manera más abstracta: dos conjuntos infinitos tienen la misma cardinalidad si existe una biyección entre sus elementos. La cardinalidad de un conjunto $A$ se denota por $|A|$ o a veces $\#(A)$.
+\end{itemize}
+
+Hay múltiples formas de especificar un conjunto, además de listar sus elementos explícitamente. Por ejemplo, podemos
+definir el conjunto de los números naturales pares como
+\[
+    \{2x \mid x \in \mathbb{N}\} = \{x \in \mathbb{N} \mid x \text{ es par}\} = \{2, 4, 6, 8, \dots\}.
+\]
+Alternativamente, a veces la regla que deben satisfacer los elementos del conjunto podría ser una ecuación:
+\[
+    \{x \in \mathbb{Z} \mid x > 0\} = \mathbb{N},
+\]
+\[
+    \{x \in \mathbb{Q} \mid x^2 = 2\} = \emptyset.
+\]
+En el último ejemplo, las soluciones a la ecuación $x^2 = 2$ son las raíces $x = \pm\sqrt{2}$, que son números
+irracionales y, por lo tanto, no son elementos de $\mathbb{Q}$. Así, la regla no tiene elementos que la satisfagan, lo
+que significa que hemos encontrado una complicada de describir el conjunto vacío.
+
+\subsection*{Conjuntos finitos y operaciones simples}
+Consideremos los conjuntos finitos $B = \{1, 2, 3, 4, 5\}$, $A = \{1, 2, 3\}$, $C = \{1, 2, 3, 4, 5\}$, entonces $A
+    \subset B$ y $C\subseteq B$, esto porque $A \neq B$, mientras que $C = B$. Sus cardinalidades serían $|A| = 3$, $|B| =
+    5$, y $|C| = 5$. Las uniones e intersecciones en este ejemplo son $C \cup B = C \cap B = C = B$, $A \cup B = B$, y $A
+    \cap B = A$. Otro ejemplo interesante es la cardinalidad del conjunto vacío $|\emptyset| = 0$ y la cardinalidad del
+conjunto unitario que contiene el conjunto vacío $|\{\emptyset\}| = 1$.
+
+\subsection*{Conjuntos infinitos y operaciones simples}
+Considere los conjuntos infinitos $\mathbb{N} = \{1, 2, 3, 4, 5, \dots\}$ y $\mathbb{E} = \{2, 4, 6, 8, \dots\}$, el
+conjunto de los números naturales y los números naturales pares, respectivamente. No es sorprendente que $\mathbb{E}
+    \subset \mathbb{N}$ ya que cada elemento de $\mathbb{E}$ es un elemento de $\mathbb{N}$. Sin embargo, a diferencia de
+los conjuntos finitos, las cardinalidades de $\mathbb{N}$ y $\mathbb{E}$ son iguales, denotado como $|\mathbb{N}| =
+    |\mathbb{E}| = \aleph_0$. Esto se debe al hecho de que existe una \textit{biyección} entre $\mathbb{N}$ y $\mathbb{E}$
+(explicaremos las biyecciones con más detalle pronto). Una biyección $f: \mathbb{N} \to \mathbb{E}$ puede definirse
+como $f(n) = 2n$. Para cada número natural $n \in \mathbb{N}$, $f(n)$ produce un elemento único de $\mathbb{E}$, y cada
+elemento de $\mathbb{E}$ es alcanzado exactamente una vez. Por ejemplo: $f(1)=2, f(2)=4, f(3)=6, \dots$. Por lo tanto,
+a pesar de que $\mathbb{E}$ es un subconjunto propio de $\mathbb{N}$, su cardinalidad infinita sigue siendo la misma.
+
+En términos de otras operaciones: $\mathbb{E} \cup \mathbb{N} = \mathbb{N}$, $\mathbb{E} \cap \mathbb{N} = \mathbb{E}$
+y $\mathbb{N} \setminus \mathbb{E} = \{1, 3, 5, 7, \dots\}$. Notablemente, la cardinalidad del conjunto que contiene,
+por ejemplo, los conjuntos infinitos $\mathbb{R}$ y $\mathbb{N}$ es en realidad $|\{\mathbb{R}, \mathbb{N}\}| = 2$, ya
+que el conjunto solo contiene dos elementos, a pesar de que los elementos en sí mismos son infinitos.
+
+\begin{tcolorbox}[colback=orange!10!white,colframe=orange!50!black,title=Conjuntos en Aprendizaje Profundo Geométrico y Redes Neuronales de Grafos]
+    En Aprendizaje Profundo Geométrico, a menudo estamos interesados en modelar señales en colecciones de nodos, aristas y parches en una variedad, por ejemplo. Como veremos más adelante en la Sección 7, en el contexto de las GNNs, el dominio geométrico se define como un grafo $G = (V, E)$, que es una tupla que consiste en un conjunto de nodos $V$ y un conjunto de aristas $E$. De manera similar, para modelar la vecindad de un nodo, se utilizan conjuntos múltiples (conjuntos que permiten la repetición de elementos).
+\end{tcolorbox}
+
+\section*{Productos cartesianos}
+Después de introducir conjuntos y algunas operaciones básicas, definamos el producto cartesiano. Aunque el concepto puede parecer abstracto inicialmente, juega un papel importante al discutir variedades y construir espacios más complejos combinando elementos de subespacios más simples. El producto cartesiano se utiliza para modelar sistemas compuestos y relaciones entre elementos de dos o más conjuntos.
+
+\begin{tcolorbox}[colback=gray!10!white,colframe=gray!50!black,title=Definición]
+    El \textit{producto cartesiano} de dos conjuntos $A$ y $B$, denotado por $A \times B$, es el conjunto de todos los pares ordenados $(a, b)$ donde $a \in A$ y $b \in B$:
+    \[
+        A \times B = \{(a, b) \mid a \in A, b \in B\}.
+    \]
+\end{tcolorbox}
+
+Por ejemplo, sea $A = \{1, 2\}$ y $B = \{b_1, b_2\}$. Su producto $A \times B$ es:
+\[
+    A \times B = \{(1, b_1), (1, b_2), (2, b_1), (2, b_2)\}.
+\]
