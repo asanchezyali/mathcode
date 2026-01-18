@@ -42,6 +42,7 @@
 \definecolor{codeBackground}{RGB}{250, 250, 252}
 \definecolor{codeFrame}{RGB}{218, 220, 235}
 \definecolor{codeAccent}{RGB}{99, 102, 241}
+\definecolor{codeHeader}{RGB}{75, 85, 120}
 \definecolor{codeKeyword}{RGB}{124, 58, 237}
 \definecolor{codeString}{RGB}{5, 150, 105}
 \definecolor{codeComment}{RGB}{148, 163, 184}
@@ -69,10 +70,10 @@
              {Ú}{{\'U}}1 {Ñ}{{\~N}}1
 }
 
-% Custom tcolorbox style for code listings
+% Custom tcolorbox style for code listings (con header estilo teorema)
 \newtcblisting{codebox}[2][]{
     listing only,
-    listing options={language=#2, style=tcblatex},
+    listing options={language=#2},
     enhanced,
     breakable,
     colback=codeBackground,
@@ -82,12 +83,11 @@
     right=8pt,
     top=10pt,
     bottom=10pt,
-    arc=2pt,
-    borderline west={2pt}{0pt}{codeAccent!70},
+    arc=5pt,
     #1
 }
 
-% Style for lstinputlisting with tcolorbox
+% Style for lstinputlisting with tcolorbox (con header estilo teorema)
 \tcbset{
     codestyle/.style={
         listing only,
@@ -100,22 +100,21 @@
         right=8pt,
         top=8pt,
         bottom=10pt,
-        arc=2pt,
-        borderline west={2pt}{0pt}{codeAccent!70},
-        fonttitle=\bfseries\small\color{black!80},
-        coltitle=black!80,
-        colbacktitle=codeFrame!50,
-        toptitle=3pt,
-        bottomtitle=3pt,
-        attach boxed title to top left={yshift=-2mm, xshift=2mm},
-        boxed title style={colback=codeFrame!50, colframe=codeFrame, boxrule=0pt, arc=1pt},
+        arc=5pt,
+        fonttitle=\bfseries,
+        coltitle=white,
+        colbacktitle=codeHeader,
+        toptitle=5pt,
+        bottomtitle=5pt,
     }
 }
 
-\newtcbinputlisting{\codefile}[2][]{
+% \codefile[language]{caption}{file}
+\newtcbinputlisting{\codefile}[3][Python]{
     codestyle,
-    listing file={#2},
-    #1
+    listing file={#3},
+    listing options={language=#1},
+    title={Código -- #2},
 }
 
 %%% BOOK-SPECIFIC PACKAGES

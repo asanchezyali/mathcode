@@ -91,6 +91,82 @@ hasta ahora se denomina un \textbf{cuerpo} y es una estructura algebraica fundam
 denota como $(\RR, +, \cdot)$. En general, si un conjunto $K$ junto con dos operaciones binarias $+$ y $\cdot$
 satisface los axiomas AS1 a AS4 y AM1 a AM5, entonces decimos que $(K, +, \cdot)$ es un cuerpo.
 
+\section{Cuerpos finitos y sobrecarga de operadores}
+
+Los números reales no son el único ejemplo de cuerpo. Un caso particularmente interesante son los \textbf{cuerpos
+    finitos}, que tienen un número finito de elementos. El ejemplo más simple es la \textbf{aritmética modular}: dado un
+número primo $p$, el conjunto
+\begin{equation*}
+    \ZZ/p\ZZ = \{0, 1, 2, \ldots, p-1\}
+\end{equation*}
+con las operaciones de suma y multiplicación módulo $p$ forma un cuerpo. Por ejemplo, en $\ZZ/5\ZZ$ tenemos que $3 + 4 = 2$ (pues $7 \equiv 2 \pmod{5}$) y $3 \cdot 4 = 2$ (pues $12 \equiv 2 \pmod{5}$).
+
+La aritmética modular puede visualizarse como un reloj: los números «ciclan» al llegar al módulo. Si el módulo es $12$
+(como en un reloj), entonces $10 + 5 = 3$, pues al avanzar $5$ horas desde las $10$, llegamos a las $3$.
+
+\begin{definition}[Aritmética modular]
+    Dado un entero positivo $n$, definimos la relación de \textbf{congruencia módulo $n$} como: $a \equiv b \pmod{n}$ si y solo si $n$ divide a $a - b$. Las operaciones en $\ZZ/n\ZZ$ se definen como:
+    \begin{align*}
+        [a] + [b]     & = [a + b],     \\
+        [a] \cdot [b] & = [a \cdot b],
+    \end{align*}
+    donde $[a]$ denota la clase de equivalencia de $a$ módulo $n$.
+\end{definition}
+
+\begin{theorem}
+    Si $p$ es un número primo, entonces $(\ZZ/p\ZZ, +, \cdot)$ es un cuerpo.
+\end{theorem}
+
+La demostración de este teorema requiere verificar los axiomas AS1--AS4 y AM1--AM5. El punto crucial es que cuando $p$
+es primo, todo elemento no nulo tiene inverso multiplicativo, lo cual se puede demostrar usando el algoritmo extendido
+de Euclides.
+
+\subsection{Implementación computacional en Python}
+
+Una de las características más elegantes de Python es la \textbf{sobrecarga de operadores} (\textit{operator
+    overloading}), que permite redefinir el comportamiento de operadores como \texttt{+}, \texttt{-}, \texttt{*} para tipos
+de datos personalizados. Esto nos permite escribir código que se lee de forma natural, como si estuviéramos trabajando
+con números ordinarios.
+
+La conexión con los axiomas de cuerpo es directa: cuando definimos una clase que representa elementos de un cuerpo, los
+métodos especiales de Python corresponden exactamente a las operaciones algebraicas:
+
+\begin{center}
+    \begin{tabular}{lll}
+        \textbf{Axioma} & \textbf{Operación}   & \textbf{Método Python}                 \\
+        \hline
+        AS1--AS4        & Suma $a + b$         & \texttt{\_\_add\_\_(self, other)}      \\
+                        & Negativo $-a$        & \texttt{\_\_neg\_\_(self)}             \\
+        AM1--AM5        & Producto $a \cdot b$ & \texttt{\_\_mul\_\_(self, other)}      \\
+                        & Inverso $a^{-1}$     & \texttt{\_\_invert\_\_(self)} o método \\
+    \end{tabular}
+\end{center}
+
+A continuación presentamos una implementación de $\ZZ/n\ZZ$ que ilustra estos conceptos:
+
+\codefile[Python]{Implementación de aritmética modular en Python}{code/zmod.py}
+
+Con esta implementación, podemos trabajar con aritmética modular de forma natural:
+
+\codefile[Python]{Ejemplo de uso de la clase Zmod}{code/zmod_example.py}
+
+Observemos que en $\ZZ/7\ZZ$, los elementos $3$ y $5$ son inversos multiplicativos entre sí, pues $3 \cdot 5 = 15
+    \equiv 1 \pmod{7}$. Esta es precisamente la propiedad AM4.
+
+\begin{exercise}[Verificador de axiomas para $\ZZ/n\ZZ$]
+    Extienda la clase \texttt{Zmod} presentada anteriormente para incluir un método de clase \texttt{verify\_field\_axioms(n)} que:
+    \begin{enumerate}
+        \item Genere todos los elementos de $\ZZ/n\ZZ$.
+        \item Verifique sistemáticamente cada uno de los axiomas AS1--AS4 y AM1--AM5.
+        \item Retorne \texttt{True} si $\ZZ/n\ZZ$ es un cuerpo, \texttt{False} en caso contrario.
+        \item Imprima cuál axioma falla cuando $n$ no es primo (por ejemplo, para $n = 6$, el elemento $2$ no tiene inverso
+              multiplicativo).
+    \end{enumerate}
+    Pruebe su implementación con $n = 2, 3, 4, 5, 6, 7$ y verifique que solo los valores primos producen cuerpos.
+\end{exercise}
+
+\section{Ejercicios}
+
 \begin{exercise}
     Considere un sistema con dos elementos $\alpha$ y $\beta$ y las siguientes reglas de suma y multiplicación:
     \begin{align*}
