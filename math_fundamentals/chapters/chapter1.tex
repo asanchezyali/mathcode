@@ -1,130 +1,135 @@
-\chapter{Cálculo en una variable}
+\chapter{Los números reales y sus propiedades}
 
-Estas notas comienzan con una revisión rápida de ideas del cálculo de una variable. El objetivo es sentar las bases
-para el desarrollo del análisis en varias variables.
+En esta sección introducimos el sistema de los números reales y presentamos sus propiedades fundamentales. Como es bien
+conocido, los números reales forma la base para el análisis matemático. Desde los griegos ya se sabía que los números
+racionales, es decir, cocientes de números enteros, no eran suficientes para describir todas las cantidades
+geométricas. Por ejemplo, en un triángulo reactángulo con catetos de longitud $1$, por el teorema de Pitágoras, la
+longitud $c$ de la hipotenusa es tal que $c^2 = 2$, es fácil probar que no existe ningún número racional $p/q$ (con $p,
+    q \in \ZZ$ y $q \neq 0$) que satisfaga esta ecuación. En efecto, si $c = p/q$ fuera una solución racional y tal que $p$
+y $q$ no tuvieran factores primos en común, entonces $p^2 = 2q^2$ implica que $p^2$ es par, y por lo tanto $p$ es par.
+Si $p$ es par, entonces existe un entero $k$ tal que $p = 2k$, y por lo tanto $p^2 = 4k^2$. Sustituyendo en la ecuación
+original obtenemos $4k^2 = 2q^2$, o lo que es lo mismo, $q^2 = 2k^2$. Esto implica que $q^2$ es par, y por lo tanto $q$
+es par. Pero si $p$ y $q$ son ambos pares, entonces tienen al menos el factor primo $2$ en común, lo cual contradice
+nuestra suposición inicial. Por lo tanto, no existe ningún número racional que satisfaga la ecuación $c^2 = 2$. Sin
+embargo el número la ecuación $c^2 = 2$ tiene una solución en los números reales, y a este número se denota por
+$\sqrt{2}$. Para resolver este problema fue necesario ampliar el sistema de los número racionales a un sistema más
+grande, el sistema de los números reales.
 
-\section{El sistema de los números reales}
+\section{Axiomas de suma}
+Comenzaremos por postular que existe un conjunto $\RR$, cuyos elementos llamaremos \textbf{números reales}, junto con
+las operaciones de suma y multiplicación y una relación de orden.
 
-Asumimos que existe un \textbf{sistema de números reales}, el cual es un conjunto $\RR$ que contiene dos elementos
-distintos $0$ y $1$ y está dotado de las operaciones algebraicas de adición,
-
-\begin{equation*}
-    + : \RR \times \RR \longrightarrow \RR,
-\end{equation*}
-
-y multiplicación,
-
-\begin{equation*}
-    \cdot : \RR \times \RR \longrightarrow \RR.
-\end{equation*}
-
-La suma $+(a, b)$ se escribe como $a + b$, y el producto $\cdot(a, b)$ se escribe como $a \cdot b$ o simplemente $ab$.
-
-\begin{theorem}[Axiomas de campo para $(\RR, +, \cdot)$]
-    El sistema de números reales, con sus elementos distintos $0$ y $1$ y con sus operaciones de adición y multiplicación, satisface el siguiente conjunto de axiomas:
+\begin{definition}[Suma en $\RR$]
+    La \textbf{suma} en los números reales es una función
+    \begin{equation*}
+        + : \RR \times \RR \longrightarrow \RR,
+    \end{equation*}
+    que satisface los siguientes axiomas:
     \begin{enumerate}
-        \item \textit{La adición es asociativa:} $(x + y) + z = x + (y + z)$ para todo $x, y, z \in \RR$.
-        \item \textit{$0$ es una identidad aditiva:} $0 + x = x$ para todo $x \in \RR$.
-        \item \textit{Existencia de inversos aditivos:} Para cada $x \in \RR$ existe $y \in \RR$ tal que $y + x = 0$.
-        \item \textit{La adición es conmutativa:} $x + y = y + x$ para todo $x, y \in \RR$.
-        \item \textit{La multiplicación es asociativa:} $x(yz) = (xy)z$ para todo $x, y, z \in \RR$.
-        \item \textit{$1$ es una identidad multiplicativa:} $1x = x$ para todo $x \in \RR$.
-        \item \textit{Existencia de inversos multiplicativos:} Para cada $x \in \RR$ no nulo existe $y \in \RR$ tal que $yx = 1$.
-        \item \textit{La multiplicación es conmutativa:} $xy = yx$ para todo $x, y \in \RR$.
-        \item \textit{La multiplicación distribuye sobre la adición:} $(x+y)z = xz + yz$ para todo $x, y, z \in \RR$.
-    \end{enumerate}
-\end{theorem}
-
-Todo el álgebra básica de los números reales se deriva de los axiomas de campo. Los inversos aditivos y multiplicativos
-son únicos, la ley de cancelación se cumple, $0 \cdot x = 0$ para todo número real $x$, y así sucesivamente.
-
-El inverso aditivo de un número real $x$ se denota por $-x$, y la resta se define en términos de la adición y el
-inverso aditivo como
-\begin{equation*}
-    - : \RR \times \RR \longrightarrow \RR, \qquad x - y = x + (-y) \quad \text{para todo } x, y \in \RR.
-\end{equation*}
-
-También asumimos que $\RR$ es un campo \textbf{ordenado}. Es decir, asumimos que existe un subconjunto $\RR^+$ de $\RR$
-(los elementos \textbf{positivos}) tal que se cumplen los siguientes axiomas.
-
-\begin{theorem}[Axiomas de Orden]
-    \begin{enumerate}
-        \item \textit{Axioma de tricotomía:} Para todo número real $x$, exactamente una de las siguientes condiciones se cumple:
-              \begin{equation*}
-                  x \in \RR^+, \qquad -x \in \RR^+, \qquad x = 0.
-              \end{equation*}
-        \item \textit{Clausura de los positivos bajo la adición:} Para todos los números reales $x$ e $y$, si $x \in \RR^+$ e $y \in \RR^+$ entonces también $x + y \in \RR^+$.
-        \item \textit{Clausura de los positivos bajo la multiplicación:} Para todos los números reales $x$ e $y$, si $x \in \RR^+$ e $y \in \RR^+$ entonces también $xy \in \RR^+$.
-    \end{enumerate}
-\end{theorem}
-
-Para todos los números reales $x$ e $y$, definimos
-\begin{equation*}
-    x < y
-\end{equation*}
-para significar
-\begin{equation*}
-    y - x \in \RR^+.
-\end{equation*}
-
-Las reglas usuales para desigualdades se derivan entonces de los axiomas.
-
-\begin{theorem}[Completitud como criterio de búsqueda binaria]
-    Toda secuencia de búsqueda binaria en el sistema de números reales converge a un límite único.
-\end{theorem}
-
-La convergencia es un concepto de análisis, y por lo tanto también lo es la completitud. Otra versión de la completitud
-se expresa en términos de cotas de conjuntos.
-
-\begin{theorem}[Completitud como criterio de cota superior]
-    Todo subconjunto no vacío de $\RR$ que está acotado superiormente tiene una cota superior mínima.
-\end{theorem}
-
-Ambas formulaciones de completitud son enunciados de existencia.
-
-\begin{definition}
-    Un subconjunto $S$ de $\RR$ es \textbf{inductivo} si:
-    \begin{enumerate}
-        \item[\textbf{(i1)}] $0 \in S$,
-        \item[\textbf{(i2)}] Para todo $x \in \RR$, si $x \in S$ entonces $x + 1 \in S$.
+        \item[AS1.] \textbf{Conmutatividad:} Para todo $a, b \in \RR$, se cumple que $a + b = b + a$.
+        \item[AS2.] \textbf{Asociatividad:} Para todo $a, b, c \in \RR$, se cumple que $(a + b) + c = a + (b + c)$.
+        \item[AS3.] \textbf{Elemento neutro:} Existe un elemento $0 \in \RR$ tal que para todo $a \in \RR$, se cumple que $a + 0 =
+                  a$.
+        \item[AS4.] \textbf{Elemento inverso:} Para todo $a \in \RR$, existe un elemento $-a \in \RR$ tal que $a + (-a) = 0$.
     \end{enumerate}
 \end{definition}
 
-Cualquier intersección de subconjuntos inductivos de $\RR$ es nuevamente inductiva. El conjunto de los \textbf{números
-    naturales}, denotado $\NN$, es la intersección de todos los subconjuntos inductivos de $\RR$, es decir, $\NN$ es el
-subconjunto inductivo más pequeño de $\RR$. No hay ningún número natural entre $0$ y $1$ (porque si lo hubiera,
-eliminarlo de $\NN$ dejaría un subconjunto inductivo más pequeño de $\RR$), y así
-\begin{equation*}
-    \NN = \{0, 1, 2, \cdots\}.
-\end{equation*}
-
-\begin{theorem}[Teorema de Inducción]
-    Sea $P(n)$ una forma proposicional definida sobre $\NN$. Supongamos que:
-    \begin{itemize}
-        \item $P(0)$ se cumple.
-        \item Para todo $n \in \NN$, si $P(n)$ se cumple entonces también se cumple $P(n+1)$.
-    \end{itemize}
-    Entonces $P(n)$ se cumple para todos los números naturales $n$.
+Con estos cuatro axiomas, el conjunto $\RR$ junto con la operación de suma es un \textbf{grupo abeliano}. Además, a
+partir de estos axiomas se pueden demostrar las siguientes propiedades adicionales de la suma en $\RR$.
+\begin{theorem}
+    Para todo $a, b, c \in \RR$, se cumplen las siguientes propiedades:
+    \begin{enumerate}
+        \item $a + (-a) = 0$.
+        \item $-(-a) = a$.
+        \item Si $a + b = a + c$, entonces $b = c$.
+        \item $0 + a = a$.
+        \item Si para algún $a \in \RR$ se cumple que $a + b = a$, entonces $b = 0$.
+    \end{enumerate}
 \end{theorem}
 
-De hecho, las hipótesis del teorema dicen que $P(n)$ se cumple para un subconjunto de $\NN$ que es inductivo, y por lo
-tanto el teorema se sigue de la definición de $\NN$ como el subconjunto inductivo más pequeño de $\RR$.
+\section{Axiomas de multiplicación}
 
-El \textbf{Principio Arquimediano} establece que el subconjunto $\NN$ de $\RR$ no está acotado superiormente.
-Equivalentemente, la secuencia $\{1, 1/2, 1/3, \cdots\}$ converge a $0$. El Principio Arquimediano se sigue de la
-suposición de que $\RR$ es completo en el sentido de secuencias de búsqueda binaria o en el sentido de cotas de
-conjuntos. Una tercera versión de la completitud se expresa en términos de secuencias monótonas. Nuevamente es un
-enunciado de existencia.
+\begin{definition}[Multiplicación en $\RR$]
+    La \textbf{multiplicación} en los números reales es una función
+    \begin{equation*}
+        \cdot : \RR \times \RR \longrightarrow \RR,
+    \end{equation*}
+    que satisface los siguientes axiomas:
+    \begin{enumerate}
+        \item[AM1.] \textbf{Conmutatividad:} Para todo $a, b \in \RR$, se cumple que $a \cdot b = b \cdot a$.
+        \item[AM2.] \textbf{Asociatividad:} Para todo $a, b, c \in \RR$, se cumple que $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.
+        \item[AM3.] \textbf{Elemento neutro:} Existe un elemento $1 \in \RR \setminus \{0\}$ tal que para todo $a \in \RR$, se cumple
+              que $1 \cdot a = a$.
+        \item[AM4.] \textbf{Elemento inverso:} Para todo $a \in \RR \setminus \{0\}$, existe un elemento $a^{-1} \in \RR \setminus
+                  \{0\}$ tal que $a \cdot a^{-1} = 1$.
+        \item[AM5.] \textbf{Distributividad:} Para todo $a, b, c \in \RR$, se cumple que $a \cdot (b + c) = a \cdot b + a \cdot c$.
+    \end{enumerate}
+\end{definition}
 
-\begin{theorem}[Completitud como criterio de secuencia monótona]
-    Toda secuencia monótona acotada en $\RR$ converge a un límite único.
+Se puede observar que los axiomas AM1 a AM4 son similares a los axiomas AS1 a AS4, y juntos implican que el conjunto
+$\RR \setminus \{0\}$ junto con la operación de multiplicación es también un grupo abeliano. El axioma AM5 expresa una
+relación entre las operaciones de suma y multiplicación.
+
+\begin{theorem}
+    Para todo $a, b, c \in \RR$, se cumplen las siguientes propiedades:
+    \begin{enumerate}
+        \item $a \cdot 0 = 0$.
+        \item Si $a \cdot b = 0$, entonces $a = 0$ o $b = 0$.
+        \item Si $a \cdot b = a \cdot c$ y $a \neq 0$, entonces $b = c$.
+        \item $a \cdot 1 = a$.
+        \item Si para algún $a \in \RR \setminus \{0\}$ se cumple que $a \cdot b = a$, entonces $b = 1$.
+    \end{enumerate}
 \end{theorem}
 
-Esta versión de la completitud se sigue de cualquiera de las otras dos. Sin embargo, no implica las otras dos a menos
-que también asumamos el Principio Arquimediano.
+Es posible que el lector se haya dado cuenta que, en la definición de las operaciones de suma y multiplicación en los
+axiomas, no se utilizan las notaciones $+(a, b)$ y $\cdot(a, b)$ que tiene más sentido desde el punto de vista de
+funcional. Esto se debe a que en matemáticas es común usar una notación infija para las operaciones binarias: la suma
+$+(a, b)$ se escribe como $a + b$, y el producto $\cdot(a, b)$ se escribe como $a \cdot b$ o simplemente $ab$.
 
-El conjunto de los \textbf{enteros}, denotado $\ZZ$, es la unión de los números naturales y sus inversos aditivos,
-\begin{equation*}
-    \ZZ = \{0, \pm 1, \pm 2, \cdots\}.
-\end{equation*}
+Por otro lado, el conjunto de los números reales junto con las operaciones de suma y multiplicación que hemos definido
+hasta ahora se denomina un \textbf{cuerpo} y es una estructura algebraica fundamental en matemáticas que usualmente se
+denota como $(\RR, +, \cdot)$. En general, si un conjunto $K$ junto con dos operaciones binarias $+$ y $\cdot$
+satisface los axiomas AS1 a AS4 y AM1 a AM5, entonces decimos que $(K, +, \cdot)$ es un cuerpo.
 
+\begin{exercise}
+    Considere un sistema con dos elementos $\alpha$ y $\beta$ y las siguientes reglas de suma y multiplicación:
+    \begin{align*}
+        \alpha + \alpha     & = \alpha, & \alpha + \beta     & = \beta,  & \beta + \alpha     & = \beta,  & \beta + \beta     & = \alpha, \\
+        \alpha \cdot \alpha & = \alpha, & \alpha \cdot \beta & = \alpha, & \beta \cdot \alpha & = \alpha, & \beta \cdot \beta & = \beta.
+    \end{align*}
+    Demuestre que este sistema forma un cuerpo.
+\end{exercise}
+
+\begin{exercise}
+    Considere los números de la forma $a + b\sqrt{6}$ donde $a$ y $b$ son racionales. ¿Satisface este conjunto los axiomas de un cuerpo?
+\end{exercise}
+
+\begin{exercise}[Aproximación racional de $\sqrt{2}$]
+    Como vimos, $\sqrt{2}$ no es un número racional. Sin embargo, podemos aproximarlo mediante fracciones. El método babilónico (o de Herón) genera una sucesión de aproximaciones racionales: dado $x_0 > 0$, se define
+    \begin{equation*}
+        x_{n+1} = \frac{1}{2}\left(x_n + \frac{2}{x_n}\right).
+    \end{equation*}
+    Implemente en Python una función que, dado un valor inicial $x_0$ y un número de iteraciones $n$, retorne la aproximación $x_n$ de $\sqrt{2}$. Utilice la biblioteca \texttt{fractions} para trabajar con números racionales exactos y observe cómo las fracciones se vuelven cada vez más complejas mientras se acercan a $\sqrt{2}$.
+\end{exercise}
+
+\begin{exercise}[Verificación de axiomas de cuerpo]
+    Implemente en Python una clase \texttt{TwoElementField} que represente el cuerpo con dos elementos $\{\alpha, \beta\}$ del Ejercicio 1.1. La clase debe:
+    \begin{enumerate}
+        \item Definir las operaciones de suma y multiplicación según las tablas dadas.
+        \item Incluir un método que verifique automáticamente cada uno de los axiomas AS1--AS4 y AM1--AM5 para todos los elementos
+              del cuerpo.
+        \item Identificar cuál elemento actúa como el $0$ (neutro aditivo) y cuál como el $1$ (neutro multiplicativo).
+    \end{enumerate}
+\end{exercise}
+
+\begin{hardproblem}[No completitud de $\QQ$]
+    Una sucesión $(a_n)$ en un cuerpo ordenado se llama \textbf{sucesión de Cauchy} si para todo $\varepsilon > 0$ existe $N \in \NN$ tal que $|a_n - a_m| < \varepsilon$ para todo $n, m > N$. Un cuerpo ordenado se dice \textbf{completo} si toda sucesión de Cauchy converge a un elemento del cuerpo. El conjunto de los números racionales $\QQ$ satisface todos los axiomas de cuerpo (AS1--AS4 y AM1--AM5), sin embargo no es completo. Demuestre esto construyendo una sucesión de racionales $(r_n)$ tal que:
+    \begin{enumerate}
+        \item $r_n^2 < 2$ para todo $n \in \NN$.
+        \item La sucesión $(r_n)$ es estrictamente creciente y acotada superiormente.
+        \item $(r_n)$ es una sucesión de Cauchy.
+    \end{enumerate}
+    Concluya que $(r_n)$ no puede converger a ningún número racional, demostrando así que $\QQ$ no es completo.
+
+    \textit{Sugerencia:} Considere la sucesión definida por $r_1 = 1$ y $r_{n+1} = \frac{1}{2}\left(r_n + \frac{2}{r_n}\right)$.
+\end{hardproblem}

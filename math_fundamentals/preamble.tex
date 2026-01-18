@@ -183,132 +183,198 @@
 %%% COLOR DEFINITIONS
 \definecolor{theoremBG}{RGB}{235,245,255}
 \definecolor{theoremBorder}{RGB}{210,225,250}
+\definecolor{theoremHeader}{RGB}{70,100,140}
 \definecolor{definitionBG}{RGB}{235,255,240}
 \definecolor{definitionBorder}{RGB}{210,245,220}
+\definecolor{definitionHeader}{RGB}{60,110,80}
 \definecolor{remarkBG}{RGB}{255,240,230}
 \definecolor{remarkBorder}{RGB}{250,220,205}
+\definecolor{remarkHeader}{RGB}{140,90,60}
 \definecolor{easyBG}{RGB}{230,242,255}
 \definecolor{easyBorder}{RGB}{205,220,250}
+\definecolor{easyHeader}{RGB}{70,100,140}
 \definecolor{mediumBG}{RGB}{255,240,225}
 \definecolor{mediumBorder}{RGB}{250,220,205}
+\definecolor{mediumHeader}{RGB}{140,90,60}
 \definecolor{hardBG}{RGB}{255,230,240}
 \definecolor{hardBorder}{RGB}{250,205,220}
+\definecolor{hardHeader}{RGB}{140,70,90}
 \definecolor{exerciseBG}{RGB}{240,240,255}
 \definecolor{exerciseBorder}{RGB}{220,220,250}
+\definecolor{exerciseHeader}{RGB}{90,90,130}
+\definecolor{exampleBG}{RGB}{250,250,235}
+\definecolor{exampleBorder}{RGB}{230,230,200}
+\definecolor{exampleHeader}{RGB}{100,100,70}
 
-%%% THEOREM STYLES
-\mdfdefinestyle{theoremstyle}{
-    linecolor=theoremBorder,
-    linewidth=0.4pt,
-    backgroundcolor=theoremBG!40,
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+%%% THEOREM STYLES WITH TCOLORBOX
+% Base style for all theorem-like environments
+\tcbset{
+    theorembase/.style={
+        enhanced,
+        breakable,
+        boxrule=0.4pt,
+        arc=5pt,
+        left=10pt,
+        right=10pt,
+        top=10pt,
+        bottom=10pt,
+        toptitle=5pt,
+        bottomtitle=5pt,
+        fonttitle=\bfseries,
+        before skip=\topskip,
+        after skip=\topskip,
+    }
 }
 
-\mdfdefinestyle{definitionstyle}{
-    linecolor=definitionBorder,
-    linewidth=0.4pt,
-    backgroundcolor=definitionBG!40,
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+%%% THEOREM COUNTERS
+\newcounter{theorem}[chapter]
+\newcounter{corollary}[theorem]
+\newcounter{lemma}[chapter]
+\newcounter{definition}[chapter]
+\newcounter{remark}[chapter]
+\newcounter{example}[chapter]
+\newcounter{exercise}[chapter]
+\newcounter{easyproblem}[chapter]
+\newcounter{mediumproblem}[chapter]
+\newcounter{hardproblem}[chapter]
+
+\renewcommand{\thetheorem}{\thechapter.\arabic{theorem}}
+\renewcommand{\thecorollary}{\thetheorem.\arabic{corollary}}
+\renewcommand{\thelemma}{\thechapter.\arabic{lemma}}
+\renewcommand{\thedefinition}{\thechapter.\arabic{definition}}
+\renewcommand{\theremark}{\thechapter.\arabic{remark}}
+\renewcommand{\theexample}{\thechapter.\arabic{example}}
+\renewcommand{\theexercise}{\thechapter.\arabic{exercise}}
+\renewcommand{\theeasyproblem}{\thechapter.\arabic{easyproblem}}
+\renewcommand{\themediumproblem}{\thechapter.\arabic{mediumproblem}}
+\renewcommand{\thehardproblem}{\thechapter.\arabic{hardproblem}}
+
+%%% THEOREM ENVIRONMENTS
+% Theorem
+\newenvironment{theorem}[1][]{%
+    \refstepcounter{theorem}%
+    \begin{tcolorbox}[theorembase,
+        colback=theoremBG!40,
+        colframe=theoremBorder,
+        colbacktitle=theoremHeader,
+        coltitle=white,
+        title={Teorema~\thetheorem\ifx&#1&\else{} -- #1\fi}]%
+}{%
+    \end{tcolorbox}%
 }
 
-\mdfdefinestyle{remarkstyle}{
-    linecolor=remarkBorder,
-    linewidth=0.4pt,
-    backgroundcolor=remarkBG!40,
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+% Corollary
+\newenvironment{corollary}[1][]{%
+    \refstepcounter{corollary}%
+    \begin{tcolorbox}[theorembase,
+        colback=theoremBG!40,
+        colframe=theoremBorder,
+        colbacktitle=theoremHeader,
+        coltitle=white,
+        title={Corolario~\thecorollary\ifx&#1&\else{} -- #1\fi}]%
+}{%
+    \end{tcolorbox}%
 }
 
-\mdfdefinestyle{easyproblemstyle}{
-    linecolor=easyBorder,
-    linewidth=0.4pt,
-    backgroundcolor=easyBG!40,
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+% Lemma
+\newenvironment{lemma}[1][]{%
+    \refstepcounter{lemma}%
+    \begin{tcolorbox}[theorembase,
+        colback=theoremBG!40,
+        colframe=theoremBorder,
+        colbacktitle=theoremHeader,
+        coltitle=white,
+        title={Lema~\thelemma\ifx&#1&\else{} -- #1\fi}]%
+}{%
+    \end{tcolorbox}%
 }
 
-\mdfdefinestyle{mediumproblemstyle}{
-    linecolor=mediumBorder,
-    linewidth=0.4pt,
-    backgroundcolor=mediumBG!40,
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+% Definition
+\newenvironment{definition}[1][]{%
+    \refstepcounter{definition}%
+    \begin{tcolorbox}[theorembase,
+        colback=definitionBG!40,
+        colframe=definitionBorder,
+        colbacktitle=definitionHeader,
+        coltitle=white,
+        title={Definición~\thedefinition\ifx&#1&\else{} -- #1\fi}]%
+}{%
+    \end{tcolorbox}%
 }
 
-\mdfdefinestyle{hardproblemstyle}{
-    linecolor=hardBorder,
-    linewidth=0.4pt,
-    backgroundcolor=hardBG!40,
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+% Remark
+\newenvironment{remark}[1][]{%
+    \refstepcounter{remark}%
+    \begin{tcolorbox}[theorembase,
+        colback=remarkBG!40,
+        colframe=remarkBorder,
+        colbacktitle=remarkHeader,
+        coltitle=white,
+        title={Observación~\theremark\ifx&#1&\else{} -- #1\fi}]%
+}{%
+    \end{tcolorbox}%
 }
 
-\mdfdefinestyle{exercisestyle}{
-    linecolor=exerciseBorder,
-    linewidth=0.4pt,
-    backgroundcolor=exerciseBG!40,
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+% Example
+\newenvironment{example}[1][]{%
+    \refstepcounter{example}%
+    \begin{tcolorbox}[theorembase,
+        colback=exampleBG!40,
+        colframe=exampleBorder,
+        colbacktitle=exampleHeader,
+        coltitle=white,
+        title={Ejemplo~\theexample\ifx&#1&\else{} -- #1\fi}]%
+}{%
+    \end{tcolorbox}%
 }
 
-%%% THEOREM DEFINITIONS
-\newtheorem{theorem}{Teorema}[chapter]
-\newtheorem{corollary}{Corolario}[theorem]
-\newtheorem{lemma}[theorem]{Lema}
+% Exercise (sin caja)
+\newenvironment{exercise}[1][]{%
+    \refstepcounter{exercise}%
+    \par\vspace{0.5\baselineskip}\noindent%
+    \textbf{Ejercicio~\theexercise\ifx&#1&\else{} -- #1\fi.}\space%
+}{%
+    \par\vspace{0.5\baselineskip}%
+}
 
-\theoremstyle{definition}
-\newtheorem{definition}{Definición}[chapter]
+% Easy problem
+\newenvironment{easyproblem}[1][]{%
+    \refstepcounter{easyproblem}%
+    \begin{tcolorbox}[theorembase,
+        colback=easyBG!40,
+        colframe=easyBorder,
+        colbacktitle=easyHeader,
+        coltitle=white,
+        title={Problema~\theeasyproblem\ifx&#1&\else{} -- #1\fi}]%
+}{%
+    \end{tcolorbox}%
+}
 
-\theoremstyle{remark}
-\newtheorem*{remark}{Observación}
+% Medium problem
+\newenvironment{mediumproblem}[1][]{%
+    \refstepcounter{mediumproblem}%
+    \begin{tcolorbox}[theorembase,
+        colback=mediumBG!40,
+        colframe=mediumBorder,
+        colbacktitle=mediumHeader,
+        coltitle=white,
+        title={Problema~\themediumproblem\ifx&#1&\else{} -- #1\fi}]%
+}{%
+    \end{tcolorbox}%
+}
 
-\newtheorem{example}{Ejemplo}[chapter]
-\newtheorem{easyproblem}{Problema}[chapter]
-\newtheorem{mediumproblem}{Problema}[chapter]
-\newtheorem{hardproblem}{Problema}[chapter]
-\newtheorem{exercise}{Ejercicio}[chapter]
-
-%%% APPLY STYLES TO THEOREMS
-\surroundwithmdframed[style=theoremstyle]{theorem}
-\surroundwithmdframed[style=theoremstyle]{corollary}
-\surroundwithmdframed[style=theoremstyle]{lemma}
-\surroundwithmdframed[style=definitionstyle]{definition}
-\surroundwithmdframed[style=remarkstyle]{remark}
-\surroundwithmdframed[style=theoremstyle]{example}
-\surroundwithmdframed[style=easyproblemstyle]{easyproblem}
-\surroundwithmdframed[style=mediumproblemstyle]{mediumproblem}
-\surroundwithmdframed[style=hardproblemstyle]{hardproblem}
-\surroundwithmdframed[style=exercisestyle]{exercise}
+% Hard problem
+\newenvironment{hardproblem}[1][]{%
+    \refstepcounter{hardproblem}%
+    \begin{tcolorbox}[theorembase,
+        colback=hardBG!40,
+        colframe=hardBorder,
+        colbacktitle=hardHeader,
+        coltitle=white,
+        title={Problema~\thehardproblem\ifx&#1&\else{} -- #1\fi}]%
+}{%
+    \end{tcolorbox}%
+}
 
 %%% PROOF STYLE
 \renewenvironment{proof}[1][\proofname]
