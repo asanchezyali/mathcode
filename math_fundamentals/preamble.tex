@@ -9,7 +9,7 @@
 \usepackage{textcomp}
 
 %%% DOCUMENT GEOMETRY
-\usepackage[top=2.5cm, bottom=2.5cm, right=2.5cm, left=2.5cm, headheight=15pt, marginparwidth=2.5cm]{geometry}
+\usepackage[top=2.5cm, bottom=2.5cm, right=2cm, left=2cm, headheight=15pt, marginparwidth=2.5cm]{geometry}
 \usepackage{multicol}
 \usepackage{lscape}
 
@@ -51,23 +51,23 @@
 \definecolor{codeVariable}{RGB}{217, 70, 239}
 
 \lstset{
-    basicstyle=\ttfamily\footnotesize\linespread{1.1}\selectfont,
-    keywordstyle=\color{codeKeyword}\bfseries,
-    keywordstyle=[2]\color{codeFunction},
-    commentstyle=\color{codeComment}\itshape,
-    stringstyle=\color{codeString},
-    numbers=left,
-    numberstyle=\tiny\color{codeNumber}\ttfamily,
-    numbersep=10pt,
-    breaklines=true,
-    breakatwhitespace=true,
-    showstringspaces=false,
-    tabsize=4,
-    extendedchars=true,
-    inputencoding=utf8,
-    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
-             {ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1
-             {Ú}{{\'U}}1 {Ñ}{{\~N}}1
+basicstyle=\ttfamily\fontsize{8}{9.5}\selectfont,
+keywordstyle=\color{codeKeyword}\bfseries,
+keywordstyle=[2]\color{codeFunction},
+commentstyle=\color{codeComment}\itshape,
+stringstyle=\color{codeString},
+numbers=left,
+numberstyle=\tiny\color{codeNumber}\ttfamily,
+numbersep=10pt,
+breaklines=true,
+breakatwhitespace=true,
+showstringspaces=false,
+tabsize=4,
+extendedchars=true,
+inputencoding=utf8,
+literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+{ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1
+{Ú}{{\'U}}1 {Ñ}{{\~N}}1
 }
 
 % Counter for code listings
@@ -96,33 +96,33 @@
 % Style for lstinputlisting with tcolorbox (basado en theorembase)
 \tcbset{
     codestyle/.style={
-        listing only,
-        enhanced,
-        breakable,
-        colback=codeBackground,
-        colframe=codeFrame,
-        colbacktitle=codeHeader,
-        coltitle=white,
-        boxrule=0.4pt,
-        arc=5pt,
-        left=25pt,
-        right=10pt,
-        top=5pt,
-        bottom=5pt,
-        toptitle=5pt,
-        bottomtitle=5pt,
-        lefttitle=10pt,
-        fonttitle=\bfseries,
-        before skip=\topskip,
-        after skip=\topskip,
-    }
+            listing only,
+            enhanced,
+            breakable,
+            colback=codeBackground,
+            colframe=codeFrame,
+            colbacktitle=codeHeader,
+            coltitle=white,
+            boxrule=0.4pt,
+            arc=5pt,
+            left=25pt,
+            right=10pt,
+            top=5pt,
+            bottom=5pt,
+            toptitle=5pt,
+            bottomtitle=5pt,
+            lefttitle=10pt,
+            fonttitle=\bfseries,
+            before skip=\topskip,
+            after skip=\topskip,
+        }
 }
 
 % \codefile[language]{caption}{file}
 \newcommand{\codefile}[3][Python]{%
     \refstepcounter{codelisting}%
     \begin{tcolorbox}[codestyle,
-        title={Código~\thecodelisting~--~#2}]
+            title={Código~\thecodelisting~--~#2}]
         \lstinputlisting[language=#1]{#3}
     \end{tcolorbox}%
 }
@@ -159,14 +159,14 @@
 % Remove hanging indent and add square bullets
 \setlength{\bibhang}{0pt}
 \defbibenvironment{bibliography}
-  {\list
-     {\tiny$\blacksquare$}
-     {\setlength{\leftmargin}{1.5em}%
-      \setlength{\itemindent}{0pt}%
-      \setlength{\itemsep}{\bibitemsep}%
-      \setlength{\parsep}{\bibparsep}}}
-  {\endlist}
-  {\item}
+{\list
+    {\tiny$\blacksquare$}
+    {\setlength{\leftmargin}{1.5em}%
+        \setlength{\itemindent}{0pt}%
+        \setlength{\itemsep}{\bibitemsep}%
+        \setlength{\parsep}{\bibparsep}}}
+{\endlist}
+{\item}
 
 %%% INDEX AND GLOSSARY
 \usepackage{imakeidx}
@@ -219,20 +219,20 @@
 % Base style for all theorem-like environments
 \tcbset{
     theorembase/.style={
-        enhanced,
-        breakable,
-        boxrule=0.4pt,
-        arc=5pt,
-        left=10pt,
-        right=10pt,
-        top=10pt,
-        bottom=10pt,
-        toptitle=5pt,
-        bottomtitle=5pt,
-        fonttitle=\bfseries,
-        before skip=\topskip,
-        after skip=\topskip,
-    }
+            enhanced,
+            breakable,
+            boxrule=0.4pt,
+            arc=5pt,
+            left=10pt,
+            right=10pt,
+            top=10pt,
+            bottom=10pt,
+            toptitle=5pt,
+            bottomtitle=5pt,
+            fonttitle=\bfseries,
+            before skip=\topskip,
+            after skip=\topskip,
+        }
 }
 
 %%% THEOREM COUNTERS
@@ -263,12 +263,12 @@
 \newenvironment{theorem}[1][]{%
     \refstepcounter{theorem}%
     \begin{tcolorbox}[theorembase,
-        colback=theoremBG!40,
-        colframe=theoremBorder,
-        colbacktitle=theoremHeader,
-        coltitle=white,
-        title={Teorema~\thetheorem\ifx&#1&\else{} -- #1\fi}]%
-}{%
+            colback=theoremBG!40,
+            colframe=theoremBorder,
+            colbacktitle=theoremHeader,
+            coltitle=white,
+            title={Teorema~\thetheorem\ifx&#1&\else{} -- #1\fi}]%
+        }{%
     \end{tcolorbox}%
 }
 
@@ -276,12 +276,12 @@
 \newenvironment{corollary}[1][]{%
     \refstepcounter{corollary}%
     \begin{tcolorbox}[theorembase,
-        colback=theoremBG!40,
-        colframe=theoremBorder,
-        colbacktitle=theoremHeader,
-        coltitle=white,
-        title={Corolario~\thecorollary\ifx&#1&\else{} -- #1\fi}]%
-}{%
+            colback=theoremBG!40,
+            colframe=theoremBorder,
+            colbacktitle=theoremHeader,
+            coltitle=white,
+            title={Corolario~\thecorollary\ifx&#1&\else{} -- #1\fi}]%
+        }{%
     \end{tcolorbox}%
 }
 
@@ -289,12 +289,12 @@
 \newenvironment{lemma}[1][]{%
     \refstepcounter{lemma}%
     \begin{tcolorbox}[theorembase,
-        colback=theoremBG!40,
-        colframe=theoremBorder,
-        colbacktitle=theoremHeader,
-        coltitle=white,
-        title={Lema~\thelemma\ifx&#1&\else{} -- #1\fi}]%
-}{%
+            colback=theoremBG!40,
+            colframe=theoremBorder,
+            colbacktitle=theoremHeader,
+            coltitle=white,
+            title={Lema~\thelemma\ifx&#1&\else{} -- #1\fi}]%
+        }{%
     \end{tcolorbox}%
 }
 
@@ -302,12 +302,12 @@
 \newenvironment{definition}[1][]{%
     \refstepcounter{definition}%
     \begin{tcolorbox}[theorembase,
-        colback=definitionBG!40,
-        colframe=definitionBorder,
-        colbacktitle=definitionHeader,
-        coltitle=white,
-        title={Definición~\thedefinition\ifx&#1&\else{} -- #1\fi}]%
-}{%
+            colback=definitionBG!40,
+            colframe=definitionBorder,
+            colbacktitle=definitionHeader,
+            coltitle=white,
+            title={Definición~\thedefinition\ifx&#1&\else{} -- #1\fi}]%
+        }{%
     \end{tcolorbox}%
 }
 
@@ -315,12 +315,12 @@
 \newenvironment{remark}[1][]{%
     \refstepcounter{remark}%
     \begin{tcolorbox}[theorembase,
-        colback=remarkBG!40,
-        colframe=remarkBorder,
-        colbacktitle=remarkHeader,
-        coltitle=white,
-        title={Observación~\theremark\ifx&#1&\else{} -- #1\fi}]%
-}{%
+            colback=remarkBG!40,
+            colframe=remarkBorder,
+            colbacktitle=remarkHeader,
+            coltitle=white,
+            title={Observación~\theremark\ifx&#1&\else{} -- #1\fi}]%
+        }{%
     \end{tcolorbox}%
 }
 
@@ -328,12 +328,12 @@
 \newenvironment{example}[1][]{%
     \refstepcounter{example}%
     \begin{tcolorbox}[theorembase,
-        colback=exampleBG!40,
-        colframe=exampleBorder,
-        colbacktitle=exampleHeader,
-        coltitle=white,
-        title={Ejemplo~\theexample\ifx&#1&\else{} -- #1\fi}]%
-}{%
+            colback=exampleBG!40,
+            colframe=exampleBorder,
+            colbacktitle=exampleHeader,
+            coltitle=white,
+            title={Ejemplo~\theexample\ifx&#1&\else{} -- #1\fi}]%
+        }{%
     \end{tcolorbox}%
 }
 
@@ -350,12 +350,12 @@
 \newenvironment{easyproblem}[1][]{%
     \refstepcounter{easyproblem}%
     \begin{tcolorbox}[theorembase,
-        colback=easyBG!40,
-        colframe=easyBorder,
-        colbacktitle=easyHeader,
-        coltitle=white,
-        title={Problema~\theeasyproblem\ifx&#1&\else{} -- #1\fi}]%
-}{%
+            colback=easyBG!40,
+            colframe=easyBorder,
+            colbacktitle=easyHeader,
+            coltitle=white,
+            title={Problema~\theeasyproblem\ifx&#1&\else{} -- #1\fi}]%
+        }{%
     \end{tcolorbox}%
 }
 
@@ -363,12 +363,12 @@
 \newenvironment{mediumproblem}[1][]{%
     \refstepcounter{mediumproblem}%
     \begin{tcolorbox}[theorembase,
-        colback=mediumBG!40,
-        colframe=mediumBorder,
-        colbacktitle=mediumHeader,
-        coltitle=white,
-        title={Problema~\themediumproblem\ifx&#1&\else{} -- #1\fi}]%
-}{%
+            colback=mediumBG!40,
+            colframe=mediumBorder,
+            colbacktitle=mediumHeader,
+            coltitle=white,
+            title={Problema~\themediumproblem\ifx&#1&\else{} -- #1\fi}]%
+        }{%
     \end{tcolorbox}%
 }
 
@@ -376,12 +376,12 @@
 \newenvironment{hardproblem}[1][]{%
     \refstepcounter{hardproblem}%
     \begin{tcolorbox}[theorembase,
-        colback=hardBG!40,
-        colframe=hardBorder,
-        colbacktitle=hardHeader,
-        coltitle=white,
-        title={Problema~\thehardproblem\ifx&#1&\else{} -- #1\fi}]%
-}{%
+            colback=hardBG!40,
+            colframe=hardBorder,
+            colbacktitle=hardHeader,
+            coltitle=white,
+            title={Problema~\thehardproblem\ifx&#1&\else{} -- #1\fi}]%
+        }{%
     \end{tcolorbox}%
 }
 

@@ -15,6 +15,14 @@ embargo el número la ecuación $c^2 = 2$ tiene una solución en los números re
 $\sqrt{2}$. Para resolver este problema fue necesario ampliar el sistema de los número racionales a un sistema más
 grande, el sistema de los números reales.
 
+\begin{exercise}[Aproximación racional de $\sqrt{2}$]
+    Como vimos, $\sqrt{2}$ no es un número racional. Sin embargo, podemos aproximarlo mediante fracciones. El método babilónico (o de Herón) genera una sucesión de aproximaciones racionales: dado $x_0 > 0$, se define
+    \begin{equation*}
+        x_{n+1} = \frac{1}{2}\left(x_n + \frac{2}{x_n}\right).
+    \end{equation*}
+    Implemente en Python una función que, dado un valor inicial $x_0$ y un número de iteraciones $n$, retorne la aproximación $x_n$ de $\sqrt{2}$. Utilice la biblioteca \texttt{fractions} para trabajar con números racionales exactos y observe cómo las fracciones se vuelven cada vez más complejas mientras se acercan a $\sqrt{2}$.
+\end{exercise}
+
 \section{Axiomas de la suma en $\RR$}
 Comenzaremos por postular que existe un conjunto $\RR$, cuyos elementos llamaremos \textbf{números reales}, junto con
 las operaciones de suma y multiplicación y una relación de orden.
@@ -24,7 +32,7 @@ las operaciones de suma y multiplicación y una relación de orden.
     \begin{equation*}
         + : \RR \times \RR \longrightarrow \RR,
     \end{equation*}
-    que satisface los siguientes axiomas:
+    que asigna a cada par $(a, b)$ el elemento $+(a, b)$, denotado $a + b$ (notación infija). Esta operación satisface los siguientes axiomas:
     \begin{enumerate}
         \item[AS1.] \textbf{Conmutatividad:} Para todo $a, b \in \RR$, se cumple que $a + b = b + a$.
         \item[AS2.] \textbf{Asociatividad:} Para todo $a, b, c \in \RR$, se cumple que $(a + b) + c = a + (b + c)$.
@@ -55,7 +63,7 @@ Ahora definimos la operación de multiplicación en los números reales mediante
     \begin{equation*}
         \cdot : \RR \times \RR \longrightarrow \RR,
     \end{equation*}
-    que satisface los siguientes axiomas:
+    que asigna a cada par $(a, b)$ el elemento $\cdot(a, b)$, denotado $a \cdot b$ o simplemente $ab$ (notación infija). Esta operación satisface los siguientes axiomas:
     \begin{enumerate}
         \item[AM1.] \textbf{Conmutatividad:} Para todo $a, b \in \RR$, se cumple que $a \cdot b = b \cdot a$.
         \item[AM2.] \textbf{Asociatividad:} Para todo $a, b, c \in \RR$, se cumple que $(a \cdot b) \cdot c = a \cdot (b \cdot c)$.
@@ -82,37 +90,58 @@ relación entre las operaciones de suma y multiplicación.
     \end{enumerate}
 \end{theorem}
 
-Es posible que el lector se haya dado cuenta que, en la definición de las operaciones de suma y multiplicación en los
-axiomas, no se utilizan las notaciones $+(a, b)$ y $\cdot(a, b)$ que tiene más sentido desde el punto de vista de
-funcional. Esto se debe a que en matemáticas es común usar una notación infija para las operaciones binarias: la suma
-$+(a, b)$ se escribe como $a + b$, y el producto $\cdot(a, b)$ se escribe como $a \cdot b$ o simplemente $ab$.
+El conjunto de los números reales junto con las operaciones de suma y multiplicación que hemos definido hasta ahora se
+denomina un \textbf{cuerpo} y es una estructura algebraica fundamental en matemáticas que usualmente se denota como
+$(\RR, +, \cdot)$. En general, si un conjunto $K$ junto con dos operaciones binarias $+$ y $\cdot$ satisface los
+axiomas AS1 a AS4 y AM1 a AM5, entonces decimos que $(K, +, \cdot)$ es un cuerpo.
 
-Por otro lado, el conjunto de los números reales junto con las operaciones de suma y multiplicación que hemos definido
-hasta ahora se denomina un \textbf{cuerpo} y es una estructura algebraica fundamental en matemáticas que usualmente se
-denota como $(\RR, +, \cdot)$. En general, si un conjunto $K$ junto con dos operaciones binarias $+$ y $\cdot$
-satisface los axiomas AS1 a AS4 y AM1 a AM5, entonces decimos que $(K, +, \cdot)$ es un cuerpo.
+\begin{exercise}
+    Considere un sistema con dos elementos $\alpha$ y $\beta$ y las siguientes reglas de suma y multiplicación:
+    \begin{align*}
+        \alpha + \alpha     & = \alpha, & \alpha + \beta     & = \beta,  & \beta + \alpha     & = \beta,  & \beta + \beta     & = \alpha, \\
+        \alpha \cdot \alpha & = \alpha, & \alpha \cdot \beta & = \alpha, & \beta \cdot \alpha & = \alpha, & \beta \cdot \beta & = \beta.
+    \end{align*}
+    Demuestre que este sistema forma un cuerpo.
+\end{exercise}
+
+\begin{exercise}
+    Considere los números de la forma $a + b\sqrt{6}$ donde $a$ y $b$ son racionales. ¿Satisface este conjunto los axiomas de un cuerpo?
+\end{exercise}
+
+\begin{exercise}[Verificación de axiomas de cuerpo]
+    Implemente en Python una clase \texttt{TwoElementField} que represente el cuerpo con dos elementos $\{\alpha, \beta\}$ del Ejercicio 1.2. La clase debe:
+    \begin{enumerate}
+        \item Definir las operaciones de suma y multiplicación según las tablas dadas.
+        \item Incluir un método que verifique automáticamente cada uno de los axiomas AS1--AS4 y AM1--AM5 para todos los elementos
+              del cuerpo.
+        \item Identificar cuál elemento actúa como el $0$ (neutro aditivo) y cuál como el $1$ (neutro multiplicativo).
+    \end{enumerate}
+\end{exercise}
 
 \section{Cuerpos finitos y sobrecarga de operadores}
 
 Los números reales no son el único ejemplo de cuerpo. Un caso particularmente interesante son los \textbf{cuerpos
-    finitos}, que tienen un número finito de elementos. El ejemplo más simple es la \textbf{aritmética modular}: dado un
-número primo $p$, el conjunto
-\begin{equation*}
-    \ZZ/p\ZZ = \{0, 1, 2, \ldots, p-1\}
-\end{equation*}
-con las operaciones de suma y multiplicación módulo $p$ forma un cuerpo. Por ejemplo, en $\ZZ/5\ZZ$ tenemos que $3 + 4 = 2$ (pues $7 \equiv 2 \pmod{5}$) y $3 \cdot 4 = 2$ (pues $12 \equiv 2 \pmod{5}$).
-
-La aritmética modular puede visualizarse como un reloj: los números «ciclan» al llegar al módulo. Si el módulo es $12$
-(como en un reloj), entonces $10 + 5 = 3$, pues al avanzar $5$ horas desde las $10$, llegamos a las $3$.
+    finitos}, que tienen un número finito de elementos. Podemos construir cuerpos finitos utilizando la \textbf{aritmética
+    modular}.
 
 \begin{definition}[Aritmética modular]
-    Dado un entero positivo $n$, definimos la relación de \textbf{congruencia módulo $n$} como: $a \equiv b \pmod{n}$ si y solo si $n$ divide a $a - b$. Las operaciones en $\ZZ/n\ZZ$ se definen como:
+    Dado un entero positivo $n$, decimos que dos enteros $a$ y $b$ son \textbf{congruentes módulo $n$}, y escribimos $a \equiv b \pmod{n}$, si y solo si $n$ divide a $a - b$. Equivalentemente, $a$ y $b$ tienen el mismo residuo al dividirse entre $n$. El conjunto de clases de equivalencia se denota
+    \begin{equation*}
+        \ZZ/n\ZZ = \{[0], [1], [2], \ldots, [n-1]\},
+    \end{equation*}
+    donde $[a]$ representa la clase de todos los enteros congruentes con $a$ módulo $n$. Las operaciones en $\ZZ/n\ZZ$ se definen como:
     \begin{align*}
         [a] + [b]     & = [a + b],     \\
-        [a] \cdot [b] & = [a \cdot b],
+        [a] \cdot [b] & = [a \cdot b].
     \end{align*}
-    donde $[a]$ denota la clase de equivalencia de $a$ módulo $n$.
 \end{definition}
+
+La aritmética modular puede visualizarse como un reloj: los números «ciclan» al llegar al módulo. Si el módulo es $12$
+(como en un reloj), entonces $10 + 5 \equiv 3 \pmod{12}$, pues al avanzar $5$ horas desde las $10$, llegamos a las $3$.
+
+Dado un número primo $p$, el conjunto $\ZZ/p\ZZ$ con las operaciones de suma y multiplicación módulo $p$ forma un
+cuerpo. Por ejemplo, en $\ZZ/5\ZZ$ tenemos que $3 + 4 \equiv 2 \pmod{5}$ (pues $7 = 5 + 2$) y $3 \cdot 4 \equiv 2
+    \pmod{5}$ (pues $12 = 2 \cdot 5 + 2$).
 
 \begin{theorem}
     Si $p$ es un número primo, entonces $(\ZZ/p\ZZ, +, \cdot)$ es un cuerpo.
@@ -130,7 +159,8 @@ de datos personalizados. Esto nos permite escribir código que se lee de forma n
 con números ordinarios.
 
 La conexión con los axiomas de cuerpo es directa: cuando definimos una clase que representa elementos de un cuerpo, los
-métodos especiales de Python corresponden exactamente a las operaciones algebraicas (ver Cuadro~\ref{tab:python-operators}).
+métodos especiales de Python corresponden exactamente a las operaciones algebraicas (ver
+Cuadro~\ref{tab:python-operators}).
 
 \begin{table}[ht]
     \centering
@@ -156,9 +186,6 @@ Con esta implementación, podemos trabajar con aritmética modular de forma natu
 
 \codefile[Python]{Ejemplo de uso de la clase Zmod}{code/zmod_example.py}
 
-Observemos que en $\ZZ/7\ZZ$, los elementos $3$ y $5$ son inversos multiplicativos entre sí, pues $3 \cdot 5 = 15
-    \equiv 1 \pmod{7}$. Esta es precisamente la propiedad AM4.
-
 \begin{exercise}[Verificador de axiomas para $\ZZ/n\ZZ$]
     Extienda la clase \texttt{Zmod} presentada anteriormente para incluir un método de clase \texttt{verify\_field\_axioms(n)} que:
     \begin{enumerate}
@@ -171,37 +198,118 @@ Observemos que en $\ZZ/7\ZZ$, los elementos $3$ y $5$ son inversos multiplicativ
     Pruebe su implementación con $n = 2, 3, 4, 5, 6, 7$ y verifique que solo los valores primos producen cuerpos.
 \end{exercise}
 
-\section{Ejercicios}
+\section{Axioma para la relación de orden en $\RR$}
+Los números reales también están ordenados, lo que significa que existe una relación de orden que nos permite comparar
+dos números reales y determinar cuál es mayor, menor o si son iguales. Esta relación de orden se define mediante los
+siguientes axiomas:
 
-\begin{exercise}
-    Considere un sistema con dos elementos $\alpha$ y $\beta$ y las siguientes reglas de suma y multiplicación:
-    \begin{align*}
-        \alpha + \alpha     & = \alpha, & \alpha + \beta     & = \beta,  & \beta + \alpha     & = \beta,  & \beta + \beta     & = \alpha, \\
-        \alpha \cdot \alpha & = \alpha, & \alpha \cdot \beta & = \alpha, & \beta \cdot \alpha & = \alpha, & \beta \cdot \beta & = \beta.
-    \end{align*}
-    Demuestre que este sistema forma un cuerpo.
-\end{exercise}
-
-\begin{exercise}
-    Considere los números de la forma $a + b\sqrt{6}$ donde $a$ y $b$ son racionales. ¿Satisface este conjunto los axiomas de un cuerpo?
-\end{exercise}
-
-\begin{exercise}[Aproximación racional de $\sqrt{2}$]
-    Como vimos, $\sqrt{2}$ no es un número racional. Sin embargo, podemos aproximarlo mediante fracciones. El método babilónico (o de Herón) genera una sucesión de aproximaciones racionales: dado $x_0 > 0$, se define
-    \begin{equation*}
-        x_{n+1} = \frac{1}{2}\left(x_n + \frac{2}{x_n}\right).
-    \end{equation*}
-    Implemente en Python una función que, dado un valor inicial $x_0$ y un número de iteraciones $n$, retorne la aproximación $x_n$ de $\sqrt{2}$. Utilice la biblioteca \texttt{fractions} para trabajar con números racionales exactos y observe cómo las fracciones se vuelven cada vez más complejas mientras se acercan a $\sqrt{2}$.
-\end{exercise}
-
-\begin{exercise}[Verificación de axiomas de cuerpo]
-    Implemente en Python una clase \texttt{TwoElementField} que represente el cuerpo con dos elementos $\{\alpha, \beta\}$ del Ejercicio 1.1. La clase debe:
+\begin{definition}[Relación de orden en $\RR$]
+    La relación de orden en los números reales es una relación binaria denotada por $<$ que satisface los siguientes axiomas:
     \begin{enumerate}
-        \item Definir las operaciones de suma y multiplicación según las tablas dadas.
-        \item Incluir un método que verifique automáticamente cada uno de los axiomas AS1--AS4 y AM1--AM5 para todos los elementos
-              del cuerpo.
-        \item Identificar cuál elemento actúa como el $0$ (neutro aditivo) y cuál como el $1$ (neutro multiplicativo).
+        \item[AO1.] \textbf{Tricotomía:} Para todo $a, b \in \RR$, exactamente una de las siguientes afirmaciones es verdadera: $a <
+                  b$, $a = b$, o $a > b$.
+        \item[AO2.] \textbf{Compatibilidad con la suma y el producto:} Si $a$ y $b$ son números reales tales que $0 < a$ y $0 < b$,
+              entonces $0 < a + b$ y $0 < a \cdot b$.
+        \item[AO3.] \textbf{Caracterización del orden:} Para $a$ y $b$ en $\RR$, $a < b$ si y solo si $b - a > 0$.
     \end{enumerate}
+\end{definition}
+
+Si $a < b$ también escribimos $b > a$. La relación $\leq$ se define por $a \leq b$ si y solo si $a < b$ o $a = b$. Los
+axiomas AO1 y AO3 dicen que $<$ es un orden lineal, y AO2 relaciona el orden $<$ con las operaciones $+$ y $\cdot$.
+
+Los axiomas anteriores nos dicen que $(\RR, +, \cdot, <)$ es un \textbf{cuerpo ordenado}. Las consecuencias de estos
+axiomas son válidas para cualquier cuerpo ordenado, como por ejemplo los números racionales $\QQ$. Lo que distingue a
+$\RR$ de otros cuerpos ordenados es el \textbf{axioma de completitud}, que enunciaremos más adelante.
+
+\begin{definition}[Valor absoluto]
+    Para cualquier $a \in \RR$, el \textbf{módulo} o \textbf{valor absoluto} $|a|$ se define como:
+    \begin{equation*}
+        |a| = \begin{cases}
+            a,  & \text{si } a \geq 0, \\
+            -a, & \text{si } a < 0.
+        \end{cases}
+    \end{equation*}
+\end{definition}
+
+\begin{exercise}[Propiedades del orden]
+    Usando los axiomas AS1--AS4, AM1--AM5 y AO1--AO3, demuestre las siguientes propiedades:
+    \begin{enumerate}
+        \item Para cualesquiera $a, b, c \in \RR$: $a < b$ y $b < c$ implican $a < c$; $a \leq b$ y $b \leq c$ implican $a \leq c$.
+              Es decir, las relaciones $<$ y $\leq$ son transitivas. La relación $\leq$ es reflexiva ($a \leq a$) mientras que $<$ no
+              lo es.
+        \item Si $a$ y $b$ están en $\RR$, $a \leq b$ y $b \leq a$, entonces $a = b$.
+        \item Si $a, b, c \in \RR$ y $a > b$, entonces $a + c > b + c$; si $c > 0$ entonces $ac > bc$; si $c < 0$ entonces $ac < bc$.
+        \item Si $a \in \RR$ y $a \neq 0$, entonces $a \cdot a > 0$. En consecuencia, $1 > 0$.
+        \item Para cualquier $a \in \RR$, $a > 0$ si y solo si $-a < 0$.
+        \item Si $a \in \RR$ y $a > 0$, entonces $a^{-1} > 0$; si $a < 0$, entonces $a^{-1} < 0$.
+        \item Para cualesquiera $a, b, c \in \RR$, $a - b < a - c$ si y solo si $b > c$.
+        \item Si $a$ y $b$ están en $\RR$, $a > b > 0$ implica $0 < a^{-1} < b^{-1}$, mientras que $a < b < 0$ implica $b^{-1} <
+                  a^{-1} < 0$.
+        \item Para cualesquiera $a$ y $b$ en $\RR$, con $a > 0$ y $b > 0$, $a > b \Leftrightarrow a \cdot a > b \cdot b$.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Propiedades del valor absoluto]
+    Demuestre las siguientes propiedades del valor absoluto:
+    \begin{enumerate}
+        \item Si $a \in \RR$, entonces $|-a| = |a|$. Además, $|a| = 0$ si y solo si $a = 0$.
+        \item Para cualesquiera $a$ y $b$ en $\RR$: $|ab| = |a||b|$, $|a + b| \leq |a| + |b|$ (desigualdad triangular) y $|a - b|
+                  \geq ||a| - |b||$.
+        \item Si $a$ y $b$ están en $\RR$ y $b > 0$, entonces $|a| < b$ si y solo si $-b < a < b$.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}[Orden en cuerpos finitos]
+    Demuestre que para el sistema de dos elementos $\{\alpha, \beta\}$ definido en el Ejercicio~1.2, no es posible definir una relación de orden que satisfaga los axiomas AO1--AO3.
+\end{exercise}
+
+\begin{exercise}
+    Considere el conjunto descrito en el Ejercicio~1.3 (números de la forma $a + b\sqrt{6}$). ¿Satisface este conjunto los axiomas para la relación de orden?
+\end{exercise}
+
+\begin{exercise}[Implementación de un cuerpo ordenado en Python]
+    Implemente una clase \texttt{QuadraticExtension} para representar números de la forma $a + b\sqrt{6}$ donde $a, b \in \QQ$ (use la biblioteca \texttt{fractions}). La clase debe incluir:
+
+    \textbf{Operaciones de cuerpo:}
+    \begin{center}
+        \begin{tabular}{ll}
+            \toprule
+            \textbf{Operación} & \textbf{Método Python}            \\
+            \midrule
+            $x + y$            & \texttt{\_\_add\_\_(self, other)} \\
+            $-x$               & \texttt{\_\_neg\_\_(self)}        \\
+            $x \cdot y$        & \texttt{\_\_mul\_\_(self, other)} \\
+            $x^{-1}$           & \texttt{inverse(self)}            \\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+
+    \textbf{Operaciones de orden:}
+    \begin{center}
+        \begin{tabular}{ll}
+            \toprule
+            \textbf{Operador} & \textbf{Método Python}           \\
+            \midrule
+            $x < y$           & \texttt{\_\_lt\_\_(self, other)} \\
+            $x \leq y$        & \texttt{\_\_le\_\_(self, other)} \\
+            $x > y$           & \texttt{\_\_gt\_\_(self, other)} \\
+            $x \geq y$        & \texttt{\_\_ge\_\_(self, other)} \\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+
+    \textit{Sugerencia:} Para comparar $a + b\sqrt{6}$ con $0$, considere que $\sqrt{6} \approx 2.449$. Si $b \neq 0$, puede determinar el signo analizando los casos según el signo de $b$ y comparando $a^2$ con $6b^2$.
+\end{exercise}
+
+\begin{exercise}[Verificación computacional de propiedades del orden]
+    Implemente una función \texttt{verify\_order\_properties()} que, dados tres números racionales $a$, $b$ y $c$ (usando la biblioteca \texttt{fractions}), verifique computacionalmente las propiedades del Ejercicio~1.6:
+    \begin{enumerate}
+        \item Transitividad: si $a < b$ y $b < c$, entonces $a < c$.
+        \item Si $a \neq 0$, entonces $a \cdot a > 0$.
+        \item Si $a > 0$, entonces $-a < 0$.
+        \item Si $a > 0$, entonces $a^{-1} > 0$.
+    \end{enumerate}
+    Pruebe su función con varios casos, incluyendo números negativos y fracciones.
 \end{exercise}
 
 \begin{hardproblem}[No completitud de $\QQ$]
