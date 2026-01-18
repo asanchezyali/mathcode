@@ -34,7 +34,11 @@ Crea un nuevo libro basado en el template del proyecto.
    - Agrega el libro a la estructura del proyecto
    - Agrega el libro al roadmap
 
-8. Muestra un resumen de lo creado y los próximos pasos.
+8. Actualiza `compile.sh`:
+   - Agrega el nombre del directorio al array `BOOKS`
+   - Agrega el libro a la lista de libros disponibles en `show_help()`
+
+9. Muestra un resumen de lo creado y los próximos pasos.
 
 ## Ejemplo de uso
 

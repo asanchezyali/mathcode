@@ -15,7 +15,7 @@ embargo el número la ecuación $c^2 = 2$ tiene una solución en los números re
 $\sqrt{2}$. Para resolver este problema fue necesario ampliar el sistema de los número racionales a un sistema más
 grande, el sistema de los números reales.
 
-\section{Axiomas de suma}
+\section{Axiomas de la suma en $\RR$}
 Comenzaremos por postular que existe un conjunto $\RR$, cuyos elementos llamaremos \textbf{números reales}, junto con
 las operaciones de suma y multiplicación y una relación de orden.
 
@@ -47,7 +47,8 @@ partir de estos axiomas se pueden demostrar las siguientes propiedades adicional
     \end{enumerate}
 \end{theorem}
 
-\section{Axiomas de multiplicación}
+\section{Axiomas de la multiplicación en $\RR$}
+Ahora definimos la operación de multiplicación en los números reales mediante los siguientes axiomas.
 
 \begin{definition}[Multiplicación en $\RR$]
     La \textbf{multiplicación} en los números reales es una función
@@ -129,18 +130,23 @@ de datos personalizados. Esto nos permite escribir código que se lee de forma n
 con números ordinarios.
 
 La conexión con los axiomas de cuerpo es directa: cuando definimos una clase que representa elementos de un cuerpo, los
-métodos especiales de Python corresponden exactamente a las operaciones algebraicas:
+métodos especiales de Python corresponden exactamente a las operaciones algebraicas (ver Cuadro~\ref{tab:python-operators}).
 
-\begin{center}
+\begin{table}[ht]
+    \centering
     \begin{tabular}{lll}
+        \toprule
         \textbf{Axioma} & \textbf{Operación}   & \textbf{Método Python}                 \\
-        \hline
+        \midrule
         AS1--AS4        & Suma $a + b$         & \texttt{\_\_add\_\_(self, other)}      \\
                         & Negativo $-a$        & \texttt{\_\_neg\_\_(self)}             \\
         AM1--AM5        & Producto $a \cdot b$ & \texttt{\_\_mul\_\_(self, other)}      \\
                         & Inverso $a^{-1}$     & \texttt{\_\_invert\_\_(self)} o método \\
+        \bottomrule
     \end{tabular}
-\end{center}
+    \caption{Correspondencia entre axiomas de cuerpo y métodos especiales de Python.}
+    \label{tab:python-operators}
+\end{table}
 
 A continuación presentamos una implementación de $\ZZ/n\ZZ$ que ilustra estos conceptos:
 

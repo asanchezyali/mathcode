@@ -70,6 +70,10 @@
              {Ú}{{\'U}}1 {Ñ}{{\~N}}1
 }
 
+% Counter for code listings
+\newcounter{codelisting}[chapter]
+\renewcommand{\thecodelisting}{\thechapter.\arabic{codelisting}}
+
 % Custom tcolorbox style for code listings (con header estilo teorema)
 \newtcblisting{codebox}[2][]{
     listing only,
@@ -79,15 +83,17 @@
     colback=codeBackground,
     colframe=codeFrame,
     boxrule=0.4pt,
-    left=8pt,
-    right=8pt,
+    left=10pt,
+    right=10pt,
     top=10pt,
     bottom=10pt,
     arc=5pt,
+    before skip=\topskip,
+    after skip=\topskip,
     #1
 }
 
-% Style for lstinputlisting with tcolorbox (con header estilo teorema)
+% Style for lstinputlisting with tcolorbox (basado en theorembase)
 \tcbset{
     codestyle/.style={
         listing only,
@@ -95,26 +101,30 @@
         breakable,
         colback=codeBackground,
         colframe=codeFrame,
-        boxrule=0.4pt,
-        left=16pt,
-        right=8pt,
-        top=8pt,
-        bottom=10pt,
-        arc=5pt,
-        fonttitle=\bfseries,
-        coltitle=white,
         colbacktitle=codeHeader,
+        coltitle=white,
+        boxrule=0.4pt,
+        arc=5pt,
+        left=25pt,
+        right=10pt,
+        top=5pt,
+        bottom=5pt,
         toptitle=5pt,
         bottomtitle=5pt,
+        lefttitle=10pt,
+        fonttitle=\bfseries,
+        before skip=\topskip,
+        after skip=\topskip,
     }
 }
 
 % \codefile[language]{caption}{file}
-\newtcbinputlisting{\codefile}[3][Python]{
-    codestyle,
-    listing file={#3},
-    listing options={language=#1},
-    title={Código -- #2},
+\newcommand{\codefile}[3][Python]{%
+    \refstepcounter{codelisting}%
+    \begin{tcolorbox}[codestyle,
+        title={Código~\thecodelisting~--~#2}]
+        \lstinputlisting[language=#1]{#3}
+    \end{tcolorbox}%
 }
 
 %%% BOOK-SPECIFIC PACKAGES
