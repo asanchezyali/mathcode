@@ -323,3 +323,102 @@ $\RR$ de otros cuerpos ordenados es el \textbf{axioma de completitud}, que enunc
 
     \textit{Sugerencia:} Considere la sucesión definida por $r_1 = 1$ y $r_{n+1} = \frac{1}{2}\left(r_n + \frac{2}{r_n}\right)$.
 \end{hardproblem}
+
+\section{Los números naturales}
+En esta sección introducimos y estudiaremos algunas propiedades de los números naturales como subconjunto de $\RR$.
+Intuitivamente pensamos en los números naturales como el conjunto que contiene al número $1$ y a todos los números que
+se obtienen sumando $1$ repetidamente:
+
+\begin{equation}
+    \{1, 1+1, 1+1+1, \dots\}
+\end{equation}
+
+de modo que $1$ es un natural y si $n$ es un natural, entonces $n+1$ es un natural. Sin embargo, esta definición no es
+lo suficientemente rigurosa para trabajar con los números naturales en el contexto de los números reales. Por lo tanto,
+es necesario definir formalmente qué entendemos por «número natural».
+
+\begin{definition}[Conjuntos inductivos]
+    Un subconjunto $S \subseteq \RR$ es un \textbf{conjunto inductivo} si satisface las siguientes propiedades:
+    \begin{enumerate}
+        \item $1 \in S$.
+        \item Si $n \in S$, entonces $n+1 \in S$.
+    \end{enumerate}
+\end{definition}
+
+Como ejemplos tenemos que $\RR$ es un conjunto inductivo y también lo es ${x \in \RR \mid x \geq 1}$. Es fácil
+verificar que la intersección de cualquier colección de conjunto inductivos es un conjunto inductivo. Sea $\mathcal{I}$
+la colección de todos los conjuntos inductivos. Entonces, el conjunto de los números naturales se define como
+
+\begin{equation}
+    \NN = \bigcap_{S \in \mathcal{I}} S
+\end{equation}
+
+es decir,
+
+\begin{equation}
+    \NN = \{n \in \RR \mid n \in S \text{ para todo } S \in \mathcal{I}\}.
+\end{equation}
+
+Los elementos de $\NN$ son los números naturales (o enteros positivos). Si $A$ es un conjunto inductivo, entonces $A
+    \supseteq \NN$. Además $1 \in \NN$ y si $n \in \NN$, entonces $n+1 \in \NN$, lo cual coincide con nuestra intuición
+inicial.
+
+\begin{theorem}[Principio de inducción matemática]
+    Si $S \subseteq \NN$ es un conjunto inductivo, entonces $S = \NN$.
+\end{theorem}
+
+\begin{proof}
+    Si $S$ es inductivo entonces $\NN \subseteq S$. Por hipótesis $S \subseteq \NN$. Por lo tanto, $S = \NN$.
+\end{proof}
+
+Veamos la forma como se utiliza el principio de inducción matemática. Supongamos que queremos demostrar que una
+propiedad $P(n)$ es cierta para todo número natural $n$. Entonces, debemos demostrar que $P(1)$ es cierta y que si
+$P(n)$ es cierta, entonces $P(n+1)$ es cierta. Si logramos demostrar ambas cosas, entonces $P(n)$ es cierta para todo
+número natural $n$. En efecto, sea $S = \{n \in \NN \mid P(n) \text{ es cierta}\}$. Entonces $1 \in S$ y si $n \in S$,
+entonces $P(n)$ es cierta, por lo que $P(n+1)$ es cierta, de modo que $n+1 \in S$. Por lo tanto, $S$ es un conjunto
+inductivo y por el Teorema~1.1, $S = \NN$.
+
+\begin{exercise}[Suma de los primeros $n$ números naturales]
+    Demuestre por inducción matemática que para todo $n \in \NN$, se tiene que
+    \begin{equation}
+        \sum_{k=1}^{n} k = \frac{n(n+1)}{2}
+    \end{equation}
+\end{exercise}
+
+\begin{exercise}[Suma de los primeros $n$ números impares]
+    Demuestre por inducción matemática que para todo $n \in \NN$, se tiene que
+    \begin{equation}
+        \sum_{k=1}^{n} (2k-1) = n^2
+    \end{equation}
+\end{exercise}
+
+\begin{exercise}[Suma de los primeros $n$ cubos]
+    Demuestre por inducción matemática que para todo $n \in \NN$, se tiene que
+    \begin{equation}
+        \sum_{k=1}^{n} k^3 = \left(\frac{n(n+1)}{2}\right)^2
+    \end{equation}
+\end{exercise}
+
+\begin{exercise}[Suma de los primeros $n$ números pares]
+    Demuestre por inducción matemática que para todo $n \in \NN$, se tiene que
+    \begin{equation}
+        \sum_{k=1}^{n} 2k = n(n+1)
+    \end{equation}
+\end{exercise}
+
+\begin{exercise}[Suma de los primeros $n$ números impares]
+    Demuestre por inducción matemática que para todo $n \in \NN$, se tiene que
+    \begin{equation}
+        \sum_{k=1}^{n} (2k-1) = n^2
+    \end{equation}
+\end{exercise}
+
+\begin{theorem}
+    Si $n\in \NN$ y $n \neq 1$, entonces $n-1\in \NN$.
+\end{theorem}
+
+\begin{proof}
+    Usamos inducción, sea $A = \{1\} \cup \{n \in \NN \mid n-1 \in \NN\}$.
+    Claramente $1 \in A$. Supongamos que $k \in A$, entonces $(k+1)-1 = k \in A \subset \NN$, de modo que $k+1 \in A$.
+    Por el principio de inducción matemática, $A = \NN$.
+\end{proof}
