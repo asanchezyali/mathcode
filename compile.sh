@@ -13,7 +13,7 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # Available books
-BOOKS=("deep_learning" "machine_learning" "llms" "inferencial_statistics" "src" "geometry" "math_fundamentals")
+BOOKS=("deep_learning" "machine_learning" "llms" "inferencial_statistics" "src" "geometry" "math_fundamentals" "numerical_methods")
 
 show_help() {
     echo "Usage: ./compile.sh [options] [book_name]"
@@ -31,6 +31,7 @@ show_help() {
     echo "  - src"
     echo "  - geometry"
     echo "  - math_fundamentals"
+    echo "  - numerical_methods"
     echo ""
     echo "Examples:"
     echo "  ./compile.sh                   # Compile all books"

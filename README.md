@@ -22,6 +22,7 @@ Construir recursos educativos que conecten la teoría matemática con la impleme
 | **Machine Learning** | Teoría del aprendizaje estadístico y algoritmos | [Descargar](../../raw/pdfs/machine_learning.pdf) |
 | **LLMs** | Transformers, fine-tuning y modelos de lenguaje | [Descargar](../../raw/pdfs/llms.pdf) |
 | **Estadística Inferencial** | Inferencia estadística y análisis bayesiano | [Descargar](../../raw/pdfs/inferencial_statistics.pdf) |
+| **Métodos Numéricos** | Algoritmos, análisis de errores y aplicaciones | [Descargar](../../raw/pdfs/numerical_methods.pdf) |
 
 ### Artículos
 
@@ -74,6 +75,7 @@ mathcode/
 ├── machine_learning/       # Machine learning
 ├── llms/                   # Modelos de lenguaje
 ├── inferencial_statistics/ # Estadística inferencial
+├── numerical_methods/      # Métodos numéricos
 ├── articles/               # Artículos cortos
 ├── template/               # Plantilla para nuevos libros
 ├── src/                    # Material compartido
@@ -119,6 +121,7 @@ cd nuevo_libro/
 
 - [ ] Completar libro de Fundamentos de las Matemáticas
 - [ ] Completar libro de Geometría Plana
+- [ ] Completar libro de Métodos Numéricos
 - [ ] Agregar ejemplos de código en Python
 - [ ] Crear visualizaciones interactivas
 - [ ] Traducción al inglés

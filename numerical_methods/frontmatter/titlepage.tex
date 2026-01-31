@@ -1,0 +1,38 @@
+% titlepage.tex - Modern minimalist title page
+
+\begin{titlepage}
+    % Set black background for this page only
+    \pagecolor{black}
+    \color{white}
+
+    % Upper section: Title and subtitle close together
+    \vspace*{\fill}
+    \begin{flushright}
+        % Main title
+        {\fontsize{34}{40}\selectfont\bfseries \printbooktitle \par}
+        \vspace{0.5cm}
+
+        % Subtitle close to title
+        {\fontsize{13}{16}\selectfont Algoritmos, análisis de errores y aplicaciones \par}
+    \end{flushright}
+
+    \vspace*{\fill}
+
+    % Bottom section: Author, community, and date grouped together
+    \begin{flushright}
+        % Author
+        {\fontsize{18}{22}\selectfont \printbookauthor \par}
+        \vspace{0.3cm}
+
+        % Community/Organization
+        {\fontsize{8}{10}\selectfont PRIMERA EDICIÓN \par}
+        \vspace{0.2cm}
+    \end{flushright}
+
+    \vspace{2cm}
+
+\end{titlepage}
+
+% Reset to white background for the rest of the document
+\pagecolor{white}
+\color{black}

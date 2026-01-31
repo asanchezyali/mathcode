@@ -1,0 +1,131 @@
+\chapter{Problemas vibratorios}
+\label{chap:problemas_vibratorios}
+
+\section{Discretización por diferencias finitas}
+
+Muchos de los desafíos numéricos que se enfrentan al calcular soluciones oscilatorias de EDOs y EDPs pueden capturarse
+mediante la EDO $u'' + \omega^2 u = 0$. Por esta razón, elegimos esta EDO como nuestro punto de partida para el
+desarrollo de métodos, implementación y análisis.
+
+\subsection{Un model básico para problemas vibratorios}
+
+El modelo más simple de un sistema vibratorio tiene la forma
+
+\begin{equation}
+    u'' + \omega^2 u = 0, \quad u(0) = u_0, \quad u'(0) = 0, \quad t \in (0, T].
+    \label{eq:problema_vibratorio_simple}
+\end{equation}
+
+Aquí, $u$ es la función desconocida que depende del tiempo $t$, y $u_0$ es la condición inicial que especifica el valor
+de $u$ en $t = 0$. Como veremos más adelante, la solución exacta de este problema es
+
+\begin{equation}
+    u(t) = u_0 \cos(\omega t).
+    \label{eq:solucion_exacta_problema_vibratorio_simple}
+\end{equation}
+
+Es decir, $u$ oscila con amplitud constante $u_0$ y frecuencia angular $\omega$. El período correspondiente de las
+oscilaciones (es decir, el tiempo entre dos picos consecutivos de la función coseno) es $P = 2\pi/\omega$. El número de
+períodos por segundo es $f = \omega/(2\pi)$ y se mide en la unidad Hz. Tanto $f$ como $\omega$ se denominan frecuencia,
+pero $\omega$ se denomina más precisamente frecuencia angular, medida en rad/s.
+
+En sistemas mecánicos vibratorios modelados por \eqref{eq:problema_vibratorio_simple}, $u(t)$ muy a menudo representa
+una posición o un desplazamiento de un punto particular del sistema. La derivada $u'(t)$ tiene entonces la
+interpretación de velocidad, y $u''(t)$ es la aceleración asociada. El modelo \eqref{eq:problema_vibratorio_simple} no
+solo es aplicable a sistemas mecánicos vibratorios, sino también a oscilaciones en circuitos eléctricos.
+
+\subsection{Discretización por diferencias finitas}
+
+Para resolver numéricamente el problema \eqref{eq:problema_vibratorio_simple}, seguimos los siguientes pasos:
+
+\textbf{Paso 1: Discretización del dominio temporal.} Dividimos el intervalo de tiempo $[0, T]$ en $N$ subintervalos
+iguales, cada uno de longitud $\Delta t = T/N$. Definimos los puntos de malla como $t_n = n \Delta t$ para $n = 0, 1,
+    \ldots, N$. Introducimos la notación $u_n \approx u(t_n)$ para la aproximación numérica de $u$ en el punto de malla
+$t_n$. Observamos que $u_0 = u(0)$ es conocido a partir de la condición inicial. El objetivo es calcular las
+aproximaciones $u_1, u_2, \ldots, u_N$.
+
+\textbf{Paso 2: Establecer la ecuación en el tiempo discreto.} La EDO \eqref{eq:problema_vibratorio_simple} se debe
+cumplir en cada punto de malla. Es decir, necesitamos que
+
+\begin{equation}
+    u''(t_n) + \omega^2 u(t_n) = 0, \quad n = 1, 2, \ldots, N.
+    \label{eq:edo_en_puntos_de_malla}
+\end{equation}
+
+\textbf{Paso 3: Replazar las derivadas por diferencias finitas.} Utilizamos la aproximación de diferencias finitas centradas
+para la segunda derivada:
+
+\begin{equation}
+    u''(t_n) \approx \frac{u_{n+1} - 2u_n + u_{n-1}}{(\Delta t)^2}.
+    \label{eq:diferencia_finita_segunda_derivada}
+\end{equation}
+
+Sustituyendo \eqref{eq:diferencia_finita_segunda_derivada} en \eqref{eq:edo_en_puntos_de_malla}, obtenemos la ecuación
+en diferencias finitas:
+
+\begin{equation}
+    \frac{u_{n+1} - 2u_n + u_{n-1}}{(\Delta t)^2} + \omega^2 u_n = 0, \quad n = 1, 2, \ldots, N.
+    \label{eq:ecuacion_diferencias_finitas}
+\end{equation}
+
+\textbf{Paso 4: Manejo de las condiciones iniciales.} La condición inicial $u(0) = u_0$ nos da directamente $u_0$. Para
+obtener $u_1$, utilizamos la aproximación de la derivada primera en $t = 0$:
+
+\begin{equation}
+    u'(0) \approx \frac{u_1 - u_{-1}}{2 \Delta t} = 0.
+    \label{eq:condicion_inicial_derivada_primera}
+\end{equation}
+
+De \eqref{eq:condicion_inicial_derivada_primera}, obtenemos $u_{-1} = u_1$. Sustituyendo esto en
+\eqref{eq:ecuacion_diferencias_finitas} para $n = 0$, obtenemos:
+\begin{equation}
+    \frac{u_1 - 2u_0 + u_1}{(\Delta t)^2} + \omega^2 u_0 = 0,
+    \label{eq:ecuacion_diferencias_finitas_n0}
+\end{equation}
+lo que nos permite resolver para $u_1$:
+\begin{equation}
+    u_1 = u_0 - \frac{1}{2} \omega^2 (\Delta t)^2 u_0.
+    \label{eq:valor_u1}
+\end{equation}
+
+\textbf{Paso 5: Resolver el sistema de ecuaciones.} Reorganizando \eqref{eq:ecuacion_diferencias_finitas}, obtenemos la
+fórmula de recurrencia:
+
+\begin{equation}
+    u_{n+1} = 2u_n - u_{n-1} - \omega^2 (\Delta t)^2 u_n, \quad n = 1, 2, \ldots, N.
+    \label{eq:formula_recurrencia}
+\end{equation}
+
+Con la condición inicial \eqref{eq:condicion_inicial_derivada_primera}, podemos calcular $u_1$ y luego usar
+\eqref{eq:formula_recurrencia} para calcular $u_2, u_3, \ldots, u_N$ de manera iterativa.
+
+El siguiente pseudocódigo resume el método de diferencias finitas para resolver el problema vibratorio:
+
+\begin{algorithm}[H]
+    \caption{Método de diferencias finitas para el problema vibratorio}
+    \label{alg:diferencias_finitas_vibratorio}
+    \KwEntrada{$u_0$, $\omega$, $T$, $N$}
+    \KwSalida{$u = [u_0, u_1, \ldots, u_N]$}
+    \BlankLine
+
+    \tcp{Calcular el tamaño del paso temporal}
+    $\Delta t \leftarrow T / N$\;
+    \BlankLine
+
+    \tcp{Inicializar el vector de soluciones}
+    $u \leftarrow [0]^{N+1}$\;
+    $u[0] \leftarrow u_0$\;
+    \BlankLine
+
+    \tcp{Calcular $u_1$ usando la condición inicial $u'(0) = 0$}
+    $u[1] \leftarrow u_0 - \frac{1}{2} \omega^2 (\Delta t)^2 u_0$\;
+    \BlankLine
+
+    \tcp{Iterar usando la fórmula de recurrencia}
+    \Para{$n \leftarrow 1$ \KwTo $N - 1$}{
+        $u[n+1] \leftarrow 2 u[n] - u[n-1] - \omega^2 (\Delta t)^2 u[n]$\;
+    }
+    \BlankLine
+
+    \Retornar $u$\;
+\end{algorithm}
