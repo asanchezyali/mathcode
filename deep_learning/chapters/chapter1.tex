@@ -1,8 +1,44 @@
-\chapter{Introducción a Programación Diferenciable}
+\chapter{Mecanismos de atención en redes neuronales}
 
-Este capítulo contiene el contenido migrado desde dl.tex.
-El usuario puede continuar escribiendo el contenido aquí.
+\section{El paradigma de la atención}
 
-% TODO: El contenido completo de dl.tex ha sido preservado en dl.tex en el directorio raíz
-%       Para incluirlo aquí, necesita ser limpiado de comandos incompatibles con biblatex
-%       como \citep (usar \parencite), \bibliography, etc.
+La capacidad de seleccionar información relevante de un conjunto de datos es un aspecto fundamental de los sistemas
+inteligentes, ya sean biológicos o artificiales. Por ejemplo, cuando leemos un texto, no prestamos la misma atención a
+cada palabra, por lo genera nos enfocamos en las ideas principales y pasamo por alto detalles menos importantes. Este
+proceso de selección de información relevante se conoce como atención y ha transformado la forma en que diseñamos y
+entrenamos la redes neuronales. Las arquitectura tradicionales como las redes neuronales recurrentes (RNN) y las long
+short-term memory (LSTM) procesan la información de manera secuencial mientras mantiene un estado interno que se
+actualiza a medida que se procesan los datos. Sin embargo, estas arquitecturas pueden tener dificultades para capturar
+dependencias a largo plazo en los datos, por su limitada capacidad de memoria. La atención, por otro lado, permite a
+las redes neuronales enfocarse en partes específicas de la entrada, lo que facilita la captura de relaciones a largo
+plazo y mejora el rendimiento en tareas como la traducción automática, el reconocimiento de voz y la generación de
+texto.
+
+La \textbf{atención} es un mecanismo que permite a las redes neuronales asignar diferentes pesos a diferentes partes de
+la entrada, lo que le permite a la red enfocarse en las partes más relevantes de la información.
+
+\subsection{El flujo de información en la redes neuronales}
+
+Consideremos una secuencia de entrada \(\pmb{x}=(\pmb{x}_{_1}, \pmb{x}_{_2}, \ldots, \pmb{x}_{_n})\) que se procesa
+para producir una secuencia de salida \(\pmb{y}=(\pmb{y}_{_1}, \pmb{y}_{_2}, \ldots, \pmb{y}_{_n})\). En las
+arquitecturas recurrentes, la información fluye secuencialmente:
+
+\begin{equation}
+    \pmb{h}_{_t} = f(\pmb{h}_{_{t-1}}, \pmb{x}_{_t})
+\end{equation}
+
+donde \(\pmb{h}_{_t}\) es el estado oculto en el tiempo \(t\) y \(f\) es una función aprendida por la red. El estado
+oculto \(\pmb{h}_{_t}\) contiene información sobre la secuencia procesada hasta el tiempo \(t\). Esta dependencia
+secuencial introduce varios desafíos:
+
+\begin{enumerate}
+    \item \textbf{Desvanecimiento del gradiente}: A medida que la secuencia se hace más larga, el gradiente que se propaga
+          hacia atrás a través del tiempo puede volverse muy pequeño, lo que dificulta el aprendizaje de dependencias a largo
+          plazo.
+    \item \textbf{Capacidad de memoria limitada}: La dimensionalidad fija del estado oculto \(\pmb{h}_{_t}\) limita la
+          cantidad de información que la red puede almacenar y procesar a lo largo de la secuencia.
+    \item \textbf{Procesamiento secuencial}: El procesamiento secuencial no permite aprovechar la paralelización, lo que
+          puede ser ineficiente para secuencias largas.
+    \item \textbf{Dificultad para capturar relaciones a largo plazo}: Las dependencias a largo plazo pueden ser difíciles de
+          capturar debido a la naturaleza secuencial del procesamiento.
+\end{enumerate}
