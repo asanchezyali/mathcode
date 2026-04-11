@@ -40,3 +40,39 @@ secuencial introduce varios desafíos:
     \item \textbf{Dificultad para capturar relaciones a largo plazo}: Las dependencias a largo plazo pueden ser difíciles de
           capturar debido a la naturaleza secuencial del procesamiento.
 \end{enumerate}
+
+Los mecanismos de atención abordan estas limitaciones a través de un enfoque diferente en el flujo de información. En
+lugar del procesamiento secuencial, la atención permite que cada elemento de la secuencia de salida \(\pmb{y}_{_t}\) se
+construya a partir de una combinación ponderada de todos los elementos de la secuencia de entrada \(\pmb{x}\). Esto se
+logra mediante la asignación de \textbf{pesos de atención} que indican la relevancia de cada elemento de la entrada
+para la generación de la salida en el tiempo \(t\). De esta manera, la atención permite a la red enfocarse en las
+partes más relevantes de la información, lo que facilita la captura de relaciones a largo plazo y mejora el rendimiento
+en tareas complejas.
+
+\section{El mecanismo de atención}
+
+El mecanismo de atención computa una representación contentualizada para cada posición tomando el peso promedio de las
+represantaciones de todas las posiciones. Los pesos son determinados por las funciones de aprendizaje compatibles que
+midean la relavancia entre las posiciones.
+
+Para cada posición $i$ atendiendo a todas las posiciones $j = 1, \dots, n$, la atención se calcula como:
+
+\begin{equation}
+    e_{_{ij}} = \text{score}(\pmb{q}_{_i}, \pmb{k}_{_j})
+\end{equation}
+\begin{equation}
+    \alpha_{_{ij}} = \frac{\exp(e_{_{ij}})}{\sum_{k=1}^{n} \exp(e_{_{ik}})}
+\end{equation}
+\begin{equation}
+    \pmb{c}_{_i} = \sum_{j=1}^{n} \alpha_{_{ij}} \pmb{v}_{_j}
+\end{equation}
+
+donde \(\pmb{q}_{_i}\) es la consulta (query) para la posición \(i\), \(\pmb{k}_{_j}\) es la clave (key) que representa
+que información que se encuentra en la posición \(j\), y \(\pmb{v}_{_j}\) es el valor (value) que contiene la
+información actual para ser utilizada en la generación de la salida. Los pesos de atención \(\alpha_{_{ij}}\) forman
+una distribución de probabilidad sobre las posiciones de la entrada, lo que permite determinar cuánta atención se debe
+prestar a cada posición para generar la salida en la posición \(i\). Estea formulación provee varias ventajas:
+
+\begin{enumerate}
+    \item{Acceso directo a la información relevante:} La posición \(i\) puede acceder directamente a cualquier posición \(j\) de la entrada, con el peso de atención \(\alpha_{_{ij}}\) controlando el flujo de la información.
+\end{enumerate}
