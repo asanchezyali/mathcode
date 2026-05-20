@@ -33,6 +33,10 @@ jobs:
             dir: geometry
             pdf: geometry.pdf
             emoji: "📐"
+          - name: numerical_methods
+            dir: numerical_methods
+            pdf: numerical_methods.pdf
+            emoji: "🔢"
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4
