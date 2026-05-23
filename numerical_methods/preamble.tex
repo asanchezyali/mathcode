@@ -136,15 +136,47 @@ literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
 \usepackage{titlesec}
 
 %%% ALGORITHMS
-\usepackage[ruled,vlined,spanish,onelanguage]{algorithm2e}
-\SetAlgoInsideSkip{medskip}
-\SetAlCapSkip{0.8em}
+\usepackage[vlined,spanish,onelanguage,linesnumbered]{algorithm2e}
+\SetAlgoInsideSkip{smallskip}
+\SetAlCapSkip{0em}
+\SetAlgoNlRelativeSize{-1}
+\SetNlSty{texttt}{}{}
 \SetKwInput{KwEntrada}{Entrada}
 \SetKwInput{KwSalida}{Salida}
 \SetKwFor{ParaCada}{para cada}{hacer}{fin}
 \SetKwIF{Si}{SinoSi}{Sino}{si}{entonces}{sino si}{sino}{fin}
 \SetKwFor{Para}{para}{hacer}{fin}
 \SetKw{Retornar}{retornar}
+
+% Light comment style for algorithms
+\definecolor{algoComment}{RGB}{140, 155, 180}
+\newcommand\algocomment[1]{\footnotesize\textit{\textcolor{algoComment}{#1}}}
+\SetCommentSty{algocomment}
+
+% Algorithm counter
+\newcounter{algocounter}[chapter]
+\renewcommand{\thealgocounter}{\thechapter.\arabic{algocounter}}
+
+% Algorithm colors
+\definecolor{algoBG}{RGB}{248, 250, 255}
+\definecolor{algoBorder}{RGB}{200, 210, 235}
+\definecolor{algoHeader}{RGB}{75, 85, 120}
+
+% Elegant algorithm box
+\newenvironment{algorithmbox}[2][]{%
+    \refstepcounter{algocounter}%
+    \begin{tcolorbox}[
+        theorembase,
+        colback=algoBG,
+        colframe=algoBorder,
+        colbacktitle=algoHeader,
+        coltitle=white,
+        title={Algoritmo~\thealgocounter~--~#2},
+        #1
+    ]%
+}{%
+    \end{tcolorbox}%
+}
 
 %%% BIBLIOGRAPHY AND REFERENCES
 \usepackage[backend=biber, style=apa, sorting=ynt]{biblatex}
@@ -181,6 +213,9 @@ literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
 \usepackage{subcaption}
 \graphicspath{{./images/}}
 
+%%% QR CODES
+\usepackage{qrcode}
+
 %%% HYPERLINKS
 \usepackage[
     breaklinks=true,
@@ -190,6 +225,48 @@ literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
     urlcolor=gray
 ]{hyperref}
 \usepackage{xurl}
+
+%%% CODE QR BOXES
+\definecolor{qrPythonBG}{RGB}{250, 245, 230}
+\definecolor{qrPythonLabel}{RGB}{160, 130, 50}
+\definecolor{qrCBG}{RGB}{233, 240, 250}
+\definecolor{qrCLabel}{RGB}{50, 90, 150}
+\definecolor{qrRustBG}{RGB}{248, 237, 233}
+\definecolor{qrRustLabel}{RGB}{160, 70, 40}
+
+\newcommand{\codeqrbox}[4]{%
+    % #1 = bg color, #2 = label color, #3 = language label, #4 = url
+    \begin{tcolorbox}[
+        enhanced,
+        colback=#1,
+        colframe=#1,
+        boxrule=0pt,
+        arc=6pt,
+        halign=center,
+        top=10pt, bottom=8pt, left=8pt, right=8pt,
+        shadow={0pt}{-1pt}{2pt}{black!8},
+    ]
+        \centering
+        \qrcode[height=2.2cm]{#4}\par\vspace{6pt}
+        {\normalsize\bfseries\textcolor{#2}{#3}}
+    \end{tcolorbox}%
+}
+
+\newcommand{\codeqrstrip}[6]{%
+    % #1 = Python URL, #2 = C URL, #3 = Rust URL
+    % #4 = Python filename, #5 = C filename, #6 = Rust filename
+    \begin{center}
+        \begin{minipage}[t]{0.28\textwidth}
+            \codeqrbox{qrPythonBG}{qrPythonLabel}{Python}{#1}
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.28\textwidth}
+            \codeqrbox{qrCBG}{qrCLabel}{C}{#2}
+        \end{minipage}\hfill
+        \begin{minipage}[t]{0.28\textwidth}
+            \codeqrbox{qrRustBG}{qrRustLabel}{Rust}{#3}
+        \end{minipage}
+    \end{center}
+}
 
 %%% COLOR DEFINITIONS
 \definecolor{theoremBG}{RGB}{235,245,255}

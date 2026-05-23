@@ -1,0 +1,137 @@
+\chapter{Problemas vibratorios}
+\label{chap:problemas_vibratorios}
+
+El modelo más simple de un sistema vibratorio tiene la forma
+
+\begin{equation}
+    u'' + \omega^2 u = 0, \quad u(0) = u_{_0}, \quad u'(0) = 0, \quad t \in (0, T].
+    \label{eq:problema_vibratorio_simple}
+\end{equation}
+
+Aquí, $u$ es la función desconocida que depende del tiempo $t$, y $u_{_0}$ es la condición inicial que especifica el
+valor de $u$ en $t = 0$. Como veremos más adelante, la solución exacta de este problema es
+
+\begin{equation}
+    u(t) = u_{_0} \cos(\omega t).
+    \label{eq:solucion_exacta_problema_vibratorio_simple}
+\end{equation}
+
+Es decir, $u$ oscila con amplitud constante $u_{_0}$ y frecuencia angular $\omega$. El período correspondiente de las
+oscilaciones (es decir, el tiempo entre dos picos consecutivos de la función coseno) es $p = 2\pi/\omega$. El número de
+períodos por segundo es $f = \omega/(2\pi)$ y se mide en la unidad Hz. Tanto $f$ como $\omega$ se denominan frecuencia,
+pero $\omega$ se denomina más precisamente \textbf{frecuencia angular}, medida en rad/s.
+
+En sistemas mecánicos vibratorios modelados por \eqref{eq:problema_vibratorio_simple}, $u(t)$ muy a menudo representa
+una posición o un desplazamiento de un punto particular del sistema. La derivada $u'(t)$ tiene entonces la
+interpretación de velocidad, y $u''(t)$ es la aceleración asociada. El modelo \eqref{eq:problema_vibratorio_simple} no
+solo es aplicable a sistemas mecánicos vibratorios, sino también a oscilaciones en circuitos eléctricos.
+
+\subsection{Discretización por diferencias finitas}
+
+Para resolver numéricamente el problema \eqref{eq:problema_vibratorio_simple}, seguimos los siguientes pasos:
+
+\textbf{Paso 1: Discretización del dominio temporal.} Dividimos el intervalo de tiempo $[0, T]$ en $N$ subintervalos
+iguales, cada uno de longitud $\Delta t = T/N$. Definimos los puntos de la partición como $t_{_n} = n \Delta t$ para $n = 0, 1,
+    \ldots, N$. Introducimos la notación $u_{_n} \approx u(t_{_n})$ para la aproximación numérica de $u$ en el punto de malla
+$t_{_n}$. Observamos que $u_{_0} = u(0)$ es conocido a partir de la condición inicial. El objetivo es calcular las
+aproximaciones $u_{_1}, u_{_2}, \ldots, u_{_N}$.
+
+\textbf{Paso 2: Establecer la ecuación en el tiempo discreto.} La EDO (Ecuación Diferencial Ordinaria) \eqref{eq:problema_vibratorio_simple} se debe
+cumplir en cada punto de malla. Es decir, necesitamos que
+
+\begin{equation}
+    u''(t_{_n}) + \omega^2 u(t_{_n}) = 0, \quad n = 1, 2, \ldots, N.
+    \label{eq:edo_en_puntos_de_malla}
+\end{equation}
+
+\textbf{Paso 3: Replazar las derivadas por diferencias finitas.} Utilizamos la aproximación de diferencias finitas centradas
+para la segunda derivada:
+
+\begin{equation}
+    u''(t_{_n}) \approx \frac{u_{_{n+1}} - 2u_{_n} + u_{_{n-1}}}{(\Delta t)^2}.
+    \label{eq:diferencia_finita_segunda_derivada}
+\end{equation}
+
+Sustituyendo \eqref{eq:diferencia_finita_segunda_derivada} en \eqref{eq:edo_en_puntos_de_malla}, obtenemos la ecuación
+en diferencias finitas:
+
+\begin{equation}
+    \frac{u_{_{n+1}} - 2u_{_n} + u_{_{n-1}}}{(\Delta t)^2} + \omega^2 u_{_n} = 0, \quad n = 1, 2, \ldots, N.
+    \label{eq:ecuacion_diferencias_finitas}
+\end{equation}
+
+\textbf{Paso 4: Manejo de las condiciones iniciales.} La condición inicial $u(0) = u_{_0}$ nos da directamente $u_{_0}$. Para
+obtener $u_{_1}$, utilizamos la aproximación de la primera derivada en $t = 0$:
+
+\begin{equation}
+    u'(0) \approx \frac{u_{_1} - u_{_{-1}}}{2 \Delta t} = 0.
+    \label{eq:condicion_inicial_derivada_primera}
+\end{equation}
+
+De \eqref{eq:condicion_inicial_derivada_primera}, obtenemos $u_{_{-1}} = u_{_1}$. Sustituyendo esto en
+\eqref{eq:ecuacion_diferencias_finitas} para $n = 0$, obtenemos:
+\begin{equation}
+    \frac{u_{_1} - 2u_{_0} + u_{_1}}{(\Delta t)^2} + \omega^2 u_{_0} = 0,
+    \label{eq:ecuacion_diferencias_finitas_n0}
+\end{equation}
+lo que nos permite resolver para $u_{_1}$:
+\begin{equation}
+    u_{_1} = u_{_0} - \frac{1}{2} \omega^2 (\Delta t)^2 u_{_0}.
+    \label{eq:valor_u1}
+\end{equation}
+
+\textbf{Paso 5: Resolver el sistema de ecuaciones.} Reorganizando \eqref{eq:ecuacion_diferencias_finitas}, obtenemos la
+fórmula de recurrencia:
+
+\begin{equation}
+    u_{_{n+1}} = 2u_{_n} - u_{_{n-1}} - \omega^2 (\Delta t)^2 u_{_n}, \quad n = 1, 2, \ldots, N.
+    \label{eq:formula_recurrencia}
+\end{equation}
+
+Con la condición inicial \eqref{eq:condicion_inicial_derivada_primera}, podemos calcular $u_{_1}$ y luego usar
+\eqref{eq:formula_recurrencia} para calcular $u_{_2}, u_{_3}, \ldots, u_{_N}$ de manera iterativa.
+
+El siguiente pseudocódigo resume el método de diferencias finitas para resolver el problema vibratorio:
+
+\begin{algorithmbox}{Método de diferencias finitas para el problema vibratorio}
+    \label{alg:diferencias_finitas_vibratorio}
+    \begin{algorithm}[H]
+        \DontPrintSemicolon
+        \SetAlgoVlined
+        \KwEntrada{$u_{_0}$, $\omega$, $T$, $N$}
+        \KwSalida{$u = [u_{_0}, u_{_1}, \ldots, u_{_N}]$}
+        \BlankLine
+
+        \tcp{Paso temporal}
+        $\Delta t \leftarrow T / N$\;
+        \BlankLine
+
+        \tcp{Inicialización: vector de $N+1$ ceros}
+        $u \leftarrow [0, 0, \ldots, 0]$\;
+        $u[0] \leftarrow u_{_0}$\;
+        \BlankLine
+
+        \tcp{Primer paso usando $u'(0) = 0$}
+        $u[1] \leftarrow u_{_0} - \tfrac{1}{2}\,\omega^2\,(\Delta t)^2\,u_{_0}$\;
+        \BlankLine
+
+        \tcp{Recurrencia}
+        \Para{$n \leftarrow 1$ \KwTo $N - 1$}{
+        $u[n+1] \leftarrow 2\,u[n] - u[n-1] - \omega^2\,(\Delta t)^2\,u[n]$\;
+        }
+        \BlankLine
+
+        \Retornar{$u$}\;
+    \end{algorithm}
+\end{algorithmbox}
+
+Las implementaciones completas del Algoritmo~\ref{alg:diferencias_finitas_vibratorio} están disponibles en el
+repositorio del libro. Escanee los códigos QR para acceder al código fuente:
+
+\codeqrstrip
+{https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.py}
+{https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.c}
+{https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.rs}
+{finite\_differences\_vibration.py}
+{finite\_differences\_vibration.c}
+{finite\_differences\_vibration.rs}
