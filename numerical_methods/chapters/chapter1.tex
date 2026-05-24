@@ -3,34 +3,84 @@
 
 El objetivo de este capítulo es estudiar cómo aproximar las soluciones de ecuaciones diferenciales ordinarias (EDO), es
 decir, encontrar una función (o un conjunto de valores) que satisfaga una EDO dada en una región determinada del
-espacio y/o del tiempo, junto con ciertas condiciones iniciales y condiciones de frontera a lo largo de los bordes de
-la región. En general, las EDO no pueden resolverse de forma analítica, lo que hace necesario el uso de métodos
-numéricos para obtener soluciones aproximadas. El método de diferencias finitas permite reescribir la EDO como un
-sistema algebraico de ecuaciones grande pero finito que al resolverlo se obtiene una aproximación de la solución de la
-EDO en un conjunto de puntos discretos, y que se puede resolver utilizando técnicas de álgebra lineal y computación
-numérica.
+espacio y/o del tiempo, junto con ciertas condiciones iniciales y de frontera. En general, las EDO no pueden resolverse
+de forma analítica, lo que hace necesario el uso de métodos numéricos. El método de diferencias finitas permite
+reescribir la EDO como un sistema algebraico de ecuaciones, grande pero finito, cuya solución proporciona una
+aproximación en un conjunto de puntos discretos mediante técnicas de álgebra lineal y computación numérica.
 
-Antes de abordar este problema, consideremos primero la cuestión más básica de cómo aproximar la derivada de una
-función dada en un punto específico. Además de proporcionar una base para el desarrollo posterior de métodos de
-diferencias finitas para resolver EDOs, esto nos permitirá introducir varios conceptos clave, como el \textbf{odern de
-    precisión} de una aproximación, en el entorno más simple posible.
+Antes de abordar este problema, consideremos la cuestión más básica de cómo aproximar la derivada de una función en un
+punto específico. Además de sentar las bases para el desarrollo posterior de métodos de diferencias finitas, esto nos
+permitirá introducir conceptos clave como el \textbf{orden de precisión} de una aproximación en el entorno más simple
+posible.
 
-Consideremos una función $u(x)$ que es suficientemente suave (es decir, tiene derivadas de orden superior) en un
-intervalo que contiene un punto específico $x_0$. Si queremos aproximar la derivada de $u$ en $x_0$, es decir,
-$\displaystyle \frac{du}{dx}(x_{0})$, podemos utilizar el desarrollo de Taylor de $u$ alrededor de $x_0$. Para un
-pequeño paso $h > 0$, el desarrollo de Taylor de $u$ en $x_0 + h$ es:
-
+Consideremos una función $u(x)$ suficientemente suave en un intervalo que contiene un punto $x_0$ de interés. Si
+queremos aproximar $du/dx\,(x_{0})$, podemos utilizar el desarrollo de Taylor de $u$ alrededor de $x_0$. Para un paso
+$h > 0$, el desarrollo en $x_0 + h$ es:
 \begin{equation}
     u(x_0 + h) = u(x_0) + h \frac{du}{dx}(x_{0}) + \frac{h^2}{2} \frac{d^2u}{dx^2}(x_{0}) + \frac{h^3}{6} \frac{d^3u}{dx^3}(x_{0}) + \cdots
     \label{eq:taylor_forward}
 \end{equation}
-De esta expansión, podemos despejar $\frac{du}{dx}(x_{0})$ para obtener la aproximación de \textbf{diferencia hacia adelante} para la derivada:
+Despejando $du/dx\,(x_{0})$ obtenemos:
 \begin{equation}
     \frac{du}{dx}(x_{0}) \approx \frac{u(x_0 + h) - u(x_0)}{h} - \frac{h}{2} \frac{d^2u}{dx^2}(x_{0}) - \frac{h^2}{6} \frac{d^3u}{dx^3}(x_{0}) - \cdots
     \label{eq:forward_difference}
 \end{equation}
-Si truncamos la serie después del primer término, obtenemos la fórmula de diferencia hacia adelante de primer orden:
+Si ignoramos los términos de orden $h$ y superior, obtenemos la fórmula de \textbf{diferencia progresiva} de primer
+orden:
 \begin{equation}
     \frac{du}{dx}(x_{0}) \approx \frac{u(x_0 + h) - u(x_0)}{h}.
     \label{eq:forward_difference_truncated}
 \end{equation}
+
+De manera análoga, el desarrollo de Taylor en $x_0 - h$ es:
+\begin{equation}
+    u(x_0 - h) = u(x_0) - h \frac{du}{dx}(x_{0}) + \frac{h^2}{2} \frac{d^2u}{dx^2}(x_{0}) - \frac{h^3}{6} \frac{d^3u}{dx^3}(x_{0}) + \cdots
+    \label{eq:taylor_backward}
+\end{equation}
+Despejando $du/dx\,(x_{0})$ y truncando de la misma forma, llegamos a la fórmula de \textbf{diferencia regresiva} de
+primer orden:
+\begin{equation}
+    \frac{du}{dx}(x_{0}) \approx \frac{u(x_0) - u(x_0 - h)}{h}.
+    \label{eq:backward_difference}
+\end{equation}
+Ambas aproximaciones, la progresiva~\eqref{eq:forward_difference_truncated} y la
+regresiva~\eqref{eq:backward_difference}, tienen un error de truncamiento de orden $\mathcal{O}(h)$, es decir, son de
+\textbf{primer orden} de precisión.
+
+Podemos obtener una aproximación más precisa combinando ambos desarrollos. Al restar~\eqref{eq:taylor_backward}
+de~\eqref{eq:taylor_forward}, los términos de orden par se cancelan:
+\begin{equation}
+    u(x_0 + h) - u(x_0 - h) = 2h \frac{du}{dx}(x_{0}) + \frac{h^3}{3} \frac{d^3u}{dx^3}(x_{0}) + \cdots
+    \label{eq:taylor_centered}
+\end{equation}
+Despejando $du/dx\,(x_{0})$ se obtiene la fórmula de \textbf{diferencia centrada}:
+\begin{equation}
+    \frac{du}{dx}(x_{0}) \approx \frac{u(x_0 + h) - u(x_0 - h)}{2h}.
+    \label{eq:centered_difference}
+\end{equation}
+El error de truncamiento es ahora de orden $\mathcal{O}(h^2)$, lo que la convierte en una aproximación de
+\textbf{segundo orden} de precisión: al reducir $h$ a la mitad, el error se reduce a aproximadamente una cuarta parte,
+frente a la mitad que se obtiene con las diferencias progresiva y regresiva.
+
+Los mismos desarrollos de Taylor permiten aproximar la segunda derivada. En lugar de restar, sumamos
+\eqref{eq:taylor_forward} y~\eqref{eq:taylor_backward}:
+\begin{equation}
+    u(x_0 + h) + u(x_0 - h) = 2\,u(x_0) + h^2 \frac{d^2u}{dx^2}(x_{0}) + \frac{h^4}{12} \frac{d^4u}{dx^4}(x_{0}) + \cdots
+    \label{eq:taylor_sum}
+\end{equation}
+Al sumar, los términos con potencias impares de $h$ se cancelan (aparecen con signos opuestos en cada desarrollo),
+quedando únicamente los de orden par. Despejando $d^2u/dx^2\,(x_0)$:
+\begin{equation}
+    \frac{d^2u}{dx^2}(x_{0}) = \frac{u(x_0 + h) - 2\,u(x_0) + u(x_0 - h)}{h^2} - \frac{h^2}{12} \frac{d^4u}{dx^4}(x_{0}) - \cdots
+    \label{eq:second_derivative_full}
+\end{equation}
+Truncando los términos de orden $h^2$ y superior, obtenemos la fórmula de \textbf{diferencia centrada para la segunda
+    derivada}:
+\begin{equation}
+    \frac{d^2u}{dx^2}(x_{0}) \approx \frac{u(x_0 + h) - 2\,u(x_0) + u(x_0 - h)}{h^2}.
+    \label{eq:centered_second_derivative}
+\end{equation}
+Esta aproximación es también de \textbf{segundo orden} de precisión. La fórmula involucra tres puntos equiespaciados
+---$x_0 - h$, $x_0$ y $x_0 + h$--- y puede interpretarse como la aplicación sucesiva de una diferencia progresiva y
+una regresiva. Es la herramienta fundamental para discretizar ecuaciones diferenciales de segundo orden, como la
+ecuación de vibración $u'' + \omega^2 u = 0$ que estudiaremos en la siguiente sección.
