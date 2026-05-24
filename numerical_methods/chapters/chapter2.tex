@@ -93,6 +93,8 @@ Con la condición inicial \eqref{eq:condicion_inicial_derivada_primera}, podemos
 
 El siguiente pseudocódigo resume el método de diferencias finitas para resolver el problema vibratorio:
 
+\noindent
+\begin{minipage}[t]{\dimexpr\textwidth-2cm\relax}
 \begin{algorithmbox}{Método de diferencias finitas para el problema vibratorio}
     \label{alg:diferencias_finitas_vibratorio}
     \begin{algorithm}[H]
@@ -117,21 +119,16 @@ El siguiente pseudocódigo resume el método de diferencias finitas para resolve
 
         \tcp{Recurrencia}
         \Para{$n \leftarrow 1$ \KwTo $N - 1$}{
-        $u[n+1] \leftarrow 2\,u[n] - u[n-1] - \omega^2\,(\Delta t)^2\,u[n]$\;
+            $u[n+1] \leftarrow 2\,u[n] - u[n-1] - \omega^2\,(\Delta t)^2\,u[n]$\;
         }
         \BlankLine
 
         \Retornar{$u$}\;
     \end{algorithm}
 \end{algorithmbox}
-
-Las implementaciones completas del Algoritmo~\ref{alg:diferencias_finitas_vibratorio} están disponibles en el
-repositorio del libro. Escanee los códigos QR para acceder al código fuente:
-
-\codeqrstrip
-{https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.py}
-{https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.c}
-{https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.rs}
-{finite\_differences\_vibration.py}
-{finite\_differences\_vibration.c}
-{finite\_differences\_vibration.rs}
+\end{minipage}%
+\hfill
+\codeqrsidebar
+    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.py}
+    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.c}
+    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.rs}

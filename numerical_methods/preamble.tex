@@ -226,46 +226,50 @@ literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
 ]{hyperref}
 \usepackage{xurl}
 
-%%% CODE QR BOXES
-\definecolor{qrPythonBG}{RGB}{250, 245, 230}
-\definecolor{qrPythonLabel}{RGB}{160, 130, 50}
-\definecolor{qrCBG}{RGB}{233, 240, 250}
-\definecolor{qrCLabel}{RGB}{50, 90, 150}
-\definecolor{qrRustBG}{RGB}{248, 237, 233}
-\definecolor{qrRustLabel}{RGB}{160, 70, 40}
-
-\newcommand{\codeqrbox}[4]{%
-    % #1 = bg color, #2 = label color, #3 = language label, #4 = url
-    \begin{tcolorbox}[
-        enhanced,
-        colback=#1,
-        colframe=#1,
-        boxrule=0pt,
-        arc=6pt,
-        halign=center,
-        top=10pt, bottom=8pt, left=8pt, right=8pt,
-        shadow={0pt}{-1pt}{2pt}{black!8},
-    ]
-        \centering
-        \qrcode[height=2.2cm]{#4}\par\vspace{6pt}
-        {\normalsize\bfseries\textcolor{#2}{#3}}
-    \end{tcolorbox}%
-}
+%%% CODE QR STRIP
+\definecolor{qrStripBG}{RGB}{250, 248, 245}
+\definecolor{qrStripBorder}{RGB}{225, 220, 210}
+\definecolor{qrStripLabel}{RGB}{120, 110, 95}
 
 \newcommand{\codeqrstrip}[6]{%
     % #1 = Python URL, #2 = C URL, #3 = Rust URL
-    % #4 = Python filename, #5 = C filename, #6 = Rust filename
+    % #4, #5, #6 = filenames (unused, kept for compatibility)
     \begin{center}
-        \begin{minipage}[t]{0.28\textwidth}
-            \codeqrbox{qrPythonBG}{qrPythonLabel}{Python}{#1}
-        \end{minipage}\hfill
-        \begin{minipage}[t]{0.28\textwidth}
-            \codeqrbox{qrCBG}{qrCLabel}{C}{#2}
-        \end{minipage}\hfill
-        \begin{minipage}[t]{0.28\textwidth}
-            \codeqrbox{qrRustBG}{qrRustLabel}{Rust}{#3}
+        \vspace{4pt}
+        \begin{minipage}[t]{2.5cm}
+            \centering
+            \qrcode[height=2cm]{#1}\\[4pt]
+            {\footnotesize\textcolor{qrStripLabel}{Python}}
+        \end{minipage}%
+        \hspace{1.5cm}%
+        \begin{minipage}[t]{2.5cm}
+            \centering
+            \qrcode[height=2cm]{#2}\\[4pt]
+            {\footnotesize\textcolor{qrStripLabel}{C}}
+        \end{minipage}%
+        \hspace{1.5cm}%
+        \begin{minipage}[t]{2.5cm}
+            \centering
+            \qrcode[height=2cm]{#3}\\[4pt]
+            {\footnotesize\textcolor{qrStripLabel}{Rust}}
         \end{minipage}
+        \vspace{4pt}
     \end{center}
+}
+
+% QR sidebar: vertical QR column next to content
+\newcommand{\codeqrsidebar}[3]{%
+    % #1 = Python URL, #2 = C URL, #3 = Rust URL
+    \begin{minipage}[t]{1.6cm}
+        \vspace{0pt}
+        \centering
+        \qrcode[height=1.3cm]{#1}\\[2pt]
+        {\tiny\textcolor{qrStripLabel}{Python}}\\[6pt]
+        \qrcode[height=1.3cm]{#2}\\[2pt]
+        {\tiny\textcolor{qrStripLabel}{C}}\\[6pt]
+        \qrcode[height=1.3cm]{#3}\\[2pt]
+        {\tiny\textcolor{qrStripLabel}{Rust}}
+    \end{minipage}%
 }
 
 %%% COLOR DEFINITIONS
@@ -511,6 +515,12 @@ literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
 \DeclareMathOperator{\ord}{ord}
 \DeclareMathOperator{\mcd}{mcd}
 \DeclareMathOperator{\mcm}{mcm}
+
+%%% MATRIX SPACING
+% bmatrix with inner padding for readability
+\newenvironment{bmat}{%
+    \left[\;\begin{matrix}}{%
+    \end{matrix}\;\right]}
 
 %%% MATH SYMBOLS AND COMMANDS
 \newcommand{\KK}{\mathbb{K}}

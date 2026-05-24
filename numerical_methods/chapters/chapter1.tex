@@ -14,33 +14,33 @@ permitirá introducir conceptos clave como el \textbf{orden de precisión} de un
 posible.
 
 Consideremos una función $u(x)$ suficientemente suave en un intervalo que contiene un punto $x_0$ de interés. Si
-queremos aproximar $du/dx\,(x_{0})$, podemos utilizar el desarrollo de Taylor de $u$ alrededor de $x_0$. Para un paso
+queremos aproximar $u^{(1)}(x_0)$, podemos utilizar el desarrollo de Taylor de $u$ alrededor de $x_0$. Para un paso
 $h > 0$, el desarrollo en $x_0 + h$ es:
 \begin{equation}
-    u(x_0 + h) = u(x_0) + h \frac{du}{dx}(x_{0}) + \frac{h^2}{2} \frac{d^2u}{dx^2}(x_{0}) + \frac{h^3}{6} \frac{d^3u}{dx^3}(x_{0}) + \cdots
+    u(x_0 + h) = u(x_0) + h\,u^{(1)}(x_{0}) + \frac{h^2}{2}\,u^{(2)}(x_{0}) + \frac{h^3}{6}\,u^{(3)}(x_{0}) + \cdots
     \label{eq:taylor_forward}
 \end{equation}
-Despejando $du/dx\,(x_{0})$ obtenemos:
+Despejando $u^{(1)}(x_{0})$ obtenemos:
 \begin{equation}
-    \frac{du}{dx}(x_{0}) \approx \frac{u(x_0 + h) - u(x_0)}{h} - \frac{h}{2} \frac{d^2u}{dx^2}(x_{0}) - \frac{h^2}{6} \frac{d^3u}{dx^3}(x_{0}) - \cdots
+    u^{(1)}(x_{0}) \approx \frac{u(x_0 + h) - u(x_0)}{h} - \frac{h}{2}\,u^{(2)}(x_{0}) - \frac{h^2}{6}\,u^{(3)}(x_{0}) - \cdots
     \label{eq:forward_difference}
 \end{equation}
 Si ignoramos los términos de orden $h$ y superior, obtenemos la fórmula de \textbf{diferencia progresiva} de primer
 orden:
 \begin{equation}
-    \frac{du}{dx}(x_{0}) \approx \frac{u(x_0 + h) - u(x_0)}{h}.
+    u^{(1)}(x_{0}) \approx \frac{u(x_0 + h) - u(x_0)}{h}.
     \label{eq:forward_difference_truncated}
 \end{equation}
 
 De manera análoga, el desarrollo de Taylor en $x_0 - h$ es:
 \begin{equation}
-    u(x_0 - h) = u(x_0) - h \frac{du}{dx}(x_{0}) + \frac{h^2}{2} \frac{d^2u}{dx^2}(x_{0}) - \frac{h^3}{6} \frac{d^3u}{dx^3}(x_{0}) + \cdots
+    u(x_0 - h) = u(x_0) - h\,u^{(1)}(x_{0}) + \frac{h^2}{2}\,u^{(2)}(x_{0}) - \frac{h^3}{6}\,u^{(3)}(x_{0}) + \cdots
     \label{eq:taylor_backward}
 \end{equation}
-Despejando $du/dx\,(x_{0})$ y truncando de la misma forma, llegamos a la fórmula de \textbf{diferencia regresiva} de
+Despejando $u^{(1)}(x_{0})$ y truncando de la misma forma, llegamos a la fórmula de \textbf{diferencia regresiva} de
 primer orden:
 \begin{equation}
-    \frac{du}{dx}(x_{0}) \approx \frac{u(x_0) - u(x_0 - h)}{h}.
+    u^{(1)}(x_{0}) \approx \frac{u(x_0) - u(x_0 - h)}{h}.
     \label{eq:backward_difference}
 \end{equation}
 Ambas aproximaciones, la progresiva~\eqref{eq:forward_difference_truncated} y la
@@ -50,12 +50,12 @@ regresiva~\eqref{eq:backward_difference}, tienen un error de truncamiento de ord
 Podemos obtener una aproximación más precisa combinando ambos desarrollos. Al restar~\eqref{eq:taylor_backward}
 de~\eqref{eq:taylor_forward}, los términos de orden par se cancelan:
 \begin{equation}
-    u(x_0 + h) - u(x_0 - h) = 2h \frac{du}{dx}(x_{0}) + \frac{h^3}{3} \frac{d^3u}{dx^3}(x_{0}) + \cdots
+    u(x_0 + h) - u(x_0 - h) = 2h\,u^{(1)}(x_{0}) + \frac{h^3}{3}\,u^{(3)}(x_{0}) + \cdots
     \label{eq:taylor_centered}
 \end{equation}
-Despejando $du/dx\,(x_{0})$ se obtiene la fórmula de \textbf{diferencia centrada}:
+Despejando $u^{(1)}(x_{0})$ se obtiene la fórmula de \textbf{diferencia centrada}:
 \begin{equation}
-    \frac{du}{dx}(x_{0}) \approx \frac{u(x_0 + h) - u(x_0 - h)}{2h}.
+    u^{(1)}(x_{0}) \approx \frac{u(x_0 + h) - u(x_0 - h)}{2h}.
     \label{eq:centered_difference}
 \end{equation}
 El error de truncamiento es ahora de orden $\mathcal{O}(h^2)$, lo que la convierte en una aproximación de
@@ -65,104 +65,204 @@ frente a la mitad que se obtiene con las diferencias progresiva y regresiva.
 Los mismos desarrollos de Taylor permiten aproximar la segunda derivada. En lugar de restar, sumamos
 \eqref{eq:taylor_forward} y~\eqref{eq:taylor_backward}:
 \begin{equation}
-    u(x_0 + h) + u(x_0 - h) = 2\,u(x_0) + h^2 \frac{d^2u}{dx^2}(x_{0}) + \frac{h^4}{12} \frac{d^4u}{dx^4}(x_{0}) + \cdots
+    u(x_0 + h) + u(x_0 - h) = 2\,u(x_0) + h^2\,u^{(2)}(x_{0}) + \frac{h^4}{12}\,u^{(4)}(x_{0}) + \cdots
     \label{eq:taylor_sum}
 \end{equation}
 Al sumar, los términos con potencias impares de $h$ se cancelan (aparecen con signos opuestos en cada desarrollo),
-quedando únicamente los de orden par. Despejando $d^2u/dx^2\,(x_0)$:
+quedando únicamente los de orden par. Despejando $u^{(2)}(x_0)$:
 \begin{equation}
-    \frac{d^2u}{dx^2}(x_{0}) = \frac{u(x_0 + h) - 2\,u(x_0) + u(x_0 - h)}{h^2} - \frac{h^2}{12} \frac{d^4u}{dx^4}(x_{0}) - \cdots
+    u^{(2)}(x_{0}) = \frac{u(x_0 + h) - 2\,u(x_0) + u(x_0 - h)}{h^2} - \frac{h^2}{12}\,u^{(4)}(x_{0}) - \cdots
     \label{eq:second_derivative_full}
 \end{equation}
 Truncando los términos de orden $h^2$ y superior, obtenemos la fórmula de \textbf{diferencia centrada para la segunda
     derivada}:
 \begin{equation}
-    \frac{d^2u}{dx^2}(x_{0}) \approx \frac{u(x_0 + h) - 2\,u(x_0) + u(x_0 - h)}{h^2}.
+    u^{(2)}(x_{0}) \approx \frac{u(x_0 + h) - 2\,u(x_0) + u(x_0 - h)}{h^2}.
     \label{eq:centered_second_derivative}
 \end{equation}
 Esta aproximación es también de \textbf{segundo orden} de precisión. La fórmula involucra tres puntos equiespaciados
 ---$x_0 - h$, $x_0$ y $x_0 + h$--- y puede interpretarse como la aplicación sucesiva de una diferencia progresiva y
 una regresiva. Es la herramienta fundamental para discretizar ecuaciones diferenciales de segundo orden, como la
-ecuación de vibración $u'' + \omega^2 u = 0$ que estudiaremos más adelante.
+ecuación de vibración $u^{(2)} + \omega^2 u = 0$ que estudiaremos más adelante.
 
 Hasta ahora hemos derivado cada fórmula de diferencias finitas de forma individual, manipulando desarrollos de Taylor
 caso por caso. Surge naturalmente la pregunta: ¿existe un método sistemático para obtener los coeficientes de una
 aproximación por diferencias finitas para cualquier derivada de orden $k$, sobre cualquier conjunto de puntos? La
 respuesta es afirmativa, y se reduce a resolver un sistema de ecuaciones lineales.
 
-Consideremos $n$ puntos distintos $z_1, z_2, \ldots, z_n$ (el \textit{stencil}) y el punto $x_0$ en el que queremos
-aproximar la derivada de orden $k$ de $u$, con $k < n$. El punto $x_0$ puede o no pertenecer al stencil. Buscamos
-coeficientes $c_1, c_2, \ldots, c_n$ tales que
+Consideremos $n$ puntos distintos $z_1, z_2, \ldots, z_n$ (la \textit{plantilla}) y el punto $x_0$ en el que queremos
+aproximar $u^{(k)}(x_0)$, con $k < n$. El punto $x_0$ puede o no pertenecer a la plantilla. Buscamos coeficientes
+$c_1, c_2, \ldots, c_n$ tales que
 \begin{equation}
     c_1\,u(z_1) + c_2\,u(z_2) + \cdots + c_n\,u(z_n) \approx u^{(k)}(x_0).
     \label{eq:fd_linear_combination}
 \end{equation}
-Para determinar estos coeficientes, expandimos cada $u(z_j)$ en serie de Taylor alrededor de $x_0$:
+Para determinar estos coeficientes, definimos los desplazamientos $\delta_j = z_j - x_0$ y expandimos cada $u(z_j)$ en
+serie de Taylor alrededor de $x_0$:
 \begin{equation}
-    u(z_j) = u(x_0) + (z_j - x_0)\,u'(x_0) + \frac{(z_j - x_0)^2}{2!}\,u''(x_0) + \cdots + \frac{(z_j - x_0)^{n-1}}{(n-1)!}\,u^{(n-1)}(x_0) + \cdots
+    u(z_j) = \sum_{m=0}^{\infty} \frac{\delta_j^{\,m}}{m!}\,u^{(m)}(x_0).
     \label{eq:taylor_general}
 \end{equation}
-Sustituyendo estas expansiones en~\eqref{eq:fd_linear_combination} y agrupando por derivadas de $u$:
+Sustituyendo en~\eqref{eq:fd_linear_combination} e intercambiando el orden de las sumas:
 \begin{equation}
-    \sum_{j=1}^{n} c_j\,u(z_j) = \left(\sum_{j=1}^{n} c_j\right) u(x_0) + \left(\sum_{j=1}^{n} c_j\,(z_j - x_0)\right) u'(x_0) + \cdots + \left(\sum_{j=1}^{n} c_j\,\frac{(z_j - x_0)^{i-1}}{(i-1)!}\right) u^{(i-1)}(x_0) + \cdots
+    \sum_{j=1}^{n} c_j\,u(z_j) = \sum_{m=0}^{\infty} \left(\sum_{j=1}^{n} c_j\,\frac{\delta_j^{\,m}}{m!}\right) u^{(m)}(x_0).
     \label{eq:fd_expansion}
 \end{equation}
 Para que esta combinación lineal reproduzca exactamente $u^{(k)}(x_0)$, necesitamos que el coeficiente de
-$u^{(k)}(x_0)$ sea $1$ y que los coeficientes de todas las demás derivadas sean $0$. Esto conduce al sistema de
-$n$ ecuaciones:
+$u^{(k)}(x_0)$ sea $1$ y que los de las demás derivadas sean $0$. Esto conduce al sistema de $n$ ecuaciones:
 \begin{equation}
-    \sum_{j=1}^{n} c_j\,\frac{(z_j - x_0)^{i-1}}{(i-1)!} =
+    \sum_{j=1}^{n} c_j\,\frac{\delta_j^{\,m}}{m!} =
     \begin{cases}
-        1 & \text{si } i-1 = k, \\
-        0 & \text{en otro caso,}
+        1 & \text{si } m = k,  \\
+        0 & \text{si } m \neq k,
     \end{cases}
-    \quad i = 1, 2, \ldots, n.
+    \quad m = 0, 1, \ldots, n-1.
     \label{eq:vandermonde_system}
 \end{equation}
-Si definimos $\delta_j = z_j - x_0$ y escribimos el sistema en forma matricial, obtenemos:
+En forma matricial:
 \begin{equation}
     \underbrace{
-        \begin{pmatrix}
-            1            & 1            & \cdots & 1              \\[4pt]
-            \delta_1     & \delta_2     & \cdots & \delta_n       \\[4pt]
-            \frac{\delta_1^2}{2!} & \frac{\delta_2^2}{2!} & \cdots & \frac{\delta_n^2}{2!} \\[4pt]
-            \vdots       & \vdots       & \ddots & \vdots         \\[4pt]
+        \begin{bmat}
+            1                             & 1                             & \cdots & 1                             \\[4pt]
+            \delta_1                      & \delta_2                      & \cdots & \delta_n                      \\[4pt]
+            \frac{\delta_1^2}{2!}         & \frac{\delta_2^2}{2!}         & \cdots & \frac{\delta_n^2}{2!}         \\[4pt]
+            \vdots                        & \vdots                        & \ddots & \vdots                        \\[4pt]
             \frac{\delta_1^{n-1}}{(n-1)!} & \frac{\delta_2^{n-1}}{(n-1)!} & \cdots & \frac{\delta_n^{n-1}}{(n-1)!}
-        \end{pmatrix}
+        \end{bmat}
     }_{A}
-    \begin{pmatrix} c_1 \\ c_2 \\ c_3 \\ \vdots \\ c_n \end{pmatrix}
+    \begin{bmat} c_1 \\[3pt] c_2 \\[3pt] c_3 \\[3pt] \vdots \\[3pt] c_n \end{bmat}
     =
-    \begin{pmatrix} 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0 \end{pmatrix}
+    \begin{bmat} 0 \\[3pt] \vdots \\[3pt] 0 \\[3pt] 1 \\[3pt] 0 \\[3pt] \vdots \\[3pt] 0 \end{bmat}
     \leftarrow \text{fila } k+1
     \label{eq:vandermonde_matrix}
 \end{equation}
 La matriz $A$ es una variante de la \textbf{matriz de Vandermonde}. Dado que los puntos $z_j$ son distintos, los
 desplazamientos $\delta_j$ también lo son, y la matriz es no singular. El sistema tiene por tanto una única solución.
 
-Verifiquemos que las fórmulas derivadas anteriormente son casos particulares de este método. Para la diferencia
-progresiva de la primera derivada ($k = 1$), usamos el stencil $\{z_1, z_2\} = \{x_0,\, x_0 + h\}$. Entonces
-$\delta_1 = 0$, $\delta_2 = h$, y el sistema~\eqref{eq:vandermonde_system} se reduce a:
-\begin{equation}
-    \begin{pmatrix} 1 & 1 \\ 0 & h \end{pmatrix}
-    \begin{pmatrix} c_1 \\ c_2 \end{pmatrix}
-    =
-    \begin{pmatrix} 0 \\ 1 \end{pmatrix},
-    \label{eq:vandermonde_forward}
-\end{equation}
-cuya solución es $c_1 = -1/h$ y $c_2 = 1/h$, es decir, $du/dx\,(x_0) \approx (u(x_0 + h) - u(x_0))/h$,
-exactamente la fórmula~\eqref{eq:forward_difference_truncated}. De forma análoga, el lector puede verificar que la
-diferencia centrada~\eqref{eq:centered_difference} se obtiene con el stencil $\{z_1, z_2, z_3\} = \{x_0 - h,\, x_0,\, x_0 + h\}$ y
-$k = 1$, y que la segunda derivada centrada~\eqref{eq:centered_second_derivative} resulta del mismo stencil con
-$k = 2$.
+Verifiquemos que las fórmulas derivadas anteriormente son casos particulares de este método, y veamos cómo extenderlo a
+derivadas de orden superior.
 
-El orden de precisión de la aproximación depende directamente del número de puntos en el stencil. Con $n$ puntos y
+\begin{example}[Diferencia progresiva --- $k = 1$, $n = 2$]
+    Para la primera derivada usamos la plantilla $\{z_1, z_2\} = \{x_0,\, x_0 + h\}$. Entonces $\delta_1 = 0$,
+    $\delta_2 = h$, y el sistema~\eqref{eq:vandermonde_system} se reduce a:
+    \begin{equation}
+        \begin{bmat} 1 & 1 \\[3pt] 0 & h \end{bmat}
+        \begin{bmat} c_1 \\[3pt] c_2 \end{bmat}
+        =
+        \begin{bmat} 0 \\[3pt] 1 \end{bmat},
+        \label{eq:vandermonde_forward}
+    \end{equation}
+    cuya solución es $c_1 = -1/h$ y $c_2 = 1/h$. Esto reproduce exactamente la fórmula de diferencia
+    progresiva~\eqref{eq:forward_difference_truncated}:
+    $u^{(1)}(x_0) \approx (u(x_0 + h) - u(x_0))/h$,
+    con orden de precisión $\mathcal{O}(h^{n-k}) = \mathcal{O}(h)$.
+\end{example}
+
+\begin{example}[Diferencia centrada para $u^{(1)}$ y $u^{(2)}$ --- $n = 3$]
+    Con la plantilla simétrica $\{z_1, z_2, z_3\} = \{x_0 - h,\, x_0,\, x_0 + h\}$ tenemos $\delta_1 = -h$,
+    $\delta_2 = 0$, $\delta_3 = h$. Para $k = 1$, el sistema~\eqref{eq:vandermonde_system} es:
+    \begin{equation}
+        \begin{bmat} 1 & 1 & 1 \\[3pt] -h & 0 & h \\[3pt] h^2/2 & 0 & h^2/2 \end{bmat}
+        \begin{bmat} c_1 \\[3pt] c_2 \\[3pt] c_3 \end{bmat}
+        =
+        \begin{bmat} 0 \\[3pt] 1 \\[3pt] 0 \end{bmat},
+        \label{eq:vandermonde_centered_1}
+    \end{equation}
+    cuya solución es $c_1 = -1/(2h)$, $c_2 = 0$, $c_3 = 1/(2h)$, recuperando la diferencia
+    centrada~\eqref{eq:centered_difference}. Con la misma plantilla pero $k = 2$, el lado derecho cambia a
+    $(0,\, 0,\, 1)^T$ y se obtiene $c_1 = 1/h^2$, $c_2 = -2/h^2$, $c_3 = 1/h^2$, es decir, la
+    fórmula~\eqref{eq:centered_second_derivative}. Ambas aproximaciones tienen orden $\mathcal{O}(h^2)$.
+\end{example}
+
+\begin{example}[Tercera derivada centrada --- $k = 3$, $n = 5$]
+    Para aproximar $u^{(3)}(x_0)$ con segundo orden de precisión necesitamos $n = k + 2 = 5$ puntos. Usamos la plantilla
+    simétrica $\{x_0 - 2h,\, x_0 - h,\, x_0,\, x_0 + h,\, x_0 + 2h\}$, de modo que $\delta_j = jh$ con
+    $j \in \{-2, -1, 0, 1, 2\}$. Resolviendo el sistema~\eqref{eq:vandermonde_system} con $k = 3$ se obtienen los
+    coeficientes:
+    \begin{equation}
+        c_{-2} = -\frac{1}{2h^3}, \quad c_{-1} = \frac{1}{h^3}, \quad c_0 = 0, \quad c_1 = -\frac{1}{h^3}, \quad c_2 = \frac{1}{2h^3},
+        \label{eq:third_derivative_coeffs}
+    \end{equation}
+    lo que da la aproximación:
+    \begin{equation}
+        u^{(3)}(x_0) \approx \frac{-u(x_0 - 2h) + 2\,u(x_0 - h) - 2\,u(x_0 + h) + u(x_0 + 2h)}{2h^3}.
+        \label{eq:centered_third_derivative}
+    \end{equation}
+    Nótese que $c_0 = 0$: el valor en $x_0$ no interviene. Esto ocurre porque la tercera derivada es impar y la
+    plantilla es simétrica. El orden de precisión es $\mathcal{O}(h^{n-k}) = \mathcal{O}(h^2)$.
+\end{example}
+
+\begin{example}[Cuarta derivada centrada --- $k = 4$, $n = 5$]
+    Con la misma plantilla de 5 puntos $\{x_0 - 2h,\, x_0 - h,\, x_0,\, x_0 + h,\, x_0 + 2h\}$, pero ahora con
+    $k = 4$, el sistema~\eqref{eq:vandermonde_system} produce:
+    \begin{equation}
+        c_{-2} = \frac{1}{h^4}, \quad c_{-1} = -\frac{4}{h^4}, \quad c_0 = \frac{6}{h^4}, \quad c_1 = -\frac{4}{h^4}, \quad c_2 = \frac{1}{h^4},
+        \label{eq:fourth_derivative_coeffs}
+    \end{equation}
+    es decir:
+    \begin{equation}
+        u^{(4)}(x_0) \approx \frac{u(x_0 - 2h) - 4\,u(x_0 - h) + 6\,u(x_0) - 4\,u(x_0 + h) + u(x_0 + 2h)}{h^4}.
+        \label{eq:centered_fourth_derivative}
+    \end{equation}
+    Con $n = 5$ y $k = 4$, el orden es solo $\mathcal{O}(h^{n-k}) = \mathcal{O}(h)$. Los coeficientes $1, -4, 6, -4,
+    1$ son los coeficientes binomiales con signos alternados, lo que refleja que la cuarta derivada es la cuarta
+    diferencia finita dividida por $h^4$.
+\end{example}
+
+El orden de precisión de la aproximación depende directamente del número de puntos en la plantilla. Con $n$ puntos y
 derivada de orden $k$, el sistema~\eqref{eq:vandermonde_system} garantiza la cancelación exacta de los primeros $n$
-términos de la serie de Taylor (los correspondientes a $u(x_0), u'(x_0), \ldots, u^{(n-1)}(x_0)$). El
+términos de la serie de Taylor (los correspondientes a $u^{(0)}(x_0), u^{(1)}(x_0), \ldots, u^{(n-1)}(x_0)$). El
 primer término no cancelado es el de orden $n$, por lo que el error de truncamiento es al menos
-$\mathcal{O}(h^{n-k})$. En ciertos stencils simétricos, como la diferencia centrada, algunos términos de orden superior
-también se cancelan, mejorando aún más la precisión.
+$\mathcal{O}(h^{n-k})$. En ciertas plantillas simétricas, como la diferencia centrada, algunos términos de orden
+superior también se cancelan, mejorando aún más la precisión.
 
-Desde el punto de vista computacional, la resolución del sistema de Vandermonde es directa para stencils pequeños. Sin
-embargo, para un número grande de puntos, la matriz $A$ puede estar muy mal condicionada, lo que introduce errores
+Desde el punto de vista computacional, la resolución del sistema de Vandermonde es directa para plantillas pequeñas.
+Sin embargo, para un número grande de puntos, la matriz $A$ puede estar muy mal condicionada, lo que introduce errores
 numéricos significativos. Una alternativa más estable es el \textbf{algoritmo de Fornberg}, que calcula los mismos
 coeficientes mediante una recurrencia, evitando la formación explícita de la matriz.
+
+El siguiente pseudocódigo resume el cálculo de los coeficientes por el método de Vandermonde:
+
+\noindent
+\begin{minipage}[t]{\dimexpr\textwidth-2cm\relax}
+\begin{algorithmbox}{Coeficientes de diferencias finitas por Vandermonde}
+    \label{alg:fd_coefficients}
+    \begin{algorithm}[H]
+        \DontPrintSemicolon
+        \SetAlgoVlined
+        \KwEntrada{$k$ (orden de derivada), $x_0$ (punto), $z_1, \ldots, z_n$ (plantilla)}
+        \KwSalida{$c_1, \ldots, c_n$ (coeficientes)}
+        \BlankLine
+
+        \tcp{Desplazamientos}
+        \Para{$j \leftarrow 1$ \KwTo $n$}{
+            $\delta_j \leftarrow z_j - x_0$\;
+        }
+        \BlankLine
+
+        \tcp{Construir la matriz de Vandermonde escalada}
+        \Para{$m \leftarrow 0$ \KwTo $n - 1$}{
+            \Para{$j \leftarrow 1$ \KwTo $n$}{
+                $A[m, j] \leftarrow \delta_j^{\,m}\, /\, m!$\;
+            }
+        }
+        \BlankLine
+
+        \tcp{Lado derecho: $e_{k+1}$}
+        $b \leftarrow [0, 0, \ldots, 0]$\;
+        $b[k] \leftarrow 1$\;
+        \BlankLine
+
+        \tcp{Resolver $Ac = b$}
+        $c \leftarrow \text{resolver}(A, b)$\;
+        \BlankLine
+
+        \Retornar{$c$}\;
+    \end{algorithm}
+\end{algorithmbox}
+\end{minipage}%
+\hfill
+\codeqrsidebar
+    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/fd_coefficients.py}
+    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/fd_coefficients.c}
+    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/fd_coefficients.rs}
