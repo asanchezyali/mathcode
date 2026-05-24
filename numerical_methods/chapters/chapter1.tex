@@ -83,4 +83,86 @@ Truncando los términos de orden $h^2$ y superior, obtenemos la fórmula de \tex
 Esta aproximación es también de \textbf{segundo orden} de precisión. La fórmula involucra tres puntos equiespaciados
 ---$x_0 - h$, $x_0$ y $x_0 + h$--- y puede interpretarse como la aplicación sucesiva de una diferencia progresiva y
 una regresiva. Es la herramienta fundamental para discretizar ecuaciones diferenciales de segundo orden, como la
-ecuación de vibración $u'' + \omega^2 u = 0$ que estudiaremos en la siguiente sección.
+ecuación de vibración $u'' + \omega^2 u = 0$ que estudiaremos más adelante.
+
+Hasta ahora hemos derivado cada fórmula de diferencias finitas de forma individual, manipulando desarrollos de Taylor
+caso por caso. Surge naturalmente la pregunta: ¿existe un método sistemático para obtener los coeficientes de una
+aproximación por diferencias finitas para cualquier derivada de orden $k$, sobre cualquier conjunto de puntos? La
+respuesta es afirmativa, y se reduce a resolver un sistema de ecuaciones lineales.
+
+Consideremos $n$ puntos distintos $z_1, z_2, \ldots, z_n$ (el \textit{stencil}) y el punto $x_0$ en el que queremos
+aproximar la derivada de orden $k$ de $u$, con $k < n$. El punto $x_0$ puede o no pertenecer al stencil. Buscamos
+coeficientes $c_1, c_2, \ldots, c_n$ tales que
+\begin{equation}
+    c_1\,u(z_1) + c_2\,u(z_2) + \cdots + c_n\,u(z_n) \approx u^{(k)}(x_0).
+    \label{eq:fd_linear_combination}
+\end{equation}
+Para determinar estos coeficientes, expandimos cada $u(z_j)$ en serie de Taylor alrededor de $x_0$:
+\begin{equation}
+    u(z_j) = u(x_0) + (z_j - x_0)\,u'(x_0) + \frac{(z_j - x_0)^2}{2!}\,u''(x_0) + \cdots + \frac{(z_j - x_0)^{n-1}}{(n-1)!}\,u^{(n-1)}(x_0) + \cdots
+    \label{eq:taylor_general}
+\end{equation}
+Sustituyendo estas expansiones en~\eqref{eq:fd_linear_combination} y agrupando por derivadas de $u$:
+\begin{equation}
+    \sum_{j=1}^{n} c_j\,u(z_j) = \left(\sum_{j=1}^{n} c_j\right) u(x_0) + \left(\sum_{j=1}^{n} c_j\,(z_j - x_0)\right) u'(x_0) + \cdots + \left(\sum_{j=1}^{n} c_j\,\frac{(z_j - x_0)^{i-1}}{(i-1)!}\right) u^{(i-1)}(x_0) + \cdots
+    \label{eq:fd_expansion}
+\end{equation}
+Para que esta combinación lineal reproduzca exactamente $u^{(k)}(x_0)$, necesitamos que el coeficiente de
+$u^{(k)}(x_0)$ sea $1$ y que los coeficientes de todas las demás derivadas sean $0$. Esto conduce al sistema de
+$n$ ecuaciones:
+\begin{equation}
+    \sum_{j=1}^{n} c_j\,\frac{(z_j - x_0)^{i-1}}{(i-1)!} =
+    \begin{cases}
+        1 & \text{si } i-1 = k, \\
+        0 & \text{en otro caso,}
+    \end{cases}
+    \quad i = 1, 2, \ldots, n.
+    \label{eq:vandermonde_system}
+\end{equation}
+Si definimos $\delta_j = z_j - x_0$ y escribimos el sistema en forma matricial, obtenemos:
+\begin{equation}
+    \underbrace{
+        \begin{pmatrix}
+            1            & 1            & \cdots & 1              \\[4pt]
+            \delta_1     & \delta_2     & \cdots & \delta_n       \\[4pt]
+            \frac{\delta_1^2}{2!} & \frac{\delta_2^2}{2!} & \cdots & \frac{\delta_n^2}{2!} \\[4pt]
+            \vdots       & \vdots       & \ddots & \vdots         \\[4pt]
+            \frac{\delta_1^{n-1}}{(n-1)!} & \frac{\delta_2^{n-1}}{(n-1)!} & \cdots & \frac{\delta_n^{n-1}}{(n-1)!}
+        \end{pmatrix}
+    }_{A}
+    \begin{pmatrix} c_1 \\ c_2 \\ c_3 \\ \vdots \\ c_n \end{pmatrix}
+    =
+    \begin{pmatrix} 0 \\ \vdots \\ 0 \\ 1 \\ 0 \\ \vdots \\ 0 \end{pmatrix}
+    \leftarrow \text{fila } k+1
+    \label{eq:vandermonde_matrix}
+\end{equation}
+La matriz $A$ es una variante de la \textbf{matriz de Vandermonde}. Dado que los puntos $z_j$ son distintos, los
+desplazamientos $\delta_j$ también lo son, y la matriz es no singular. El sistema tiene por tanto una única solución.
+
+Verifiquemos que las fórmulas derivadas anteriormente son casos particulares de este método. Para la diferencia
+progresiva de la primera derivada ($k = 1$), usamos el stencil $\{z_1, z_2\} = \{x_0,\, x_0 + h\}$. Entonces
+$\delta_1 = 0$, $\delta_2 = h$, y el sistema~\eqref{eq:vandermonde_system} se reduce a:
+\begin{equation}
+    \begin{pmatrix} 1 & 1 \\ 0 & h \end{pmatrix}
+    \begin{pmatrix} c_1 \\ c_2 \end{pmatrix}
+    =
+    \begin{pmatrix} 0 \\ 1 \end{pmatrix},
+    \label{eq:vandermonde_forward}
+\end{equation}
+cuya solución es $c_1 = -1/h$ y $c_2 = 1/h$, es decir, $du/dx\,(x_0) \approx (u(x_0 + h) - u(x_0))/h$,
+exactamente la fórmula~\eqref{eq:forward_difference_truncated}. De forma análoga, el lector puede verificar que la
+diferencia centrada~\eqref{eq:centered_difference} se obtiene con el stencil $\{z_1, z_2, z_3\} = \{x_0 - h,\, x_0,\, x_0 + h\}$ y
+$k = 1$, y que la segunda derivada centrada~\eqref{eq:centered_second_derivative} resulta del mismo stencil con
+$k = 2$.
+
+El orden de precisión de la aproximación depende directamente del número de puntos en el stencil. Con $n$ puntos y
+derivada de orden $k$, el sistema~\eqref{eq:vandermonde_system} garantiza la cancelación exacta de los primeros $n$
+términos de la serie de Taylor (los correspondientes a $u(x_0), u'(x_0), \ldots, u^{(n-1)}(x_0)$). El
+primer término no cancelado es el de orden $n$, por lo que el error de truncamiento es al menos
+$\mathcal{O}(h^{n-k})$. En ciertos stencils simétricos, como la diferencia centrada, algunos términos de orden superior
+también se cancelan, mejorando aún más la precisión.
+
+Desde el punto de vista computacional, la resolución del sistema de Vandermonde es directa para stencils pequeños. Sin
+embargo, para un número grande de puntos, la matriz $A$ puede estar muy mal condicionada, lo que introduce errores
+numéricos significativos. Una alternativa más estable es el \textbf{algoritmo de Fornberg}, que calcula los mismos
+coeficientes mediante una recurrencia, evitando la formación explícita de la matriz.
