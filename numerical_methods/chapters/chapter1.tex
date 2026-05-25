@@ -223,10 +223,9 @@ coeficientes mediante una recurrencia, evitando la formación explícita de la m
 
 El siguiente pseudocódigo resume el cálculo de los coeficientes por el método de Vandermonde:
 
-\noindent
-\begin{minipage}[t]{\dimexpr\textwidth-2cm\relax}
 \begin{algorithmbox}{Coeficientes de diferencias finitas por Vandermonde}
     \label{alg:fd_coefficients}
+    \begin{minipage}[t]{\dimexpr\linewidth-2cm\relax}
     \begin{algorithm}[H]
         \DontPrintSemicolon
         \SetAlgoVlined
@@ -259,10 +258,10 @@ El siguiente pseudocódigo resume el cálculo de los coeficientes por el método
 
         \Retornar{$c$}\;
     \end{algorithm}
+    \end{minipage}%
+    \hfill
+    \codeqrsidebar
+        {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/fd_coefficients.py}
+        {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/fd_coefficients.c}
+        {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/fd_coefficients.rs}
 \end{algorithmbox}
-\end{minipage}%
-\hfill
-\codeqrsidebar
-    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/fd_coefficients.py}
-    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/fd_coefficients.c}
-    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/fd_coefficients.rs}

@@ -93,10 +93,9 @@ Con la condición inicial \eqref{eq:condicion_inicial_derivada_primera}, podemos
 
 El siguiente pseudocódigo resume el método de diferencias finitas para resolver el problema vibratorio:
 
-\noindent
-\begin{minipage}[t]{\dimexpr\textwidth-2cm\relax}
 \begin{algorithmbox}{Método de diferencias finitas para el problema vibratorio}
     \label{alg:diferencias_finitas_vibratorio}
+    \begin{minipage}[t]{\dimexpr\linewidth-2cm\relax}
     \begin{algorithm}[H]
         \DontPrintSemicolon
         \SetAlgoVlined
@@ -125,10 +124,10 @@ El siguiente pseudocódigo resume el método de diferencias finitas para resolve
 
         \Retornar{$u$}\;
     \end{algorithm}
+    \end{minipage}%
+    \hfill
+    \codeqrsidebar
+        {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.py}
+        {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.c}
+        {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.rs}
 \end{algorithmbox}
-\end{minipage}%
-\hfill
-\codeqrsidebar
-    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.py}
-    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.c}
-    {https://github.com/asanchezyali/mathcode/blob/main/numerical_methods/code/finite_differences_vibration.rs}
