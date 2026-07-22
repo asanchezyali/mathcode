@@ -2,10 +2,10 @@
 \label{chap:preliminares}
 
 La Geometría es, posiblemente, la rama más antigua de las matemáticas. Sus aplicaciones fueron estudiadas hace miles de
-años por egipcios, babilonios y chinos, mientras que su teoría fue desarrollada por los griegos. Lo que distingue el
-estudio moderno de la geometría del antiguo es el \emph{método axiomático}, piedra angular sobre la cual descansa toda
-la matemática pura. En este capítulo exploraremos las bases de los sistemas formales y cómo estos conceptos teóricos se
-traducen en algoritmos ejecutables.
+años por egipcios, babilonios, chinos y griegos. Lo que distingue el estudio moderno de la geometría del antiguo es el
+\emph{método axiomático}, piedra angular sobre la cual descansa toda la matemática moderna. En este capítulo
+exploraremos ideas fundamentales de los sistemas formales y cómo algunos conceptos teóricos se traducen en algoritmos
+ejecutables.
 
 \section{Sistemas formales}
 
@@ -15,9 +15,13 @@ consistentes e idealmente independientes entre sí. Este cuerpo de proposiciones
 \textbf{sistema axiomático} o \textbf{sistema formal}, donde el punto de partida de toda cadena deductiva son los
 axiomas: proposiciones que se asumen como verdaderas sin necesidad de demostración previa.
 
-¿Por qué necesitamos axiomas? La respuesta está en un problema lógico fundamental: no es posible justificar una afirmación partiendo de la nada. Si una proposición se sostiene en otra, entonces surge la pregunta de cómo se justifica esta última. A su vez, necesitaría apoyarse en una tercera, y así sucesivamente. Si seguimos este razonamiento, nos encontramos con una regresión infinita de justificaciones, como una cadena interminable de dominós. Para evitar este problema, es necesario aceptar ciertas proposiciones como verdaderas sin necesidad de demostración. Estas proposiciones son los axiomas.
+La necesidad de los axiomas responde a un dilema lógico fundamental: la imposibilidad de justificar premisas partiendo
+de la nada. Cuando una proposición se depende de una afirmación previa, esta última requiere, a su vez, una nueva
+justificación que la respalde, desencadenando una \textbf{regresión infinita} de justificaciones. Para evitar este
+callejón sin salida epistémico y dotar de cimientos a un sistema lógico o matemático, resulta necesario admitir
+proposiciones verdaderas que no requieren demostración previa: los axiomas.
 
-El método axiomático puede resumirse en los siguientes principios:
+Las ideas del método axiomático pueden resumirse en los siguientes principios:
 \begin{enumerate}
     \item Todo sistema axiomático debe contener un conjunto de \textbf{términos primitivos}, deliberadamente elegidos como
           indefinidos y sujetos a la interpretación del lector.
@@ -107,42 +111,53 @@ aplicaciones de la Regla 3 en diferentes posiciones, generando diversos hijos.
 
 \subsubsection{Implementación algorítmica}
 
-Dado que el árbol de derivación crece exponencialmente, la exploración manual se vuelve inviable rápidamente. Aquí es
-donde la programación se convierte en una herramienta indispensable para las matemáticas.
+Dado que el árbol de derivación crece de forma exponencial, explorarlo a mano es inviable. La solución natural es
+automatizar la generación de cadenas a través de un programa. A continuación, se presenta el pseudocódigo del algoritmo
+que nos permite generar todas las derivaciones posibles:
 
-El algoritmo para generar todas las derivaciones posibles de una cadena se puede expresar de manera abstracta mediante
-el siguiente pseudocódigo:
+\begin{algorithmbox}{Derivaciones en el sistema MIU}
+    \label{alg:miu_derivaciones}
+    \begin{minipage}[t]{\dimexpr\linewidth-2cm\relax}
+        \begin{algorithm}[H]
+            \DontPrintSemicolon
+            \SetAlgoVlined
+            \KwEntrada{Una cadena $s$ del sistema MIU}
+            \KwSalida{Conjunto de todas las cadenas derivables en un paso}
+            \BlankLine
+            $D \leftarrow \emptyset$\;
+            \tcp{Regla 1: $xI \Rightarrow xIU$}
+            \Si{$s$ termina en $I$}{
+                $D \leftarrow D \cup \{s + U\}$\;
+            }
+            \BlankLine
+            \tcp{Regla 2: $Mx \Rightarrow Mxx$}
+            \Si{$s$ comienza con $M$}{
+                Sea $x$ la subcadena después de $M$\;
+                $D \leftarrow D \cup \{M + x + x\}$\;
+            }
+            \BlankLine
+            \tcp{Regla 3: $xIIIy \Rightarrow xUy$}
+            \ParaCada{posición $i$ donde aparece $III$ en $s$}{
+            $D \leftarrow D \cup \{s[0{:}i] + U + s[i{+}3{:}]\}$\;
+            }
+            \BlankLine
+            \tcp{Regla 4: $xUUy \Rightarrow xy$}
+            \ParaCada{posición $i$ donde aparece $UU$ en $s$}{
+            $D \leftarrow D \cup \{s[0{:}i] + s[i{+}2{:}]\}$\;
+            }
+            \BlankLine
+            \Retornar{$D$}\;
+        \end{algorithm}
+    \end{minipage}%
+    \hfill
+    \codeqrsidebar
+    {https://github.com/asanchezyali/mathcode/blob/main/geometry/code/miu_rules.py}
+    {https://github.com/asanchezyali/mathcode/blob/main/geometry/code/miu_rules.c}
+    {https://github.com/asanchezyali/mathcode/blob/main/geometry/code/miu_rules.rs}
+\end{algorithmbox}
 
-\begin{algorithm}[H]
-    \caption{Derivaciones en el sistema MIU}
-    \KwEntrada{Una cadena $s$ del sistema MIU}
-    \KwSalida{Conjunto de todas las cadenas derivables en un paso}
-    $D \leftarrow \emptyset$\;
-    \tcp{Regla 1: $xI \Rightarrow xIU$}
-    \Si{$s$ termina en $I$}{
-        $D \leftarrow D \cup \{s + U\}$\;
-    }
-    \tcp{Regla 2: $Mx \Rightarrow Mxx$}
-    \Si{$s$ comienza con $M$}{
-        Sea $x$ la subcadena después de $M$\;
-        $D \leftarrow D \cup \{M + x + x\}$\;
-    }
-    \tcp{Regla 3: $xIIIy \Rightarrow xUy$}
-    \ParaCada{posición $i$ donde aparece $III$ en $s$}{
-    $D \leftarrow D \cup \{s[0{:}i] + U + s[i{+}3{:}]\}$\;
-    }
-    \tcp{Regla 4: $xUUy \Rightarrow xy$}
-    \ParaCada{posición $i$ donde aparece $UU$ en $s$}{
-    $D \leftarrow D \cup \{s[0{:}i] + s[i{+}2{:}]\}$\;
-    }
-    \Retornar{$D$}\;
-\end{algorithm}
-
-A continuación, traducimos este pseudocódigo a Python:
-
-\codefile[listing options={language=Python}, title={Código 1.1: Implementación de las reglas del sistema MIU en Python}]{code/miu_rules.py}
-
-Este código nos permite automatizar la expansión del árbol y explorar niveles más profundos del espacio de búsqueda.
+Los códigos QR enlazan a la implementación de este algoritmo en Python, C y Rust. Cualquiera de ellas permite
+automatizar la expansión del árbol y explorar niveles mucho más profundos del espacio de búsqueda.
 
 \subsubsection{La imposibilidad de MU}
 
@@ -174,7 +189,7 @@ sistema formal tiene límites, y que para entender verdaderamente sus propiedade
 desde una perspectiva externa.
 
 \begin{exercise}
-    Implementa en Python una función \texttt{es\_derivable(cadena)} que determine si una cadena dada es alcanzable desde
+    Implementa en Python una función \texttt{is\_derivable(string)} que determine si una cadena dada es alcanzable desde
     \texttt{MI} en el sistema MIU. La función debe:
     \begin{enumerate}
         \item Verificar que la cadena comience con \texttt{M} y solo contenga los símbolos \texttt{M}, \texttt{I}, \texttt{U}.
@@ -182,10 +197,14 @@ desde una perspectiva externa.
         \item Calcular el residuo de ese número al dividir entre 3.
         \item Retornar \texttt{True} si el residuo es 1 o 2, y \texttt{False} si es 0.
     \end{enumerate}
-    Prueba tu función con las cadenas \texttt{MU}, \texttt{MIU}, \texttt{MIUIU} y \texttt{MUII}.
+    Prueba tu función con las cadenas \texttt{MU}, \texttt{MIU}, \texttt{MIUIU} y \texttt{MUII}. Puedes contrastar tu
+    solución con la implementación de referencia \texttt{miu\_rules.py}, enlazada por el código QR del
+    Algoritmo~\ref{alg:miu_derivaciones}; allí encontrarás también versiones equivalentes en C y en Rust por si
+    prefieres resolverlo en otro lenguaje.
 \end{exercise}
 
 \begin{exercise}
+    \label{ex:fefo}
     Considera un sistema axiomático minimalista con dos tipos de objetos: \textbf{Fe}'s y \textbf{Fo}'s. Los axiomas
     del sistema son:
     \begin{enumerate}
@@ -202,4 +221,352 @@ desde una perspectiva externa.
         \item[(c)] Dos Fo's distintos tienen exactamente un Fe en común.
         \item[(d)] Existen exactamente tres Fo's distintos.
     \end{enumerate}
+\end{exercise}
+
+\section{La geometría como sistema formal}
+
+El acertijo MU nos reveló la anatomía de un sistema formal en su forma más pura: un alfabeto, unas fórmulas bien
+formadas, unos axiomas y unas reglas de inferencia. Demos ahora un salto histórico y conceptual, aplicando esta misma
+lente a la disciplina que, más que ninguna otra, definió lo que significa \emph{demostrar} en matemáticas.
+
+Alrededor del año 300 a.\,C., el matemático griego \textbf{Euclides de Alejandría} compiló en su obra
+\emph{Elementos}\index{Elementos (Euclides)} (\emph{Stoicheia}) buena parte del conocimiento geométrico de su época y,
+lo que resultó mucho más trascendente, lo organizó bajo una estructura deductiva de una coherencia sin precedentes. Los
+\emph{Elementos} —trece libros que abarcan geometría plana, teoría de números y geometría del espacio— constituyen el
+primer gran \textbf{sistema axiomático}\index{sistema axiomático} de la historia y sirvieron como modelo del rigor
+matemático durante más de dos milenios.
+
+El Libro I comienza, tal como exige el método axiomático, fijando su vocabulario y sus reglas antes de demostrar un
+solo resultado. Euclides distingue tres tipos de enunciados iniciales:
+
+\begin{itemize}
+    \item \textbf{Definiciones} (veintitrés en total), que introducen los objetos del discurso: el punto, la recta, el
+          ángulo, el círculo, el triángulo, etc.
+    \item \textbf{Postulados} (cinco), afirmaciones específicamente geométricas que se aceptan sin demostración.
+    \item \textbf{Nociones comunes} (cinco), principios lógicos de validez general, aplicables más allá de la geometría.
+\end{itemize}
+
+Las definiciones de Euclides son de naturaleza descriptiva. Las tres primeras rezan:
+
+\begin{quote}
+    \emph{«Un punto es aquello que no tiene partes.»} \\
+    \emph{«Una línea es una longitud sin anchura.»} \\
+    \emph{«Una recta es aquella línea que yace por igual respecto de todos sus puntos.»}
+\end{quote}
+
+Estas descripciones apelan a nuestra intuición visual, pero, a diferencia de las reglas del sistema MIU, no son
+\emph{operativas}: no nos dicen cómo manipular un punto ni cómo verificar sintácticamente que algo «no tiene partes».
+Esta apelación a la intuición es, como veremos, precisamente el punto que la matemática moderna sometería a escrutinio.
+
+\subsection{Los cinco postulados}
+
+El corazón geométrico del sistema son los cinco postulados\index{postulados de Euclides}. En lenguaje moderno, afirman
+que es posible:
+
+\begin{enumerate}
+    \item Trazar una línea recta desde cualquier punto hasta cualquier otro punto.
+    \item Prolongar de manera continua, en línea recta, una recta finita.
+    \item Describir un círculo con cualquier centro y cualquier radio.
+    \item Que todos los ángulos rectos sean iguales entre sí.
+    \item \textbf{(Postulado de las paralelas)} Si una recta, al cortar a otras dos, forma con ellas ángulos internos
+          de un mismo lado cuya suma es menor que dos ángulos rectos, entonces esas dos rectas, prolongadas
+          indefinidamente, se cortan por el lado en que dicha suma es menor que dos rectos.
+\end{enumerate}
+
+Los tres primeros postulados son, en esencia, \emph{construcciones}: describen lo que se puede hacer con regla y
+compás, los únicos instrumentos admitidos en la geometría griega. Se les puede leer como las «reglas de inferencia» de
+un sistema formal cuyos «teoremas» son las figuras construibles.
+
+\subsection{Las cinco nociones comunes}
+
+Las nociones comunes\index{nociones comunes} son de carácter lógico y cuantitativo:
+
+\begin{enumerate}
+    \item Cosas iguales a una misma cosa son iguales entre sí.
+    \item Si a cosas iguales se añaden cosas iguales, los totales son iguales.
+    \item Si de cosas iguales se restan cosas iguales, los restos son iguales.
+    \item Las cosas que coinciden entre sí son iguales entre sí.
+    \item El todo es mayor que la parte.
+\end{enumerate}
+
+Sobre estos cimientos —definiciones, postulados y nociones comunes— Euclides erige las \textbf{48 proposiciones} del
+Libro I. Cada proposición se enuncia y se demuestra invocando únicamente elementos previos: una definición, un
+postulado, una noción común o una proposición ya establecida. La primera de todas, la \emph{Proposición I.1}, muestra
+cómo construir un triángulo equilátero sobre un segmento dado empleando solo los postulados 1 y 3; es el primer
+«teorema» derivado dentro del sistema.
+
+Podemos entonces trazar una correspondencia precisa entre la maquinaria abstracta de un sistema formal y la obra de
+Euclides (\autoref{tab:euclides-formal}).
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{@{}ll@{}}
+        \toprule
+        \textbf{Componente del sistema formal} & \textbf{En los \emph{Elementos}}                  \\
+        \midrule
+        Términos primitivos                    & punto, recta, círculo (descritos, no derivados)   \\
+        Definiciones                           & las 23 definiciones del Libro I                   \\
+        Axiomas                                & los 5 postulados y las 5 nociones comunes         \\
+        Reglas de inferencia                   & la lógica deductiva (empleada de forma implícita) \\
+        Teoremas                               & las 48 proposiciones del Libro I                  \\
+        \bottomrule
+    \end{tabular}
+    \caption{Correspondencia entre los componentes de un sistema formal y la estructura de los \emph{Elementos} de
+        Euclides.}
+    \label{tab:euclides-formal}
+\end{table}
+
+La comparación es reveladora, pero también expone una diferencia crucial respecto del sistema MIU. En el acertijo MU
+las reglas de inferencia eran totalmente explícitas y mecánicas: un ordenador podía aplicarlas sin ambigüedad. En
+Euclides, en cambio, las reglas de inferencia nunca se enuncian; se dan por supuestas en el razonamiento en lenguaje
+natural. Esta informalidad, junto con la vaguedad de las definiciones, sería el blanco de la crítica que, veintidós
+siglos después, refundaría la geometría.
+
+\section{El quinto postulado y las geometrías no euclidianas}
+
+Una simple lectura de los cinco postulados delata una asimetría. Los cuatro primeros son breves, evidentes y
+verificables casi de un vistazo. El quinto\index{quinto postulado} es largo, enrevesado y mucho menos autoevidente:
+afirma algo sobre el comportamiento de rectas prolongadas \emph{indefinidamente}, es decir, sobre lo que ocurre «en el
+infinito», una región que jamás podremos inspeccionar directamente.
+
+Esta incomodidad no pasó inadvertida. Durante más de dos mil años, generaciones de matemáticos —desde Proclo en la
+Antigüedad hasta Saccheri y Legendre en la Edad Moderna— intentaron \emph{demostrar} el quinto postulado a partir de
+los otros cuatro, con la esperanza de degradarlo de axioma a teorema y devolver así al sistema su elegancia. Todos
+fracasaron, aunque en el intento produjeron numerosas formulaciones equivalentes. La más célebre es el \textbf{axioma
+    de Playfair}\index{axioma de Playfair} (1795), que suele enunciarse así:
+
+\begin{quote}
+    \emph{Dada una recta y un punto exterior a ella, existe exactamente una recta que pasa por dicho punto y es paralela
+        a la recta dada.}
+\end{quote}
+
+El giro decisivo llegó a comienzos del siglo XIX. Hacia 1817, Carl Friedrich Gauss se convenció de que el quinto
+postulado era \textbf{independiente} de los demás: no podía deducirse de ellos, pero tampoco los contradecía. Gauss
+llegó incluso a explorar las consecuencias de \emph{negarlo}, aunque, temiendo la controversia, no publicó nada. De
+forma independiente, el húngaro János Bolyai (1832) y el ruso Nikolái Lobachevski (1829) desarrollaron sistemas
+geométricos completos y consistentes en los que, por un punto exterior, pasa \emph{más de una} paralela: la
+\textbf{geometría hiperbólica}\index{geometría hiperbólica}. Más tarde, Bernhard Riemann (1854) concibió geometrías en
+las que \emph{no existe ninguna} paralela: la \textbf{geometría elíptica}\index{geometría elíptica}.
+
+Que estas geometrías «heréticas» fueran realmente consistentes —y no meros castillos en el aire abocados a la
+contradicción— quedó fuera de toda duda cuando Beltrami, Klein y Poincaré construyeron \textbf{modelos} concretos de
+ellas dentro de la propia geometría euclidiana. La existencia de tales modelos demostró que el quinto postulado es
+lógicamente independiente de los otros cuatro: ni él ni su negación son teoremas del resto del sistema.
+
+Conviene detenerse en el paralelismo con el acertijo MU. Allí demostramos que \texttt{MU} es inalcanzable no operando
+\emph{dentro} del sistema —donde la búsqueda podría prolongarse eternamente—, sino \emph{saliendo} de él y razonando
+sobre un invariante. El problema de las paralelas es de la misma naturaleza: la independencia del quinto postulado es
+un resultado \textbf{metamatemático}, un enunciado \emph{sobre} el sistema formal, no un teorema \emph{dentro} de él.
+La imposibilidad de derivar el quinto postulado desde los otros cuatro es el análogo geométrico de la imposibilidad de
+derivar \texttt{MU} desde \texttt{MI}.
+
+\section{La axiomatización moderna: Hilbert}
+
+Los descubrimientos del siglo XIX obligaron a mirar los \emph{Elementos} con ojos más críticos. Al examinar de cerca
+las demostraciones de Euclides se descubrieron numerosas \textbf{lagunas lógicas}: supuestos usados sin haber sido
+enunciados. Ya la Proposición I.1 da por hecho que dos círculos que se solapan \emph{se cortan}, algo que ningún
+postulado garantiza. Otras demostraciones apelan tácitamente a que un punto está «entre» otros dos, o a la continuidad
+de las rectas, sin que exista axioma alguno que regule tales nociones.
+
+En 1899, David Hilbert publicó \emph{Grundlagen der Geometrie} (\emph{Fundamentos de la geometría})\index{Grundlagen
+    der Geometrie}, culminando un programa que reconstruía la geometría euclidiana sobre bases enteramente rigurosas. La
+idea rectora de Hilbert es radical y, para nosotros, perfectamente familiar: los \textbf{términos primitivos} —«punto»,
+«recta», «plano»— deben quedar \emph{deliberadamente indefinidos}. Su significado es irrelevante; lo único que importa
+son las relaciones que los axiomas establecen entre ellos. Hilbert lo expresó con una frase que se ha vuelto célebre:
+
+\begin{quote}
+    \emph{«Uno debe poder decir en todo momento —en lugar de puntos, rectas y planos— mesas, sillas y jarras de
+        cerveza.»}
+\end{quote}
+
+Este es, exactamente, el punto de vista \emph{sintáctico} con el que iniciamos el capítulo: un sistema formal manipula
+signos según reglas, con total independencia de la interpretación que les demos. Hilbert organizó sus axiomas en cinco
+grupos, cada uno de los cuales regula un aspecto de la intuición geométrica que Euclides había dejado implícito
+(\autoref{tab:hilbert-grupos}).
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{@{}lll@{}}
+        \toprule
+        \textbf{Grupo}   & \textbf{Regula}                       & \textbf{Relación primitiva} \\
+        \midrule
+        I. Incidencia    & la pertenencia de puntos a rectas     & «estar sobre»               \\
+        II. Orden        & la disposición de puntos en una recta & «estar entre»               \\
+        III. Congruencia & la igualdad de segmentos y ángulos    & «ser congruente con»        \\
+        IV. Paralelas    & la unicidad de la paralela            & ---                         \\
+        V. Continuidad   & la completitud de la recta            & (Arquímedes y completitud)  \\
+        \bottomrule
+    \end{tabular}
+    \caption{Los cinco grupos de axiomas de Hilbert y el aspecto de la intuición geométrica que cada uno formaliza.}
+    \label{tab:hilbert-grupos}
+\end{table}
+
+Al aislar cada supuesto en un axioma explícito, Hilbert pudo por fin plantear —y responder— las preguntas
+metamatemáticas que dan solidez a todo sistema formal:
+
+\begin{itemize}
+    \item \textbf{Consistencia:} ¿está el sistema libre de contradicciones? Hilbert lo demostró construyendo un modelo
+          numérico de la geometría, reduciendo su consistencia a la de la aritmética.
+    \item \textbf{Independencia:} ¿es cada axioma imprescindible, o alguno se deduce de los demás? Al igual que con el
+          quinto postulado, la independencia se prueba exhibiendo un modelo que satisface todos los axiomas salvo el que
+          se estudia.
+    \item \textbf{Completitud:} ¿bastan los axiomas para decidir toda afirmación geométrica?
+\end{itemize}
+
+Con Hilbert, la geometría deja de ser un discurso \emph{sobre el espacio} para convertirse en el estudio de las
+consecuencias de un conjunto de axiomas, con independencia de qué sean los objetos que satisfacen dichos axiomas. Y
+esta abstracción tiene una consecuencia notable, de vocación plenamente computacional: si el significado de «punto» y
+«recta» es irrelevante, nada nos impide tomar como puntos y rectas los elementos de un conjunto \emph{finito}. La
+geometría se vuelve, entonces, enumerable y verificable por un ordenador.
+
+\section{Geometrías finitas: cuando la geometría se vuelve computable}
+
+Una \textbf{geometría de incidencia}\index{geometría de incidencia} es la estructura más elemental que respeta el
+espíritu de Hilbert: se compone de un conjunto de \emph{puntos}, un conjunto de \emph{rectas} y una relación de
+\emph{incidencia} («el punto $P$ está sobre la recta $\ell$»), sujeta a unos pocos axiomas. Cuando ambos conjuntos son
+finitos, hablamos de una \textbf{geometría finita}\index{geometría finita}. Aquí no hay infinito que inspeccionar ni
+intuición visual a la que apelar: un modelo queda completamente descrito por la lista de sus puntos y de las rectas,
+entendidas como los conjuntos de puntos que las forman. Verificar los axiomas se reduce a comprobar propiedades sobre
+conjuntos finitos, tarea idónea para un algoritmo.
+
+De hecho, el lector ya se ha topado con una de estas geometrías. El sistema de \textbf{Fe's} y \textbf{Fo's} del
+Ejercicio~\ref{ex:fefo} no es más que una geometría de incidencia disfrazada: los Fe's son los puntos, los Fo's son las
+rectas y «pertenecer a» es la relación de incidencia. Los cuatro axiomas garantizan que existan exactamente tres puntos
+y tres rectas, cada una de las cuales pasa por exactamente dos puntos: el modelo finito más pequeño imaginable, el
+«triángulo» de la geometría de incidencia.
+
+\subsection{El plano de Fano}
+
+El ejemplo canónico de geometría finita es el \textbf{plano de Fano}\index{plano de Fano}, descrito por el matemático
+italiano Gino Fano y considerado el \emph{plano proyectivo} más pequeño que existe. Un plano proyectivo es una
+geometría de incidencia que satisface tres axiomas de gran elegancia y simetría:
+
+\begin{itemize}
+    \item[\textbf{(P1)}] Por dos puntos distintos pasa exactamente una recta.
+    \item[\textbf{(P2)}] Dos rectas distintas se cortan en exactamente un punto.
+    \item[\textbf{(P3)}] Existen cuatro puntos tales que ningún trío de ellos es colineal.
+\end{itemize}
+
+El axioma (P2) es lo que distingue a la geometría proyectiva de la euclidiana: aquí \emph{no hay rectas paralelas},
+pues cualquier par de rectas se corta. El axioma (P3) descarta los casos triviales y garantiza que la geometría sea
+suficientemente «rica».
+
+El plano de Fano consta de exactamente \textbf{siete puntos} y \textbf{siete rectas}, con la propiedad de que cada
+recta contiene tres puntos y por cada punto pasan tres rectas (\autoref{fig:fano}). Tomando como puntos los números
+$\{1,2,3,4,5,6,7\}$, sus siete rectas son:
+\[
+    \{1,2,3\},\ \{1,4,5\},\ \{1,6,7\},\ \{2,4,6\},\ \{2,5,7\},\ \{3,4,7\},\ \{3,5,6\}.
+\]
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=1.6, every node/.style={circle, fill=black, inner sep=1.6pt}]
+        % Vertices del triangulo
+        \coordinate (A) at (90:1.5);
+        \coordinate (B) at (210:1.5);
+        \coordinate (C) at (330:1.5);
+        % Puntos medios
+        \coordinate (AB) at ($(A)!0.5!(B)$);
+        \coordinate (BC) at ($(B)!0.5!(C)$);
+        \coordinate (CA) at ($(C)!0.5!(A)$);
+        % Centro
+        \coordinate (O) at (0,0);
+        % Las tres medianas (rectas)
+        \draw[thick] (A) -- (BC);
+        \draw[thick] (B) -- (CA);
+        \draw[thick] (C) -- (AB);
+        % Los tres lados (rectas)
+        \draw[thick] (A) -- (B) -- (C) -- cycle;
+        % La circunferencia central (septima recta)
+        \draw[thick] (O) circle (0.433);
+        % Nodos
+        \node at (A) {}; \node at (B) {}; \node at (C) {};
+        \node at (AB) {}; \node at (BC) {}; \node at (CA) {};
+        \node at (O) {};
+    \end{tikzpicture}
+    \caption{Representación del plano de Fano: siete puntos (los tres vértices, los tres puntos medios y el centro) y
+        siete rectas (los tres lados, las tres medianas y la circunferencia central). La circunferencia representa una
+        recta perfectamente válida en esta geometría.}
+    \label{fig:fano}
+\end{figure}
+
+Comprobar «a mano» que esta configuración satisface los tres axiomas es tedioso y propenso a errores: habría que
+revisar los $\binom{7}{2}=21$ pares de puntos y los 21 pares de rectas. Es la clase de verificación exhaustiva pero
+mecánica en la que un ordenador brilla. El siguiente algoritmo formaliza la comprobación.
+
+\begin{algorithmbox}{Verificación de los axiomas de un plano proyectivo}
+    \label{alg:plano_proyectivo}
+    \begin{minipage}[t]{\dimexpr\linewidth-2cm\relax}
+        \begin{algorithm}[H]
+            \DontPrintSemicolon
+            \SetAlgoVlined
+            \KwEntrada{Un conjunto de puntos $P$ y una colección de rectas $L$ (cada recta, un subconjunto de $P$)}
+            \KwSalida{Verdadero si $(P, L)$ es un plano proyectivo; Falso en caso contrario}
+            \BlankLine
+            \tcp{P1: dos puntos distintos determinan una única recta}
+            \ParaCada{par de puntos distintos $\{a, b\} \subseteq P$}{
+                \Si{el número de rectas que contienen a $a$ y $b$ no es exactamente $1$}{
+                    \Retornar{Falso}\;
+                }
+            }
+            \BlankLine
+            \tcp{P2: dos rectas distintas se cortan en un único punto}
+            \ParaCada{par de rectas distintas $\{r, s\} \subseteq L$}{
+                \Si{$|r \cap s| \neq 1$}{
+                    \Retornar{Falso}\;
+                }
+            }
+            \BlankLine
+            \tcp{P3: existen cuatro puntos sin tres colineales}
+            \Si{no existe ningún subconjunto de $4$ puntos con ningún trío colineal}{
+                \Retornar{Falso}\;
+            }
+            \BlankLine
+            \Retornar{Verdadero}\;
+        \end{algorithm}
+    \end{minipage}%
+    \hfill
+    \codeqrsidebar
+    {https://github.com/asanchezyali/mathcode/blob/main/geometry/code/finite_geometry.py}
+    {https://github.com/asanchezyali/mathcode/blob/main/geometry/code/finite_geometry.c}
+    {https://github.com/asanchezyali/mathcode/blob/main/geometry/code/finite_geometry.rs}
+\end{algorithmbox}
+
+Las implementaciones enlazadas por los códigos QR certifican en una fracción de segundo que el plano de Fano cumple, en
+efecto, los axiomas de un plano proyectivo, y que la geometría de tres puntos no los satisface.
+
+Hemos cerrado así el círculo que abrimos con el acertijo MU. Comenzamos viendo la geometría como un juego de
+manipulación de símbolos; la reconocimos en la obra de Euclides; comprendimos, con Hilbert, que el significado de sus
+términos primitivos es prescindible; y esa misma abstracción nos ha permitido, finalmente, poner una geometría entera
+dentro de un ordenador y verificar sus axiomas con un programa. Los capítulos siguientes recorrerán el camino inverso:
+partiendo de estos fundamentos, reconstruiremos la geometría del plano euclidiano y la traduciremos, paso a paso, en
+algoritmos capaces de dibujar, medir y transformar.
+
+\begin{exercise}
+    Partiendo del programa \texttt{finite\_geometry.py} —enlazado por el código QR del
+    Algoritmo~\ref{alg:plano_proyectivo}—, escribe una función \texttt{is\_incidence\_geometry(points, lines)} que
+    verifique los cuatro axiomas de los Fe's y Fo's del Ejercicio~\ref{ex:fefo}, en lugar de los axiomas proyectivos.
+    Comprueba que la \textbf{geometría de tres puntos} —tres puntos $\{1,2,3\}$ y tres rectas $\{1,2\}$, $\{1,3\}$,
+    $\{2,3\}$— los satisface. Después, ejecuta sobre ella la verificación proyectiva: ¿qué axioma falla y por qué?
+    Si lo prefieres, puedes resolverlo en C o en Rust partiendo de las versiones equivalentes del mismo programa.
+\end{exercise}
+
+\begin{exercise}
+    Un \textbf{plano afín} de orden $n$ es una geometría de incidencia con $n^2$ puntos en la que, por un punto exterior
+    a una recta, pasa exactamente una paralela (dos rectas son paralelas si no comparten ningún punto). El más pequeño
+    es el plano afín de orden $2$: cuatro puntos $\{1,2,3,4\}$ y seis rectas, una por cada par de puntos.
+    \begin{enumerate}
+        \item[(a)] Escribe explícitamente las seis rectas.
+        \item[(b)] Agrúpalas en tres «haces» de rectas paralelas.
+        \item[(c)] Escribe una función en Python —o en el lenguaje que prefieras— que, dada la lista de rectas,
+              verifique que se cumple el axioma de las paralelas de Playfair. Puedes reutilizar la estructura de
+              \texttt{finite\_geometry.py} como punto de partida.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Investiga el \textbf{principio de dualidad} de la geometría proyectiva: si en cualquier teorema verdadero se
+    intercambian las palabras «punto» y «recta» (y, en consecuencia, «pasa por» y «está sobre»), se obtiene otro
+    teorema verdadero. Verifica esta dualidad sobre los axiomas (P1) y (P2): comprueba que (P2) es exactamente el
+    enunciado dual de (P1). ¿Qué te dice esto sobre la simetría del plano de Fano entre sus puntos y sus rectas?
 \end{exercise}

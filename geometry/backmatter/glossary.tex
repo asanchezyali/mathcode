@@ -1,85 +1,229 @@
-% Definición de entradas del glosario relacionadas con Álgebra Lineal
-\newglossaryentry{matriz}{
-    name={Matriz},
-    description={Arreglo rectangular de elementos organizados en filas y columnas. Se utiliza para representar transformaciones lineales, sistemas de ecuaciones y conjuntos de datos}
+% Definición de entradas del glosario relacionadas con Geometría Plana
+
+% --- Fundamentos: sistemas formales y método axiomático ---
+
+\newglossaryentry{sistema-axiomatico}{
+    name={Sistema axiomático},
+    description={Conjunto de términos primitivos, definiciones, axiomas y reglas de inferencia a partir del cual se deduce, mediante razonamiento lógico, todo el cuerpo de teoremas de una teoría}
 }
 
-\newglossaryentry{matriz-cuadrada}{
-    name={Matriz cuadrada},
-    description={Matriz que tiene el mismo número de filas que columnas}
+\newglossaryentry{sistema-formal}{
+    name={Sistema formal},
+    description={Mecanismo puramente sintáctico que manipula cadenas de símbolos de un alfabeto según reglas estrictas, con independencia del significado que se atribuya a dichos símbolos}
 }
 
-\newglossaryentry{matriz-identidad}{
-    name={Matriz identidad},
-    description={Matriz cuadrada con unos en la diagonal principal y ceros en el resto de posiciones. Actúa como elemento neutro en la multiplicación de matrices}
+\newglossaryentry{axioma}{
+    name={Axioma},
+    description={Proposición que se acepta como verdadera sin demostración y que sirve como punto de partida de toda cadena deductiva dentro de un sistema axiomático}
 }
 
-\newglossaryentry{matriz-transpuesta}{
-    name={Matriz transpuesta},
-    description={Matriz que resulta de intercambiar las filas y columnas de una matriz original}
+\newglossaryentry{postulado}{
+    name={Postulado},
+    description={Axioma de contenido específicamente geométrico. En los Elementos de Euclides, cada uno de los cinco enunciados que describen las construcciones y propiedades básicas admitidas sin demostración}
 }
 
-\newglossaryentry{matriz-simetrica}{
-    name={Matriz simétrica},
-    description={Matriz cuadrada que es igual a su transpuesta. Sus elementos cumplen que $a_{ij} = a_{ji}$ para todo $i,j$}
+\newglossaryentry{nocion-comun}{
+    name={Noción común},
+    description={En los Elementos de Euclides, principio lógico de validez general (por ejemplo, «el todo es mayor que la parte») aplicable más allá de la geometría}
 }
 
-\newglossaryentry{determinante}{
-    name={Determinante},
-    description={Función escalar asociada a una matriz cuadrada. Proporciona información sobre si la matriz es invertible y sobre el factor de cambio de volumen en transformaciones lineales}
+\newglossaryentry{termino-primitivo}{
+    name={Término primitivo},
+    description={Concepto que se deja deliberadamente indefinido en un sistema axiomático y cuyo significado queda determinado únicamente por los axiomas que lo relacionan. En geometría, por ejemplo, punto, recta y plano}
 }
 
-\newglossaryentry{matriz-inversa}{
-    name={Matriz inversa},
-    description={Para una matriz cuadrada $A$, es la matriz $A^{-1}$ tal que $AA^{-1} = A^{-1}A = I$, donde $I$ es la matriz identidad}
+\newglossaryentry{definicion}{
+    name={Definición},
+    description={Enunciado que introduce un término nuevo a partir de los términos primitivos y de otros términos ya definidos}
 }
 
-\newglossaryentry{traza}{
-    name={Traza},
-    description={Suma de los elementos de la diagonal principal de una matriz cuadrada}
+\newglossaryentry{teorema}{
+    name={Teorema},
+    description={Proposición cuya validez se establece mediante una demostración a partir de los axiomas y de teoremas previamente probados}
 }
 
-\newglossaryentry{matriz-ortogonal}{
-    name={Matriz ortogonal},
-    description={Matriz cuadrada cuya inversa coincide con su transpuesta. Las matrices ortogonales preservan el producto escalar y representan rotaciones y reflexiones}
+\newglossaryentry{proposicion}{
+    name={Proposición},
+    description={Enunciado matemático que puede ser verdadero o falso. En los Elementos, cada uno de los resultados demostrados a partir de los postulados y las nociones comunes}
 }
 
-\newglossaryentry{matriz-adjunta}{
-    name={Matriz adjunta},
-    description={Matriz cuya entrada $(i,j)$ es el cofactor de la entrada $(j,i)$ de la matriz original}
+\newglossaryentry{corolario}{
+    name={Corolario},
+    description={Resultado que se deduce de manera casi inmediata de un teorema ya demostrado}
 }
 
-\newglossaryentry{vector}{
-    name={Vector},
-    description={Elemento de un espacio vectorial. En el contexto de álgebra lineal, generalmente se representa como una matriz columna o fila}
+\newglossaryentry{lema}{
+    name={Lema},
+    description={Resultado auxiliar que se demuestra con el propósito de utilizarlo como paso intermedio en la demostración de un teorema}
 }
 
-\newglossaryentry{rango}{
-    name={Rango},
-    description={El número máximo de vectores linealmente independientes en las filas o columnas de una matriz. Equivalente a la dimensión del espacio imagen de la transformación lineal representada por la matriz}
+\newglossaryentry{regla-inferencia}{
+    name={Regla de inferencia},
+    description={Regla que permite derivar nuevas proposiciones (o cadenas) a partir de otras ya establecidas dentro de un sistema formal}
 }
 
-\newglossaryentry{autovector}{
-    name={Autovector},
-    description={Vector no nulo $v$ que, al ser transformado por una matriz $A$, resulta en un múltiplo escalar de sí mismo: $Av = \lambda v$, donde $\lambda$ es el autovalor correspondiente}
+\newglossaryentry{demostracion}{
+    name={Demostración},
+    description={Sucesión finita de pasos lógicos que establece la verdad de una proposición a partir de axiomas, definiciones y resultados previos}
 }
 
-\newglossaryentry{autovalor}{
-    name={Autovalor},
-    description={Valor escalar $\lambda$ asociado a un autovector $v$ de una matriz $A$, que satisface la ecuación $Av = \lambda v$}
+\newglossaryentry{invariante}{
+    name={Invariante},
+    description={Propiedad que se preserva bajo todas las transformaciones o reglas de un sistema. Su uso permite demostrar que ciertos estados son inalcanzables}
 }
 
-\newglossaryentry{matriz-diagonal}{
-    name={Matriz diagonal},
-    description={Matriz cuadrada en la que todos los elementos fuera de la diagonal principal son cero}
+\newglossaryentry{modelo}{
+    name={Modelo},
+    description={Interpretación concreta de los términos primitivos de un sistema axiomático que satisface todos sus axiomas. La existencia de un modelo garantiza la consistencia del sistema}
 }
 
-\newglossaryentry{matriz-antisimetrica}{
-    name={Matriz antisimétrica},
-    description={Matriz cuadrada que es igual al negativo de su transpuesta. Sus elementos cumplen que $a_{ij} = -a_{ji}$ para todo $i,j$}
+\newglossaryentry{consistencia}{
+    name={Consistencia},
+    description={Propiedad de un sistema axiomático que consiste en estar libre de contradicciones, es decir, en no permitir demostrar a la vez una proposición y su negación}
 }
 
-\newglossaryentry{matriz-unitaria}{
-    name={Matriz unitaria},
-    description={Matriz compleja cuya inversa coincide con su traspuesta conjugada. Las matrices unitarias preservan el producto escalar hermítico y son la generalización de las matrices ortogonales en espacios complejos}
+\newglossaryentry{independencia}{
+    name={Independencia},
+    description={Propiedad de un axioma que no puede deducirse de los demás axiomas del sistema. Se prueba exhibiendo un modelo que satisface a todos los axiomas salvo el estudiado}
+}
+
+\newglossaryentry{completitud}{
+    name={Completitud},
+    description={Propiedad de un sistema axiomático cuando sus axiomas bastan para decidir la verdad o falsedad de toda proposición formulable en él}
+}
+
+% --- Objetos geométricos básicos ---
+
+\newglossaryentry{punto}{
+    name={Punto},
+    description={Término primitivo de la geometría. Euclides lo describe como «aquello que no tiene partes»; carece de dimensión, longitud, anchura o profundidad}
+}
+
+\newglossaryentry{recta}{
+    name={Recta},
+    description={Término primitivo de la geometría. Objeto unidimensional, sin curvatura, que se extiende indefinidamente en ambos sentidos}
+}
+
+\newglossaryentry{plano}{
+    name={Plano},
+    description={Término primitivo de la geometría. Superficie bidimensional que se extiende indefinidamente y sobre la cual se desarrolla la geometría plana}
+}
+
+\newglossaryentry{segmento}{
+    name={Segmento},
+    description={Porción de recta comprendida entre dos puntos, llamados extremos, incluidos ambos}
+}
+
+\newglossaryentry{semirrecta}{
+    name={Semirrecta},
+    description={Cada una de las dos porciones en que un punto divide a una recta; incluye dicho punto, llamado origen, y se extiende indefinidamente en un solo sentido}
+}
+
+\newglossaryentry{angulo}{
+    name={Ángulo},
+    description={Figura formada por dos semirrectas que comparten un mismo origen, llamado vértice}
+}
+
+\newglossaryentry{angulo-recto}{
+    name={Ángulo recto},
+    description={Ángulo cuyos lados son perpendiculares. Los Elementos postulan que todos los ángulos rectos son iguales entre sí}
+}
+
+\newglossaryentry{circunferencia}{
+    name={Circunferencia},
+    description={Lugar geométrico de los puntos del plano que equidistan de un punto fijo llamado centro; la distancia común es el radio}
+}
+
+\newglossaryentry{circulo}{
+    name={Círculo},
+    description={Región del plano limitada por una circunferencia, incluyendo su interior}
+}
+
+\newglossaryentry{triangulo}{
+    name={Triángulo},
+    description={Polígono de tres lados y tres vértices. El triángulo equilátero, con sus tres lados iguales, es el objeto de la primera proposición de los Elementos}
+}
+
+\newglossaryentry{colineal}{
+    name={Puntos colineales},
+    description={Conjunto de puntos que pertenecen todos a una misma recta}
+}
+
+\newglossaryentry{incidencia}{
+    name={Incidencia},
+    description={Relación primitiva entre un punto y una recta que expresa que el punto «está sobre» la recta (o que la recta «pasa por» el punto)}
+}
+
+\newglossaryentry{congruencia}{
+    name={Congruencia},
+    description={Relación de igualdad geométrica entre segmentos, ángulos o figuras que pueden hacerse coincidir mediante un movimiento rígido}
+}
+
+\newglossaryentry{rectas-paralelas}{
+    name={Rectas paralelas},
+    description={Dos rectas de un mismo plano que no tienen ningún punto en común}
+}
+
+% --- Geometría axiomática: euclidiana y no euclidiana ---
+
+\newglossaryentry{geometria-euclidiana}{
+    name={Geometría euclidiana},
+    description={Geometría que satisface los cinco postulados de Euclides, incluido el de las paralelas. Describe el espacio plano de la intuición ordinaria}
+}
+
+\newglossaryentry{postulado-paralelas}{
+    name={Postulado de las paralelas},
+    description={Quinto postulado de Euclides. Su formulación equivalente de Playfair afirma que, por un punto exterior a una recta, pasa exactamente una paralela a ella}
+}
+
+\newglossaryentry{axioma-playfair}{
+    name={Axioma de Playfair},
+    description={Enunciado equivalente al quinto postulado de Euclides: dada una recta y un punto exterior a ella, existe una única recta que pasa por el punto y es paralela a la dada}
+}
+
+\newglossaryentry{geometria-no-euclidiana}{
+    name={Geometría no euclidiana},
+    description={Geometría consistente que niega el postulado de las paralelas de Euclides, conservando los otros cuatro postulados}
+}
+
+\newglossaryentry{geometria-hiperbolica}{
+    name={Geometría hiperbólica},
+    description={Geometría no euclidiana, desarrollada por Bolyai y Lobachevski, en la que por un punto exterior a una recta pasa más de una paralela}
+}
+
+\newglossaryentry{geometria-eliptica}{
+    name={Geometría elíptica},
+    description={Geometría no euclidiana, asociada a Riemann, en la que no existe ninguna recta paralela a una dada por un punto exterior}
+}
+
+% --- Geometría de incidencia y geometrías finitas ---
+
+\newglossaryentry{geometria-incidencia}{
+    name={Geometría de incidencia},
+    description={Estructura formada por un conjunto de puntos, un conjunto de rectas y una relación de incidencia entre ellos, sujeta a un pequeño número de axiomas}
+}
+
+\newglossaryentry{geometria-finita}{
+    name={Geometría finita},
+    description={Geometría de incidencia cuyos conjuntos de puntos y de rectas son finitos, lo que permite enumerar y verificar sus axiomas mediante un algoritmo}
+}
+
+\newglossaryentry{plano-proyectivo}{
+    name={Plano proyectivo},
+    description={Geometría de incidencia en la que dos puntos distintos determinan una única recta, dos rectas distintas se cortan en un único punto y existen cuatro puntos sin tres colineales. No contiene rectas paralelas}
+}
+
+\newglossaryentry{plano-afin}{
+    name={Plano afín},
+    description={Geometría de incidencia en la que, por un punto exterior a una recta, pasa exactamente una recta paralela (axioma de Playfair)}
+}
+
+\newglossaryentry{plano-fano}{
+    name={Plano de Fano},
+    description={El plano proyectivo más pequeño, con siete puntos y siete rectas; cada recta contiene tres puntos y por cada punto pasan tres rectas. Se denota $PG(2,2)$}
+}
+
+\newglossaryentry{dualidad}{
+    name={Principio de dualidad},
+    description={Principio de la geometría proyectiva según el cual, al intercambiar en un teorema verdadero las palabras «punto» y «recta», se obtiene otro teorema verdadero}
 }
