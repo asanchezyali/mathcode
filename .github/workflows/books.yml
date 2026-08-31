@@ -6,6 +6,7 @@ jobs:
     permissions:
       contents: write
     strategy:
+      fail-fast: false  # A broken book must not cancel the others
       max-parallel: 1  # Compile one at a time to avoid conflicts
       matrix:
         book:
