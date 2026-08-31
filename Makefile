@@ -1,5 +1,5 @@
 BOOKS = deep_learning machine_learning llms inferencial_statistics \
-        geometry math_fundamentals numerical_methods
+        geometry math_fundamentals numerical_methods set_theory
 
 .PHONY: all books code clean clean-books clean-code help \
         $(BOOKS) $(addsuffix -code,$(BOOKS))

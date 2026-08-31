@@ -37,6 +37,10 @@ jobs:
             dir: numerical_methods
             pdf: numerical_methods.pdf
             emoji: "🔢"
+          - name: set_theory
+            dir: set_theory
+            pdf: set_theory.pdf
+            emoji: "🧩"
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v4

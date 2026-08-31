@@ -38,7 +38,45 @@ Crea un nuevo libro basado en el template del proyecto.
    - Agrega el nombre del directorio al array `BOOKS`
    - Agrega el libro a la lista de libros disponibles en `show_help()`
 
-9. Muestra un resumen de lo creado y los próximos pasos.
+9. Actualiza el `Makefile`:
+   - Agrega el nombre del directorio a la variable `BOOKS`
+
+10. Actualiza `.github/workflows/books.yml` (**paso crítico**):
+    - Agrega una entrada nueva a la matriz `matrix.book`, siguiendo el formato
+      de las existentes:
+      ```yaml
+      - name: nombre_directorio
+        dir: nombre_directorio
+        pdf: nombre_directorio.pdf
+        emoji: "📘"
+      ```
+    - Elige un emoji que no esté en uso por otro libro.
+    - Sin este paso el libro **no se compila en GitHub Actions** y el PDF nunca
+      llega a la rama `pdfs`, por lo que el enlace «Descargar» del `README.md`
+      queda roto (404).
+
+11. Verifica que el libro compila localmente con `./compile.sh nombre_directorio`
+    y revisa que no haya errores ni cajas desbordadas:
+    ```bash
+    cd nombre_directorio && pdflatex -interaction=nonstopmode main.tex | grep -E 'Overfull|^!'
+    ```
+    Ten en cuenta que `compile.sh` redirige y luego borra los logs, así que una
+    ejecución «exitosa» del script no garantiza que la tipografía esté bien.
+
+12. Muestra un resumen de lo creado y los próximos pasos.
+
+## Puntos de registro de un libro
+
+Un libro nuevo debe quedar registrado en **cinco** lugares. Si falta alguno, el
+libro queda a medias:
+
+| Archivo | Qué agregar | Si falta |
+|---------|-------------|----------|
+| `compile.sh` | array `BOOKS` y `show_help()` | `./compile.sh <libro>` falla |
+| `Makefile` | variable `BOOKS` | `make` no compila el libro |
+| `.github/workflows/books.yml` | entrada en `matrix.book` | no se compila en CI ni se publica el PDF |
+| `README.md` | tabla de libros, estructura y roadmap | el libro no aparece documentado |
+| `main.tex` del libro | `\title{}` y `\input{chapters/...}` | el libro no compila |
 
 ## Ejemplo de uso
 
