@@ -23,6 +23,7 @@ Construir recursos educativos que conecten la teoría matemática con la impleme
 | **LLMs** | Transformers, fine-tuning y modelos de lenguaje | [Descargar](../../raw/pdfs/llms.pdf) |
 | **Estadística Inferencial** | Inferencia estadística y análisis bayesiano | [Descargar](../../raw/pdfs/inferencial_statistics.pdf) |
 | **Métodos Numéricos** | Algoritmos, análisis de errores y aplicaciones | [Descargar](../../raw/pdfs/numerical_methods.pdf) |
+| **Teoría de Conjuntos** | Fundamentos, cardinalidad y construcción de los números | [Descargar](../../raw/pdfs/set_theory.pdf) |
 
 ### Artículos
 
@@ -76,6 +77,7 @@ mathcode/
 ├── llms/                   # Modelos de lenguaje
 ├── inferencial_statistics/ # Estadística inferencial
 ├── numerical_methods/      # Métodos numéricos
+├── set_theory/             # Teoría de conjuntos
 ├── articles/               # Artículos cortos
 ├── template/               # Plantilla para nuevos libros
 ├── src/                    # Material compartido
@@ -122,6 +124,7 @@ cd nuevo_libro/
 - [ ] Completar libro de Fundamentos de las Matemáticas
 - [ ] Completar libro de Geometría Plana
 - [ ] Completar libro de Métodos Numéricos
+- [ ] Completar libro de Teoría de Conjuntos
 - [ ] Agregar ejemplos de código en Python
 - [ ] Crear visualizaciones interactivas
 - [ ] Traducción al inglés

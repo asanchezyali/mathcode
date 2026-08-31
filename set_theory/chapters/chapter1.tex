@@ -1,0 +1,147 @@
+% chapter1.tex - Introducción
+
+\chapter{Orígenes de la teoría de conjuntos}
+
+El origen de la teoría de conjuntos se remonta al último tercio del siglo XIX y se debe al matemático alemán Georg
+Cantor (San Petersburgo, 1845 -- Halle, 1918). La teoría de un problema concreto del análisis: en 1870 Eduard Heine le
+propuso a Cantor demostrar la unicidad de la representación de una función mediante una serie trigonométrica. Al
+analizar los conjuntos excepcionales de puntos donde esa unicidad podía fallar, Cantor estudió los conjuntos de puntos
+y de sus \emph{conjuntos derivados}. De ahí surgió, su artículo de 1874 \emph{Über eine Eigenschaft des Inbegriffes
+    aller reellen algebraischen Zahlen}, en donde se presentó por primera vez la demostración de que los números reales no
+pueden ponerse en correspondencia biunívoca con los naturales. Ese trabajo suele considerarse el acta de nacimiento de
+la teoría de conjuntos. Cantor introdujo después la noción de \emph{potencia} o cardinalidad (1878), la cual permite
+comparar el tamaño de conjuntos infinitos, y con ella demostró que existen distintos tamaños de infinito; en 1891 dio
+de este hecho su demostración más célebre, el argumento diagonal.
+
+Las ideas de Cantor hicieron de la noción de conjunto la principal herramienta para la fundamentación de las
+matemáticas, pues permitieron formalizar conceptos como los de número, función y relación. De acuerdo con Cantor, un
+conjunto es una colección, considerada como un todo, de objetos distintos y bien determinados de nuestra intuición o de
+nuestro pensamiento, llamados \emph{elementos} del conjunto. En particular, los conjuntos pueden ser elementos de otros
+conjuntos. Decir que un conjunto $x$ es un elemento de un conjunto $y$ se denota por el símbolo $x\in y$. Si un
+conjunto $x$ no es un elemento de un conjunto $y$, se denota por el símbolo $x\notin y$.
+
+Un conjunto que consta de un número finito de elementos $x_{1}, x_{2}, \ldots, x_{n}$ se denota por
+\[
+    \{x_{1}, x_{2}, \ldots, x_{n}\}.
+\]
+Dos conjuntos $x$ e $y$ son \textbf{iguales}\index{igualdad de conjuntos}, lo que se escribe $x = y$, si y solo si
+tienen los mismos elementos; es decir, si todo elemento de $x$ es un elemento de $y$ y, recíprocamente, todo elemento
+de $y$ es un elemento de $x$. Por ejemplo, los conjuntos $\{x, y\}$ y $\{y, x\}$ son iguales, ya que ambos contienen
+los mismos elementos $x$ e $y$.
+
+Un conjunto que no contiene ningún elemento se llama \textbf{conjunto vacío}\index{conjunto vacío} y se denota por
+$\emptyset$. Como dos conjuntos con los mismos elementos son iguales, el conjunto vacío es único: no puede haber dos
+conjuntos vacíos distintos.
+
+\section{Los números naturales como conjuntos}
+
+La teoría desarrollada hasta aquí permite dar un significado preciso a los números naturales, que son abstracciones
+creadas por los seres humanos para facilitar el conteo. La idea, debida a John von Neumann, consiste en identificar
+cada número natural con el conjunto de los números que lo preceden:
+
+\[
+    \begin{aligned}
+        0 & = \emptyset,         \\
+        1 & = \{0\},             \\
+        2 & = \{0, 1\},          \\
+        3 & = \{0, 1, 2\},       \\
+        4 & = \{0, 1, 2, 3\},    \\
+        5 & = \{0, 1, 2, 3, 4\}, \\
+          & \ \ \vdots
+    \end{aligned}
+\]
+
+En general, el número natural $n$ se identifica con el conjunto $\{0, 1, \ldots, n-1\}$ de sus predecesores, de modo
+que $n$ tiene exactamente $n$ elementos, y el paso al número siguiente se obtiene mediante la operación
+\textbf{sucesor}\index{sucesor}
+\[
+    n + 1 = n \cup \{n\}.
+\]
+
+El conjunto $\{0, 1, 2, 3, 4, 5, \ldots\}$ de todos los números naturales se denota por $\omega$. El conjunto $\{1, 2,
+    3, 4, 5, \ldots\}$ de los números naturales no nulos se denota por $\mathbb{N}$.
+
+\begin{remark}[¿Es el cero un número natural?]
+    No hay un acuerdo universal sobre si el cero debe contarse entre los números naturales: se trata de una convención
+    que varía de una tradición matemática a otra. Buena parte de la tradición europea continental incluye el cero,
+    mientras que la tradición de Europa del Este suele empezar en el uno. Una huella cotidiana de esta discrepancia
+    aparece en la numeración de los pisos de los edificios, que en unos países comienza en la planta baja y en otros
+    en el primer piso. Para evitar toda ambigüedad, en este libro reservamos $\omega$ para $\{0, 1, 2, \ldots\}$ y
+    $\mathbb{N}$ para $\{1, 2, 3, \ldots\}$.
+\end{remark}
+
+\section{El constructor de conjuntos}
+
+Con mucha frecuencia necesitamos formar un conjunto reuniendo los objetos que poseen cierta propiedad; por ejemplo, el
+conjunto de los números impares. Para ello disponemos del \textbf{constructor de conjuntos}\index{constructor de
+    conjuntos} $\{x : \varphi(x)\}$, que denota exactamente lo que necesitamos: el conjunto de todos los objetos $x$ que
+cumplen la propiedad $\varphi(x)$.
+
+\begin{example}
+    El conjunto de los números naturales impares se escribe
+    \[
+        \{x : x \in \omega \ \wedge \ x = 2k + 1 \ \text{para algún} \ k \in \omega\},
+    \]
+    y el conjunto de los números naturales pares menores que $10$ se escribe $\{x \in \omega : x < 10 \ \wedge \ x = 2k \
+        \text{para algún} \ k \in \omega\} = \{0, 2, 4, 6, 8\}$.
+\end{example}
+
+\begin{remark}[El constructor sin restricciones]
+    Empleado sin restricción alguna, el constructor $\{x : \varphi(x)\}$ conduce a contradicciones. Si se admite que
+    \emph{toda} propiedad $\varphi$ determina un conjunto, nada impide formar el conjunto
+    \[
+        R = \{x : x \notin x\}
+    \]
+    de todos los conjuntos que no se pertenecen a sí mismos, y preguntar si $R \in R$. Ambas respuestas conducen a su
+    contraria: si $R \in R$, entonces $R$ no cumple la propiedad que lo define y por tanto $R \notin R$; y si $R \notin R$,
+    entonces $R$ sí cumple esa propiedad y por tanto $R \in R$. Esta es la \textbf{paradoja de Russell}\index{paradoja de
+        Russell} (1901), y fue una de las razones que impulsaron la axiomatización de la teoría de conjuntos. En este capítulo
+    usaremos el constructor de manera ingenua, como lo hizo Cantor; la restricción que lo vuelve seguro se estudiará más
+    adelante.
+\end{remark}
+
+\section{Operaciones básicas sobre conjuntos}
+
+Usando el constructor podemos definir algunas operaciones «algebraicas» básicas sobre dos conjuntos $X$ e $Y$:
+
+\begin{itemize}
+    \item la \textbf{intersección}\index{intersección} $X \cap Y = \{x : x \in X \ \wedge \ x \in Y\}$, cuyos elementos son los
+          objetos que pertenecen a $X$ y a $Y$;
+    \item la \textbf{unión}\index{unión} $X \cup Y = \{x : x \in X \ \vee \ x \in Y\}$, formada por los objetos que pertenecen a
+          $X$ o a $Y$, o a ambos;
+    \item la \textbf{diferencia}\index{diferencia} $X \setminus Y = \{x : x \in X \ \wedge \ x \notin Y\}$, formada por los
+          elementos que pertenecen a $X$ pero no a $Y$;
+    \item la \textbf{diferencia simétrica}\index{diferencia simétrica} $X \mathbin{\triangle} Y = (X \cup Y) \setminus (X \cap
+              Y)$, formada por los elementos que pertenecen a la unión $X \cup Y$ pero no a la intersección $X \cap Y$.
+\end{itemize}
+
+En las fórmulas de la unión y la intersección usamos los conectivos lógicos $\wedge$ y $\vee$, que denotan las
+operaciones lógicas \textbf{y} y \textbf{o}. El cuadro~\ref{tab:tabla-verdad} presenta la tabla de verdad de estas dos
+operaciones y de otras cuatro: la \textbf{negación}\index{negación} $\neg$, la \textbf{implicación}\index{implicación}
+$\Rightarrow$, la \textbf{equivalencia}\index{equivalencia} $\Leftrightarrow$ y la \textbf{barra de
+    Sheffer}\index{barra de Sheffer} $\mid$, llamada también \textbf{nand}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Tabla de verdad de los conectivos lógicos básicos.}
+    \label{tab:tabla-verdad}
+    \begin{tabular}{cc cccccc}
+        \toprule
+        $x$ & $y$ & $x \wedge y$ & $x \vee y$ & $x \Rightarrow y$ & $x \Leftrightarrow y$ & $x \mid y$ & $\neg x$ \\
+        \midrule
+        0   & 0   & 0            & 0          & 1                 & 1                     & 1          & 1        \\
+        0   & 1   & 0            & 1          & 1                 & 0                     & 1          & 1        \\
+        1   & 0   & 0            & 1          & 0                 & 0                     & 1          & 0        \\
+        1   & 1   & 1            & 1          & 1                 & 1                     & 0          & 0        \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Tenemos entonces cuatro operaciones básicas sobre conjuntos $X$ e $Y$:
+\[
+    \begin{aligned}
+        X \cap Y      & = \{x : x \in X \ \wedge \ x \in Y\},    & X \cup Y                           & = \{x : x \in X \ \vee \ x \in Y\}, \\
+        X \setminus Y & = \{x : x \in X \ \wedge \ x \notin Y\},
+                      & X \mathbin{\triangle} Y                  & = (X \cup Y) \setminus (X \cap Y).
+    \end{aligned}
+\]
