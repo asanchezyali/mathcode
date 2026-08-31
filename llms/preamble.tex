@@ -1,15 +1,15 @@
 % preamble.tex - Contains all packages and configurations
 \documentclass[12pt, a4paper, oneside]{book}
 %%% BASIC PACKAGES
-\usepackage[T1]{fontenc}        
-\usepackage[utf8]{inputenc}    
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{lmodern}
 \usepackage[spanish, es-noshorthands]{babel}
 \usepackage{comment}
 \usepackage{textcomp}
 
 %%% DOCUMENT GEOMETRY
-\usepackage[top=2.5cm, bottom=2.5cm, right=2.5cm, left=2.5cm, headheight=15pt, marginparwidth=2.5cm]{geometry}
+\usepackage[top=2.5cm, bottom=2.5cm, right=2cm, left=2cm, headheight=15pt, marginparwidth=2.5cm]{geometry}
 \usepackage{multicol}
 \usepackage{lscape}
 
@@ -25,21 +25,162 @@
 
 %%% STYLE AND DESIGN PACKAGES
 \usepackage[dvipsnames]{xcolor}
-\usepackage{tcolorbox}
 \usepackage{tikz}
 \usetikzlibrary{calc,shapes,shadows,decorations.pathmorphing,matrix,positioning}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{tikz-qtree}
 \usepackage{mdframed}
+
+%%% CODE LISTINGS
+\usepackage{listings}
+\usepackage{tcolorbox}
+\tcbuselibrary{listings, skins, breakable}
+\renewcommand{\lstlistingname}{Código}
+
+% Modern code color palette
+\definecolor{codeBackground}{RGB}{250, 250, 252}
+\definecolor{codeFrame}{RGB}{218, 220, 235}
+\definecolor{codeAccent}{RGB}{99, 102, 241}
+\definecolor{codeHeader}{RGB}{75, 85, 120}
+\definecolor{codeKeyword}{RGB}{124, 58, 237}
+\definecolor{codeString}{RGB}{5, 150, 105}
+\definecolor{codeComment}{RGB}{148, 163, 184}
+\definecolor{codeNumber}{RGB}{180, 190, 205}
+\definecolor{codeFunction}{RGB}{37, 99, 235}
+\definecolor{codeVariable}{RGB}{217, 70, 239}
+
+\lstset{
+basicstyle=\ttfamily\fontsize{8}{9.5}\selectfont,
+keywordstyle=\color{codeKeyword}\bfseries,
+keywordstyle=[2]\color{codeFunction},
+commentstyle=\color{codeComment}\itshape,
+stringstyle=\color{codeString},
+numbers=left,
+numberstyle=\tiny\color{codeNumber}\ttfamily,
+numbersep=10pt,
+breaklines=true,
+breakatwhitespace=true,
+showstringspaces=false,
+tabsize=4,
+extendedchars=true,
+inputencoding=utf8,
+literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+{ñ}{{\~n}}1 {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1
+{Ú}{{\'U}}1 {Ñ}{{\~N}}1
+}
+
+% Counter for code listings
+\newcounter{codelisting}[chapter]
+\renewcommand{\thecodelisting}{\thechapter.\arabic{codelisting}}
+
+% Custom tcolorbox style for code listings (con header estilo teorema)
+\newtcblisting{codebox}[2][]{
+    listing only,
+    listing options={language=#2},
+    enhanced,
+    breakable,
+    colback=codeBackground,
+    colframe=codeFrame,
+    boxrule=0.4pt,
+    left=10pt,
+    right=10pt,
+    top=10pt,
+    bottom=10pt,
+    arc=5pt,
+    before skip=\topskip,
+    after skip=\topskip,
+    #1
+}
+
+% Style for lstinputlisting with tcolorbox (basado en theorembase)
+\tcbset{
+    codestyle/.style={
+            listing only,
+            enhanced,
+            breakable,
+            colback=codeBackground,
+            colframe=codeFrame,
+            colbacktitle=codeHeader,
+            coltitle=white,
+            boxrule=0.4pt,
+            arc=5pt,
+            left=25pt,
+            right=10pt,
+            top=5pt,
+            bottom=5pt,
+            toptitle=5pt,
+            bottomtitle=5pt,
+            lefttitle=10pt,
+            fonttitle=\bfseries,
+            before skip=\topskip,
+            after skip=\topskip,
+        }
+}
+
+% \codefile[language]{caption}{file}
+\newcommand{\codefile}[3][Python]{%
+    \refstepcounter{codelisting}%
+    \begin{tcolorbox}[codestyle,
+            title={Código~\thecodelisting~--~#2}]
+        \lstinputlisting[language=#1]{#3}
+    \end{tcolorbox}%
+}
 
 %%% BOOK-SPECIFIC PACKAGES
 \usepackage{fancyhdr}
 \usepackage{booktabs}
-\usepackage{minitoc}  % Mini table of contents at start of chapters
-\usepackage{epigraph} % For chapter epigraphs/quotes
-\usepackage{titlesec} % Custom chapter and section formatting
+\usepackage{minitoc}
+\usepackage{epigraph}
+\setlength{\epigraphwidth}{0.6\textwidth}
+\usepackage{titlesec}
+
+%%% ALGORITHMS
+\usepackage[vlined,spanish,onelanguage,linesnumbered]{algorithm2e}
+\SetAlgoInsideSkip{smallskip}
+\SetAlCapSkip{0em}
+\SetAlgoNlRelativeSize{-1}
+\SetNlSty{texttt}{}{}
+\SetKwInput{KwEntrada}{Entrada}
+\SetKwInput{KwSalida}{Salida}
+\SetKwFor{ParaCada}{para cada}{hacer}{fin}
+\SetKwIF{Si}{SinoSi}{Sino}{si}{entonces}{sino si}{sino}{fin}
+\SetKwFor{Para}{para}{hacer}{fin}
+\SetKw{Retornar}{retornar}
+
+% Light comment style for algorithms
+\definecolor{algoComment}{RGB}{140, 155, 180}
+\newcommand\algocomment[1]{\footnotesize\textit{\textcolor{algoComment}{#1}}}
+\SetCommentSty{algocomment}
+
+% Algorithm counter
+\newcounter{algocounter}[chapter]
+\renewcommand{\thealgocounter}{\thechapter.\arabic{algocounter}}
+
+% Algorithm colors
+\definecolor{algoBG}{RGB}{248, 250, 255}
+\definecolor{algoBorder}{RGB}{200, 210, 235}
+\definecolor{algoHeader}{RGB}{75, 85, 120}
+
+% Elegant algorithm box
+\newenvironment{algorithmbox}[2][]{%
+    \refstepcounter{algocounter}%
+    \begin{tcolorbox}[
+        theorembase,
+        colback=algoBG,
+        colframe=algoBorder,
+        colbacktitle=algoHeader,
+        coltitle=white,
+        title={Algoritmo~\thealgocounter~--~#2},
+        #1
+    ]%
+}{%
+    \end{tcolorbox}%
+}
 
 %%% BIBLIOGRAPHY AND REFERENCES
 \usepackage[backend=biber, style=apa, sorting=ynt]{biblatex}
-\usepackage{csquotes}  % Required for biblatex
+\usepackage{csquotes}
 \usepackage{fontawesome5}
 
 % Format URL as clickable globe icon
@@ -52,14 +193,14 @@
 % Remove hanging indent and add square bullets
 \setlength{\bibhang}{0pt}
 \defbibenvironment{bibliography}
-  {\list
-     {\tiny$\blacksquare$}
-     {\setlength{\leftmargin}{1.5em}%
-      \setlength{\itemindent}{0pt}%
-      \setlength{\itemsep}{\bibitemsep}%
-      \setlength{\parsep}{\bibparsep}}}
-  {\endlist}
-  {\item}
+{\list
+    {\tiny$\blacksquare$}
+    {\setlength{\leftmargin}{1.5em}%
+        \setlength{\itemindent}{0pt}%
+        \setlength{\itemsep}{\bibitemsep}%
+        \setlength{\parsep}{\bibparsep}}}
+{\endlist}
+{\item}
 
 %%% INDEX AND GLOSSARY
 \usepackage{imakeidx}
@@ -72,117 +213,280 @@
 \usepackage{subcaption}
 \graphicspath{{./images/}}
 
+%%% QR CODES
+\usepackage{qrcode}
+
 %%% HYPERLINKS
 \usepackage[
-	breaklinks=true, 
-	colorlinks=true, 
-	linkcolor=blue,
-	citecolor=blue, 
-	urlcolor=gray
+    breaklinks=true,
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=gray
 ]{hyperref}
-\usepackage{xurl} % Break URLs
+\usepackage{xurl}
+
+%%% CODE QR STRIP
+\definecolor{qrStripBG}{RGB}{250, 248, 245}
+\definecolor{qrStripBorder}{RGB}{225, 220, 210}
+\definecolor{qrStripLabel}{RGB}{120, 110, 95}
+
+\newcommand{\codeqrstrip}[6]{%
+    % #1 = Python URL, #2 = C URL, #3 = Rust URL
+    % #4, #5, #6 = filenames (unused, kept for compatibility)
+    \begin{center}
+        \vspace{4pt}
+        \begin{minipage}[t]{2.5cm}
+            \centering
+            \qrcode[height=2cm]{#1}\\[4pt]
+            {\footnotesize\textcolor{qrStripLabel}{Python}}
+        \end{minipage}%
+        \hspace{1.5cm}%
+        \begin{minipage}[t]{2.5cm}
+            \centering
+            \qrcode[height=2cm]{#2}\\[4pt]
+            {\footnotesize\textcolor{qrStripLabel}{C}}
+        \end{minipage}%
+        \hspace{1.5cm}%
+        \begin{minipage}[t]{2.5cm}
+            \centering
+            \qrcode[height=2cm]{#3}\\[4pt]
+            {\footnotesize\textcolor{qrStripLabel}{Rust}}
+        \end{minipage}
+        \vspace{4pt}
+    \end{center}
+}
+
+% QR sidebar: vertical QR column next to content
+\newcommand{\codeqrsidebar}[3]{%
+    % #1 = Python URL, #2 = C URL, #3 = Rust URL
+    \begin{minipage}[t]{1.6cm}
+        \vspace{0pt}
+        \centering
+        \qrcode[height=1.3cm]{#1}\\[2pt]
+        {\tiny\textcolor{qrStripLabel}{Python}}\\[6pt]
+        \qrcode[height=1.3cm]{#2}\\[2pt]
+        {\tiny\textcolor{qrStripLabel}{C}}\\[6pt]
+        \qrcode[height=1.3cm]{#3}\\[2pt]
+        {\tiny\textcolor{qrStripLabel}{Rust}}
+    \end{minipage}%
+}
 
 %%% COLOR DEFINITIONS
-\definecolor{theoremBG}{RGB}{235,245,255}        % Fondo teorema más intenso
-\definecolor{theoremBorder}{RGB}{210,225,250}    % Borde teorema más intenso
-\definecolor{definitionBG}{RGB}{235,255,240}     % Fondo definición más intenso
-\definecolor{definitionBorder}{RGB}{210,245,220} % Borde definición más intenso
-\definecolor{remarkBG}{RGB}{255,240,230}         % Fondo observación más intenso
-\definecolor{remarkBorder}{RGB}{250,220,205}     % Borde observación más intenso
-\definecolor{easyBG}{RGB}{230,242,255}           % Fondo problema fácil más intenso
-\definecolor{easyBorder}{RGB}{205,220,250}       % Borde problema fácil más intenso
-\definecolor{mediumBG}{RGB}{255,240,225}         % Fondo problema medio más intenso
-\definecolor{mediumBorder}{RGB}{250,220,205}     % Borde problema medio más intenso
-\definecolor{hardBG}{RGB}{255,230,240}           % Fondo problema difícil más intenso
-\definecolor{hardBorder}{RGB}{250,205,220}       % Borde problema difícil más intenso
-\definecolor{exerciseBG}{RGB}{240,240,255}       % Fondo ejercicio más intenso
-\definecolor{exerciseBorder}{RGB}{220,220,250}   % Borde ejercicio más intenso
+\definecolor{theoremBG}{RGB}{235,245,255}
+\definecolor{theoremBorder}{RGB}{210,225,250}
+\definecolor{theoremHeader}{RGB}{70,100,140}
+\definecolor{definitionBG}{RGB}{235,255,240}
+\definecolor{definitionBorder}{RGB}{210,245,220}
+\definecolor{definitionHeader}{RGB}{60,110,80}
+\definecolor{remarkBG}{RGB}{255,240,230}
+\definecolor{remarkBorder}{RGB}{250,220,205}
+\definecolor{remarkHeader}{RGB}{140,90,60}
+\definecolor{easyBG}{RGB}{230,242,255}
+\definecolor{easyBorder}{RGB}{205,220,250}
+\definecolor{easyHeader}{RGB}{70,100,140}
+\definecolor{mediumBG}{RGB}{255,240,225}
+\definecolor{mediumBorder}{RGB}{250,220,205}
+\definecolor{mediumHeader}{RGB}{140,90,60}
+\definecolor{hardBG}{RGB}{255,230,240}
+\definecolor{hardBorder}{RGB}{250,205,220}
+\definecolor{hardHeader}{RGB}{140,70,90}
+\definecolor{exerciseBG}{RGB}{240,240,255}
+\definecolor{exerciseBorder}{RGB}{220,220,250}
+\definecolor{exerciseHeader}{RGB}{90,90,130}
+\definecolor{exampleBG}{RGB}{250,250,235}
+\definecolor{exampleBorder}{RGB}{230,230,200}
+\definecolor{exampleHeader}{RGB}{100,100,70}
 
-%%% THEOREM STYLES
-\mdfdefinestyle{theoremstyle}{
-    linecolor=theoremBorder,
-    linewidth=0.4pt,                
-    backgroundcolor=theoremBG!40,  
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+%%% THEOREM STYLES WITH TCOLORBOX
+% Base style for all theorem-like environments
+\tcbset{
+    theorembase/.style={
+            enhanced,
+            breakable,
+            boxrule=0.4pt,
+            arc=5pt,
+            left=10pt,
+            right=10pt,
+            top=10pt,
+            bottom=10pt,
+            toptitle=5pt,
+            bottomtitle=5pt,
+            fonttitle=\bfseries,
+            before skip=\topskip,
+            after skip=\topskip,
+        }
 }
 
-\mdfdefinestyle{definitionstyle}{
-    linecolor=definitionBorder,
-    linewidth=0.4pt,
-    backgroundcolor=definitionBG!40,
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+%%% THEOREM COUNTERS
+\newcounter{theorem}[chapter]
+\newcounter{corollary}[theorem]
+\newcounter{lemma}[chapter]
+\newcounter{definition}[chapter]
+\newcounter{remark}[chapter]
+\newcounter{example}[chapter]
+\newcounter{exercise}[chapter]
+\newcounter{easyproblem}[chapter]
+\newcounter{mediumproblem}[chapter]
+\newcounter{hardproblem}[chapter]
+
+\renewcommand{\thetheorem}{\thechapter.\arabic{theorem}}
+\renewcommand{\thecorollary}{\thetheorem.\arabic{corollary}}
+\renewcommand{\thelemma}{\thechapter.\arabic{lemma}}
+\renewcommand{\thedefinition}{\thechapter.\arabic{definition}}
+\renewcommand{\theremark}{\thechapter.\arabic{remark}}
+\renewcommand{\theexample}{\thechapter.\arabic{example}}
+\renewcommand{\theexercise}{\thechapter.\arabic{exercise}}
+\renewcommand{\theeasyproblem}{\thechapter.\arabic{easyproblem}}
+\renewcommand{\themediumproblem}{\thechapter.\arabic{mediumproblem}}
+\renewcommand{\thehardproblem}{\thechapter.\arabic{hardproblem}}
+
+%%% THEOREM ENVIRONMENTS
+% Theorem
+\newenvironment{theorem}[1][]{%
+    \refstepcounter{theorem}%
+    \begin{tcolorbox}[theorembase,
+            colback=theoremBG!40,
+            colframe=theoremBorder,
+            colbacktitle=theoremHeader,
+            coltitle=white,
+            title={Teorema~\thetheorem\ifx&#1&\else{} -- #1\fi}]%
+        }{%
+    \end{tcolorbox}%
 }
 
-\mdfdefinestyle{remarkstyle}{
-    linecolor=remarkBorder,
-    linewidth=0.4pt,
-    backgroundcolor=remarkBG!40,
-    innertopmargin=10pt,
-    innerbottommargin=10pt,
-    innerleftmargin=10pt,
-    innerrightmargin=10pt,
-    skipabove=\topskip,
-    skipbelow=\topskip,
+% Corollary
+\newenvironment{corollary}[1][]{%
+    \refstepcounter{corollary}%
+    \begin{tcolorbox}[theorembase,
+            colback=theoremBG!40,
+            colframe=theoremBorder,
+            colbacktitle=theoremHeader,
+            coltitle=white,
+            title={Corolario~\thecorollary\ifx&#1&\else{} -- #1\fi}]%
+        }{%
+    \end{tcolorbox}%
 }
 
-%%% THEOREM DEFINITIONS
-\newtheorem{theorem}{Teorema}[chapter] % Changed from [section] to [chapter]
-\newtheorem{corollary}{Corolario}[theorem]
-\newtheorem{lemma}[theorem]{Lema}
+% Lemma
+\newenvironment{lemma}[1][]{%
+    \refstepcounter{lemma}%
+    \begin{tcolorbox}[theorembase,
+            colback=theoremBG!40,
+            colframe=theoremBorder,
+            colbacktitle=theoremHeader,
+            coltitle=white,
+            title={Lema~\thelemma\ifx&#1&\else{} -- #1\fi}]%
+        }{%
+    \end{tcolorbox}%
+}
 
-\theoremstyle{definition}
-\newtheorem{definition}{Definición}[chapter] % Changed from [section] to [chapter]
+% Definition
+\newenvironment{definition}[1][]{%
+    \refstepcounter{definition}%
+    \begin{tcolorbox}[theorembase,
+            colback=definitionBG!40,
+            colframe=definitionBorder,
+            colbacktitle=definitionHeader,
+            coltitle=white,
+            title={Definición~\thedefinition\ifx&#1&\else{} -- #1\fi}]%
+        }{%
+    \end{tcolorbox}%
+}
 
-\theoremstyle{remark}
-\newtheorem*{remark}{Observación}
+% Remark
+\newenvironment{remark}[1][]{%
+    \refstepcounter{remark}%
+    \begin{tcolorbox}[theorembase,
+            colback=remarkBG!40,
+            colframe=remarkBorder,
+            colbacktitle=remarkHeader,
+            coltitle=white,
+            title={Observación~\theremark\ifx&#1&\else{} -- #1\fi}]%
+        }{%
+    \end{tcolorbox}%
+}
 
-\newtheorem{example}{Ejemplo}[chapter] % Changed from [section] to [chapter]
-\newtheorem{easyproblem}{Problema}[chapter] % Changed from [section] to [chapter]
-\newtheorem{mediumproblem}{Problema}[chapter] % Changed from [section] to [chapter]
-\newtheorem{hardproblem}{Problema}[chapter] % Changed from [section] to [chapter]
-\newtheorem{exercise}{Ejercicio}[chapter] % Changed from [section] to [chapter]
+% Example
+\newenvironment{example}[1][]{%
+    \refstepcounter{example}%
+    \begin{tcolorbox}[theorembase,
+            colback=exampleBG!40,
+            colframe=exampleBorder,
+            colbacktitle=exampleHeader,
+            coltitle=white,
+            title={Ejemplo~\theexample\ifx&#1&\else{} -- #1\fi}]%
+        }{%
+    \end{tcolorbox}%
+}
 
-%%% APPLY STYLES TO THEOREMS
-\surroundwithmdframed[style=theoremstyle]{theorem}
-\surroundwithmdframed[style=theoremstyle]{corollary}
-\surroundwithmdframed[style=theoremstyle]{lemma}
-\surroundwithmdframed[style=definitionstyle]{definition}
-\surroundwithmdframed[style=remarkstyle]{remark}
-\surroundwithmdframed[style=theoremstyle]{example}
-\surroundwithmdframed[style=easyproblemstyle]{easyproblem}
-\surroundwithmdframed[style=mediumproblemstyle]{mediumproblem}
-\surroundwithmdframed[style=hardproblemstyle]{hardproblem}
-\surroundwithmdframed[style=exercisestyle]{exercise}
+% Exercise (sin caja)
+\newenvironment{exercise}[1][]{%
+    \refstepcounter{exercise}%
+    \par\vspace{0.5\baselineskip}\noindent%
+    \textbf{Ejercicio~\theexercise\ifx&#1&\else{} -- #1\fi.}\space%
+}{%
+    \par\vspace{0.5\baselineskip}%
+}
+
+% Easy problem
+\newenvironment{easyproblem}[1][]{%
+    \refstepcounter{easyproblem}%
+    \begin{tcolorbox}[theorembase,
+            colback=easyBG!40,
+            colframe=easyBorder,
+            colbacktitle=easyHeader,
+            coltitle=white,
+            title={Problema~\theeasyproblem\ifx&#1&\else{} -- #1\fi}]%
+        }{%
+    \end{tcolorbox}%
+}
+
+% Medium problem
+\newenvironment{mediumproblem}[1][]{%
+    \refstepcounter{mediumproblem}%
+    \begin{tcolorbox}[theorembase,
+            colback=mediumBG!40,
+            colframe=mediumBorder,
+            colbacktitle=mediumHeader,
+            coltitle=white,
+            title={Problema~\themediumproblem\ifx&#1&\else{} -- #1\fi}]%
+        }{%
+    \end{tcolorbox}%
+}
+
+% Hard problem
+\newenvironment{hardproblem}[1][]{%
+    \refstepcounter{hardproblem}%
+    \begin{tcolorbox}[theorembase,
+            colback=hardBG!40,
+            colframe=hardBorder,
+            colbacktitle=hardHeader,
+            coltitle=white,
+            title={Problema~\thehardproblem\ifx&#1&\else{} -- #1\fi}]%
+        }{%
+    \end{tcolorbox}%
+}
 
 %%% PROOF STYLE
 \renewenvironment{proof}[1][\proofname]
-    {\par\noindent\textit{#1.}\space}
-    {\hfill$\square$\par\vspace{\baselineskip}}
+{\par\noindent\textit{#1.}\space}
+{\hfill$\square$\par\vspace{\baselineskip}}
 
 %%% CUSTOM CHAPTER FORMATTING
 \titleformat{\chapter}[display]
-  {\normalfont\huge\bfseries}
-  {\chaptertitlename\ \thechapter}
-  {20pt}
-  {\Huge}
+{\normalfont\huge\bfseries}
+{\chaptertitlename\ \thechapter}
+{20pt}
+{\Huge}
 \titlespacing*{\chapter}{0pt}{50pt}{40pt}
 
 %%% CUSTOM SECTION FORMATTING
 \titleformat{\section}
-  {\normalfont\Large\bfseries}
-  {\thesection}
-  {1em}
-  {}
+{\normalfont\Large\bfseries}
+{\thesection}
+{1em}
+{}
 \titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
 
 %%% HEADER AND FOOTER SETTINGS
@@ -197,32 +501,38 @@
 \renewcommand{\footrulewidth}{0pt}
 
 %%% MATH OPERATORS
-\DeclareMathOperator{\sen}{sen\,} %Función seno.
-\DeclareMathOperator{\senh}{senh\,} %Función seno hiperbólico.
-\DeclareMathOperator{\sech}{sech\,} %Función secante hiperbólico.
-\DeclareMathOperator{\rot}{rot\,} %Rotacional.
-\DeclareMathOperator{\dive}{div\,} %Divergencia.
-\DeclareMathOperator{\nulo}{nul\,} %Nulo.
-\DeclareMathOperator{\im}{img} %Imagen.
-\DeclareMathOperator{\id}{id} %Función identidad.
-\DeclareMathOperator{\Tr}{Tr\,} %Traza. 
-\DeclareMathOperator{\Crit}{Crit\,} %Cunjunto de puntos críticos.
-\DeclareMathOperator{\md}{\;mod} %Modulo.
-\DeclareMathOperator{\ord}{ord} %Orden.
-\DeclareMathOperator{\mcd}{mcd} %Máximo común divisor.
-\DeclareMathOperator{\mcm}{mcm} %Mínimo común múltiplo
+\DeclareMathOperator{\sen}{sen\,}
+\DeclareMathOperator{\senh}{senh\,}
+\DeclareMathOperator{\sech}{sech\,}
+\DeclareMathOperator{\rot}{rot\,}
+\DeclareMathOperator{\dive}{div\,}
+\DeclareMathOperator{\nulo}{nul\,}
+\DeclareMathOperator{\im}{img}
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Tr}{Tr\,}
+\DeclareMathOperator{\Crit}{Crit\,}
+\DeclareMathOperator{\md}{\;mod}
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\mcd}{mcd}
+\DeclareMathOperator{\mcm}{mcm}
+
+%%% MATRIX SPACING
+% bmatrix with inner padding for readability
+\newenvironment{bmat}{%
+    \left[\;\begin{matrix}}{%
+    \end{matrix}\;\right]}
 
 %%% MATH SYMBOLS AND COMMANDS
-\newcommand{\KK}{\mathbb{K}} %Un cuerpo cualquiera.
-\newcommand{\EE}{\mathcal{E}} %Espacio euclidiano.
-\newcommand{\FF}{\mathbb{F}} %Campo comutativo.
-\newcommand{\HH}{\mathbb{H}} %Semiespacio real superior.
-\newcommand{\RR}{\mathbb{R}} %Números Reales.
-\newcommand{\ZZ}{\mathbb{Z}} %Número Enteros.
-\newcommand{\NN}{\mathbb{N}} %Numero Natureles.
-\newcommand{\NNO}{\mathbb{N}_{_0}} %Numero Natureles.
-\newcommand{\QQ}{\mathbb{Q}} %Números Racionales.
-\newcommand{\CC}{\mathbb{C}} %Números Complejos
+\newcommand{\KK}{\mathbb{K}}
+\newcommand{\EE}{\mathcal{E}}
+\newcommand{\FF}{\mathbb{F}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand{\NNO}{\mathbb{N}_{_0}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\CC}{\mathbb{C}}
 
 %%% PARAGRAPH SETTINGS
 \setlength{\parindent}{0cm}
